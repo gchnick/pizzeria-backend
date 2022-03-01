@@ -20,8 +20,8 @@ public class PizzeriaApplication {
 	@Bean
 	CommandLineRunner run (AppUserService userService) {
 		return args -> {
-			userService.saveUser(new AppUser(null, "John Doe", "johndoe@mail.com", "userpass", Arrays.asList("ROLE_ADMIN")));
-			userService.saveUser(new AppUser(null, "Don Remolo", "pizzeriadonremolo@gmail.com", "userpass", Arrays.asList("ROLE_ADMIN")));
+			userService.saveUser(new AppUser(null, "John Doe", "johndoe@mail.com", "userpass", "ROLE_ADMIN"));
+			userService.saveUser(new AppUser(null, "Don Remolo", "pizzeriadonremolo@gmail.com", "userpass", "ROLE_ADMIN"));
 		};
 
 	}
