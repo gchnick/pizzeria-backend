@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 
 import static javax.persistence.GenerationType.AUTO;
 
-import java.util.Arrays;
 import java.util.Collection;
 /**
  * @author Nick Galan
@@ -24,5 +23,5 @@ public class AppUser {
     private String fullName;
     private String email;
     private String password;
-    private final Collection<String> roles = Arrays.asList("ROLE_ADMIN");
+    private Collection<String> roles;
 }
