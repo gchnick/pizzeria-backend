@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class AppUserController {
-    private AppUserService userService;
+    private final AppUserService userService;
 
     @GetMapping("/users")
     public ResponseEntity<List<AppUser>>getUsers() {
