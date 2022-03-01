@@ -24,5 +24,5 @@ public class AppUser {
     private String fullName;
     private String email;
     private String password;
-    private final Collection<String> role = Arrays.asList("ROLE_ADMIN");
+    private final Collection<String> roles = Arrays.asList("ROLE_ADMIN");
 }
