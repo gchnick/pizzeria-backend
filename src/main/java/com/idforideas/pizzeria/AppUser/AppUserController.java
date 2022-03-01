@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * @author Nick Galan
+ * @version 1.0
+ * @since 2/28/2022
+ */
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
@@ -19,5 +24,5 @@ public class AppUserController {
     public ResponseEntity<List<AppUser>>getUsers() {
         return ResponseEntity.ok().body(userService.getUsers());
     }
-    
+
 }
