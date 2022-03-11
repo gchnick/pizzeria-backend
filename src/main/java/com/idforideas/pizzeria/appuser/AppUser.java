@@ -26,15 +26,15 @@ public class AppUser {
     @Id @GeneratedValue(strategy = AUTO)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String fullName;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 100)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 16)
     private String password;
-    
+
     @Column(nullable = false)
     private String role;
 }
