@@ -5,6 +5,7 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,8 +25,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import lombok.RequiredArgsConstructor;
 
@@ -43,6 +47,13 @@ public class AppUserController {
     @GetMapping("/users")
     public ResponseEntity<List<AppUser>>getUsers() {
         return ResponseEntity.ok().body(userService.getUsers());
+    }
+
+    @PostMapping("/user/save")
+    public ResponseEntity<AppUser>saveUser(@RequestBody AppUser user) {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/user/save").toUriString());
+        return ResponseEntity.created(uri).body(userService.saveUser(user));
+
     }
 
     @GetMapping("/token/refresh")
@@ -79,7 +90,6 @@ public class AppUserController {
         } else {
             throw new RuntimeException("Refresh token is missing");
         }
-    }
-    
+    }    
 
 }
