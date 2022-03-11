@@ -10,6 +10,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import static javax.persistence.GenerationType.AUTO;
+
+import javax.persistence.Column;
 /**
  * @author Nick Galan
  * @version 1.0
@@ -23,8 +25,16 @@ import static javax.persistence.GenerationType.AUTO;
 public class AppUser {
     @Id @GeneratedValue(strategy = AUTO)
     private Long id;
+
+    @Column(nullable = false)
     private String fullName;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
     private String password;
+    
+    @Column(nullable = false)
     private String role;
 }
