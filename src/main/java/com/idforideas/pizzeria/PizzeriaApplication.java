@@ -1,7 +1,7 @@
 package com.idforideas.pizzeria;
 
-import com.idforideas.pizzeria.AppUser.AppUser;
-import com.idforideas.pizzeria.AppUser.AppUserService;
+import com.idforideas.pizzeria.appuser.AppUser;
+import com.idforideas.pizzeria.appuser.AppUserService;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

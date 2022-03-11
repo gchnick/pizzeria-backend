@@ -1,4 +1,4 @@
-package com.idforideas.pizzeria.AppUser;
+package com.idforideas.pizzeria.appuser;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

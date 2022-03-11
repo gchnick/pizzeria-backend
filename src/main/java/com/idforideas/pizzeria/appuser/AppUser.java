@@ -1,8 +1,9 @@
-package com.idforideas.pizzeria.AppUser;
+package com.idforideas.pizzeria.appuser;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +15,11 @@ import static javax.persistence.GenerationType.AUTO;
  * @version 1.0
  * @since 2/28/2022
  */
-@Entity @Data @NoArgsConstructor @AllArgsConstructor
+@Entity
+@Table(name = "users")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AppUser {
     @Id @GeneratedValue(strategy = AUTO)
     private Long id;
