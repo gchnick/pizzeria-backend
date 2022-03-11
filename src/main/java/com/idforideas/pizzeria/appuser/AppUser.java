@@ -35,6 +35,6 @@ public class AppUser {
     @Column(nullable = false, length = 16)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 16)
     private String role;
 }
