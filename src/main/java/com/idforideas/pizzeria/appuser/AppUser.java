@@ -45,6 +45,10 @@ public class AppUser implements UserDetails {
     @Column(nullable = false, length = 16)
     private String role;
 
+    public String getName() {
+        return fullName;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();

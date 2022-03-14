@@ -32,8 +32,7 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         } else {
             log.info("Email found in the database: {}", email);
         }
-        
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), user.getAuthorities());
+        return user;
     }
 
     @Override
