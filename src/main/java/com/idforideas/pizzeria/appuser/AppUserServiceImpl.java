@@ -1,10 +1,7 @@
 package com.idforideas.pizzeria.appuser;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -35,9 +32,8 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         } else {
             log.info("Email found in the database: {}", email);
         }
-        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(user.getRole()));
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
+        
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), user.getAuthorities());
     }
 
     @Override
