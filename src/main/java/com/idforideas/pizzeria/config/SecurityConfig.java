@@ -1,4 +1,4 @@
-package com.idforideas.pizzeria.security;
+package com.idforideas.pizzeria.config;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 import static org.springframework.http.HttpMethod.GET;
@@ -17,8 +17,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import lombok.RequiredArgsConstructor;
 
-import com.idforideas.pizzeria.filter.CustomAuthenticaionFilter;
-import com.idforideas.pizzeria.filter.CustomAuthorizationFilter;
+import com.idforideas.pizzeria.security.CustomAuthenticaionFilter;
+import com.idforideas.pizzeria.security.CustomAuthorizationFilter;
 
 @Configuration @EnableWebSecurity @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {

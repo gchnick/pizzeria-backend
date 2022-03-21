@@ -1,4 +1,4 @@
-package com.idforideas.pizzeria.filter;
+package com.idforideas.pizzeria.security;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
