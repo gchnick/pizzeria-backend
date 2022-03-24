@@ -6,6 +6,7 @@ import java.util.Collections;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.RestController;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -25,7 +26,7 @@ public class SwaggerConfig {
     public Docket api(){
         return new Docket(SWAGGER_2)
         .select()
-        .apis(RequestHandlerSelectors.basePackage("com.idforideas.pizzeria"))
+        .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
         .paths(PathSelectors.ant("/api/v1/*"))
         .build()
         .apiInfo(apiInfo());
