@@ -13,7 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class PasswordEncoder {
 
     @Bean
-	public BCryptPasswordEncoder passwordEncoder() {
+	public org.springframework.security.crypto.password.PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
     
