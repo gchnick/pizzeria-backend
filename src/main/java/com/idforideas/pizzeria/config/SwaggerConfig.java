@@ -2,7 +2,7 @@ package com.idforideas.pizzeria.config;
 
 import static springfox.documentation.spi.DocumentationType.SWAGGER_2;
 
-import java.util.ArrayList;
+import java.util.Collections;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,8 +27,8 @@ public class SwaggerConfig {
         .select()
         .apis(RequestHandlerSelectors.basePackage("com.idforideas.pizzeria"))
         .paths(PathSelectors.any())
-        .build()
-        .apiInfo(apiInfo());
+        .build();
+        //.apiInfo(apiInfo());
     }
 
     private ApiInfo apiInfo() {
@@ -39,7 +39,7 @@ public class SwaggerConfig {
             new Contact("Equipo # 221 de ID FOR IDEAS", "www.idforideas.org", "pizzeriadonremolo@gmail.com"),
             "MIT",
             "url.licence",
-            new ArrayList<>());
+            Collections.emptyList());
     }
     
 }
