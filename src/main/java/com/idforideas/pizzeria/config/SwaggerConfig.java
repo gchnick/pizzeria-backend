@@ -26,9 +26,9 @@ public class SwaggerConfig {
         return new Docket(SWAGGER_2)
         .select()
         .apis(RequestHandlerSelectors.basePackage("com.idforideas.pizzeria"))
-        .paths(PathSelectors.any())
-        .build();
-        //.apiInfo(apiInfo());
+        .paths(PathSelectors.ant("/api/v1/*"))
+        .build()
+        .apiInfo(apiInfo());
     }
 
     private ApiInfo apiInfo() {
@@ -41,5 +41,4 @@ public class SwaggerConfig {
             "url.licence",
             Collections.emptyList());
     }
-    
 }
