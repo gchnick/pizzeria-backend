@@ -3,6 +3,7 @@ package com.idforideas.pizzeria.appuser;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static com.idforideas.pizzeria.security.CustomEnvironmentVariables.SECRET;
 
 import java.io.IOException;
 import java.net.URI;
@@ -62,7 +63,7 @@ public class AppUserController {
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             try {
                 String refreshToken  = authorizationHeader.substring("Bearer ".length());
-                Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+                Algorithm algorithm = Algorithm.HMAC256(System.getenv(SECRET).getBytes());
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(refreshToken);
                 String username = decodedJWT.getSubject();
