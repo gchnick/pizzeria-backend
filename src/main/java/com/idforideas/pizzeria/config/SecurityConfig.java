@@ -20,6 +20,11 @@ import lombok.RequiredArgsConstructor;
 import com.idforideas.pizzeria.security.CustomAuthenticaionFilter;
 import com.idforideas.pizzeria.security.CustomAuthorizationFilter;
 
+/**
+ * @author Nick Galan
+ * @version 1.0
+ * @since 3/1/2022
+ */
 @Configuration @EnableWebSecurity @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;

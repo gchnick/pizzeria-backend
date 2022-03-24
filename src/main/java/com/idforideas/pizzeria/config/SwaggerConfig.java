@@ -13,6 +13,11 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spring.web.plugins.Docket;
 
+/**
+ * @author Nick Galan
+ * @version 1.0
+ * @since 3/21/2022
+ */
 @Configuration
 public class SwaggerConfig {
 
