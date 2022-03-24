@@ -1,6 +1,7 @@
-package com.idforideas.pizzeria.filter;
+package com.idforideas.pizzeria.security;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static com.idforideas.pizzeria.security.CustomEnvironmentVariables.SECRET;
 
 import java.io.IOException;
 import java.util.Date;
@@ -26,6 +27,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import lombok.extern.slf4j.Slf4j;
+
+/**
+ * @author Nick Galan
+ * @version 1.0
+ * @since 3/10/2022
+ */
 @Slf4j
 public class CustomAuthenticaionFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
@@ -49,7 +56,7 @@ public class CustomAuthenticaionFilter extends UsernamePasswordAuthenticationFil
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
             Authentication authentication) throws IOException, ServletException {
         AppUser user = (AppUser) authentication.getPrincipal();
-        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+        Algorithm algorithm = Algorithm.HMAC256(System.getenv(SECRET).getBytes());
         String accessToken = JWT.create()
             .withSubject(user.getEmail())
             .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))

@@ -1,8 +1,9 @@
-package com.idforideas.pizzeria.filter;
+package com.idforideas.pizzeria.security;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static com.idforideas.pizzeria.security.CustomEnvironmentVariables.SECRET;
 import static java.util.Arrays.stream;
 
 import java.io.IOException;
@@ -29,6 +30,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * @author Nick Galan
+ * @version 1.0
+ * @since 3/10/2022
+ */
 @Slf4j
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
@@ -42,7 +48,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
             if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 try {
                     String token  = authorizationHeader.substring("Bearer ".length());
-                    Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+                    Algorithm algorithm = Algorithm.HMAC256(System.getenv(SECRET).getBytes());
                     JWTVerifier verifier = JWT.require(algorithm).build();
                     DecodedJWT decodedJWT = verifier.verify(token);
                     String username = decodedJWT.getSubject();
