@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.ResponseEntity.HeadersBuilder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,14 +31,14 @@ import lombok.RequiredArgsConstructor;
 public class ProductController {
     private final ProductService productService;
 
-    @PostMapping("/")
+    @PostMapping("/save")
     public ResponseEntity<Response> create(@RequestBody @Valid Product product) {
         return ResponseEntity.status(CREATED)
                     .body(
                         Response.builder()
                         .timeStamp(now())
                         .data(of("product", this.productService.create(product)))
-                        .message("New product created")
+                        .message("Product created")
                         .status(CREATED)
                         .statusCode(CREATED.value())
                         .build()
@@ -45,8 +46,17 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public Product getProduct(@RequestParam Long id) {
-        return this.productService.get(id).orElseThrow();
+    public ResponseEntity<Response> getProduct(@RequestParam Long id) {
+        Product product = this.productService.get(id).orElseThrow();
+        return ResponseEntity.ok(
+            Response.builder()
+            .timeStamp(now())
+            .data(of("product", product))
+            .message("Product retrieved")
+            .status(OK)
+            .statusCode(OK.value())
+            .build()
+        );
     }
 
     @GetMapping("/list")
@@ -68,8 +78,9 @@ public class ProductController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public void delete(@RequestParam Long id) {
+    public HeadersBuilder<?> delete(@RequestParam Long id) {
         this.productService.delete(id);
+        return ResponseEntity.noContent();
     }
 
     private List<Order> getOrders(String[] sort) {

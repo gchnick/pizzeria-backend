@@ -50,7 +50,7 @@ public class AppUser implements UserDetails {
 
     @NotBlank
     @Size(min = 8, max = 16)
-    @Pattern(regexp = "")
+    @Pattern(regexp = "/(?=(.*[0-9]))(?=.*[!#$%*-_+,.?])(?=.*[a-z])(?=(.*[A-Z]))/")
     @Column(nullable = false)
     private String password;
 
