@@ -3,17 +3,24 @@ package com.idforideas.pizzeria.product;
 import java.util.Collection;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 public interface ProductService {
 
-    Product save(Product product);
+    Product create(Product product);
     
-    Optional<Product> findById(Long id);
+    Optional<Product> get(Long id);
 
-    Collection<Product> findAll();
+    Collection<Product> list();
 
-    Collection<Product> findByCategoryId(Long categoryId);
+    Page<Product> list(Pageable pageable);
 
-    Collection<Product> findByCategory(Category category);
+    Page<Product> findByCategoryId(Long categoryId, Pageable pageable);
+
+    Page<Product> findByCategoryName(String categoryName, Pageable pageable);
+
+    Product update(Product product);
 
     void delete(Long id);    
 }

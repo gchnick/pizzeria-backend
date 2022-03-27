@@ -6,6 +6,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -33,15 +37,25 @@ public class AppUser implements UserDetails {
     @Id @GeneratedValue(strategy = AUTO)
     private Long id;
 
+    @NotBlank
+    @Size(min = 3, max = 100)
     @Column(nullable = false, length = 100)
     private String fullName;
 
+    @Email
+    @NotBlank
+    @Size(min = 3, max = 100)
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
+    @NotBlank
+    @Size(min = 8, max = 16)
+    @Pattern(regexp = "")
     @Column(nullable = false)
     private String password;
 
+    @NotBlank
+    @Size(min = 3, max = 16)
     @Column(nullable = false, length = 16)
     private String role;
 
