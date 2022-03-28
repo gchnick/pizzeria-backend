@@ -8,8 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import com.idforideas.pizzeria.validation.Password;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -48,9 +49,8 @@ public class AppUser implements UserDetails {
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
-    @NotBlank
-    @Size(min = 8, max = 16)
-    @Pattern(regexp = "\\A(?=\\S*?[0-9])(?=\\S*?[a-z])(?=\\S*?[A-Z])(?=\\S*?[@#$%^&+=])\\z", message = "Contains at least: one digit, one lowercase and one uppercase character, one special character [@#$%^&+=]. And not contain space")
+    @Password
+    @Size(max = 16)
     @Column(nullable = false)
     private String password;
 
