@@ -17,6 +17,7 @@ import com.idforideas.pizzeria.utils.Response;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +34,7 @@ import lombok.RequiredArgsConstructor;
 public class ProductResource {
     private final ProductService productService;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/save")
     public ResponseEntity<Response> saveProduct(@RequestBody @Valid Product product) {
         return ResponseEntity.status(CREATED)
@@ -79,6 +81,7 @@ public class ProductResource {
         );
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@RequestParam Long id) {
         this.productService.delete(id);

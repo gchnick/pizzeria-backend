@@ -17,6 +17,7 @@ import com.idforideas.pizzeria.utils.Response;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +34,7 @@ import lombok.RequiredArgsConstructor;
 public class CategoryResource {
     private final CategoryService categoryService;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/save")
     public ResponseEntity<Response> saveCategory(@RequestBody @Valid Category category) {
         return ResponseEntity.status(CREATED)
@@ -93,6 +95,7 @@ public class CategoryResource {
         );
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@RequestParam Long id) {
         this.categoryService.delete(id);
