@@ -33,7 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Optional<Category> get(String name) {
         log.info("Finding category by name {}", name);
-        return this.categoryRepo.findByName(name);
+        return this.categoryRepo.findByNameIgnoreCase(name);
     }
 
     @Override
