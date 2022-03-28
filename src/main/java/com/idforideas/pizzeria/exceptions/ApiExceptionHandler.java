@@ -1,6 +1,10 @@
 package com.idforideas.pizzeria.exceptions;
 
+import static java.time.LocalDateTime.now;
+
 import javax.servlet.http.HttpServletRequest;
+
+import com.idforideas.pizzeria.utils.Response;
 
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
@@ -15,17 +19,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import app.nikoshop.poultry.payload.response.ErrorResponse;
 
-//@CrossOrigin(origins = {"http://localhost:8080", "http://localhost:4200"} , maxAge = 3600)
 @ControllerAdvice
 public class ApiExceptionHandler {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler({NotFoundException.class})
     @ResponseBody
-    public ErrorResponse noFountRequest(HttpServletRequest request, Exception exception) {
-        return new ErrorResponse(exception, request.getRequestURI());
+    public Response noFountRequest(HttpServletRequest request, Exception exception) {
+        return Response.builder()
+            .timeStamp(now())
+            .exception(exception.getClass().getSimpleName())
+            .message(exception.getMessage())
+            .path(request.getRequestURI())
+            .build();
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -40,22 +47,37 @@ public class ApiExceptionHandler {
         HttpMessageNotReadableException.class
     })
     @ResponseBody
-    public ErrorResponse badRequest(HttpServletRequest request, Exception exception) {
-        return new ErrorResponse(exception, request.getRequestURI());
+    public Response badRequest(HttpServletRequest request, Exception exception) {
+        return Response.builder()
+            .timeStamp(now())
+            .exception(exception.getClass().getSimpleName())
+            .message(exception.getMessage())
+            .path(request.getRequestURI())
+            .build();
     }
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler({ForbiddenRequestException.class})
     @ResponseBody
-    public ErrorResponse forbiddenRequest(HttpServletRequest request, Exception exception) {
-        return new ErrorResponse(exception, request.getRequestURI());
+    public Response forbiddenRequest(HttpServletRequest request, Exception exception) {
+        return Response.builder()
+            .timeStamp(now())
+            .exception(exception.getClass().getSimpleName())
+            .message(exception.getMessage())
+            .path(request.getRequestURI())
+            .build();
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler({ConflictException.class})
     @ResponseBody
-    public ErrorResponse conflict(HttpServletRequest request, Exception exception) {
-        return new ErrorResponse(exception, request.getRequestURI());
+    public Response conflict(HttpServletRequest request, Exception exception) {
+        return Response.builder()
+            .timeStamp(now())
+            .exception(exception.getClass().getSimpleName())
+            .message(exception.getMessage())
+            .path(request.getRequestURI())
+            .build();
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
@@ -70,7 +92,12 @@ public class ApiExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({Exception.class})
     @ResponseBody
-    public ErrorResponse fatalErrorUnexpectedException(HttpServletRequest request, Exception exception) {
-        return new ErrorResponse(exception, request.getRequestURI());
+    public Response fatalErrorUnexpectedException(HttpServletRequest request, Exception exception) {
+        return Response.builder()
+            .timeStamp(now())
+            .exception(exception.getClass().getSimpleName())
+            .message(exception.getMessage())
+            .path(request.getRequestURI())
+            .build();
     }   
 }
