@@ -1,6 +1,7 @@
 package com.idforideas.pizzeria.appuser;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Optional;
 
 /**
  * @author Nick Galan
@@ -8,7 +9,12 @@ import java.util.List;
  * @since 2/28/2022
  */
 public interface AppUserService {
-    AppUser saveUser(AppUser appUser);
-    AppUser getUser(String email);
-    List<AppUser> getUsers();
+
+    AppUser create(AppUser user);
+
+    Optional<AppUser> get(String email);
+
+    Collection<AppUser> getUsers();
+
+    void delete(Long id);
 }

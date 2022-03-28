@@ -1,5 +1,7 @@
 package com.idforideas.pizzeria.appuser;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -8,5 +10,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @since 2/28/2022
  */
 public interface AppUserRepo extends JpaRepository<AppUser, Long> {
-    AppUser findByEmail(String email);
+    Optional<AppUser> findByEmail(String email);
 }
