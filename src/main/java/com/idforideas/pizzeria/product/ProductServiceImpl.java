@@ -56,7 +56,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> findByCategoryName(String categoryName, Pageable pageable) {
         log.info("Finding product by category name {}", categoryName);
-        Category category = this.categoryRepo.findByName(categoryName).orElseThrow();
+        Category category = this.categoryRepo.findByNameIgnoreCase(categoryName).orElseThrow();
         return this.findByCategory(category, pageable);
     }
 
