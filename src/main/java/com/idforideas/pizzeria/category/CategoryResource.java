@@ -50,7 +50,7 @@ public class CategoryResource {
                     );
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<Response> getCategory(@PathVariable("id") Long id) {
         Category category = this.categoryService.get(id).orElseThrow();
         return ResponseEntity.ok(
@@ -64,7 +64,7 @@ public class CategoryResource {
         );
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/name/{name}")
     public ResponseEntity<Response> getCategory(@PathVariable("name") String name) {
         Category category = this.categoryService.get(name).orElseThrow();
         return ResponseEntity.ok(
