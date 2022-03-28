@@ -50,7 +50,7 @@ public class AppUser implements UserDetails {
 
     @NotBlank
     @Size(min = 8, max = 16)
-    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$)")
+    @Pattern(regexp = "\\A(?=\\S*?[0-9])(?=\\S*?[a-z])(?=\\S*?[A-Z])(?=\\S*?[@#$%^&+=])\\z", message = "Contains at least: one digit, one lowercase and one uppercase character, one special character [@#$%^&+=]. And not contain space")
     @Column(nullable = false)
     private String password;
 
