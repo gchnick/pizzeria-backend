@@ -1,13 +1,18 @@
 package com.idforideas.pizzeria.exceptions;
 
 import static java.time.LocalDateTime.now;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.idforideas.pizzeria.utils.Response;
 
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -23,7 +28,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 @ControllerAdvice
 public class ApiExceptionHandler {
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(NOT_FOUND)
     @ExceptionHandler({NotFoundException.class})
     @ResponseBody
     public Response noFountRequest(HttpServletRequest request, Exception exception) {
@@ -32,10 +37,12 @@ public class ApiExceptionHandler {
             .exception(exception.getClass().getSimpleName())
             .message(exception.getMessage())
             .path(request.getRequestURI())
+            .status(NOT_FOUND)
+            .statusCode(NOT_FOUND.value())
             .build();
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler({
         BadRequestException.class,
         DuplicateKeyException.class,
@@ -52,11 +59,13 @@ public class ApiExceptionHandler {
             .timeStamp(now())
             .exception(exception.getClass().getSimpleName())
             .message(exception.getMessage())
+            .status(BAD_REQUEST)
+            .statusCode(BAD_REQUEST.value())
             .path(request.getRequestURI())
             .build();
     }
 
-    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseStatus(FORBIDDEN)
     @ExceptionHandler({ForbiddenRequestException.class})
     @ResponseBody
     public Response forbiddenRequest(HttpServletRequest request, Exception exception) {
@@ -64,11 +73,13 @@ public class ApiExceptionHandler {
             .timeStamp(now())
             .exception(exception.getClass().getSimpleName())
             .message(exception.getMessage())
+            .status(FORBIDDEN)
+            .statusCode(FORBIDDEN.value())
             .path(request.getRequestURI())
             .build();
     }
 
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(CONFLICT)
     @ExceptionHandler({ConflictException.class})
     @ResponseBody
     public Response conflict(HttpServletRequest request, Exception exception) {
@@ -76,11 +87,13 @@ public class ApiExceptionHandler {
             .timeStamp(now())
             .exception(exception.getClass().getSimpleName())
             .message(exception.getMessage())
+            .status(CONFLICT)
+            .statusCode(CONFLICT.value())
             .path(request.getRequestURI())
             .build();
     }
 
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseStatus(UNAUTHORIZED)
     @ExceptionHandler({
         UnauthorizedException.class,
         AccessDeniedException.class
@@ -89,7 +102,7 @@ public class ApiExceptionHandler {
         // Empty
     }
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(INTERNAL_SERVER_ERROR)
     @ExceptionHandler({Exception.class})
     @ResponseBody
     public Response fatalErrorUnexpectedException(HttpServletRequest request, Exception exception) {
@@ -97,6 +110,8 @@ public class ApiExceptionHandler {
             .timeStamp(now())
             .exception(exception.getClass().getSimpleName())
             .message(exception.getMessage())
+            .status(INTERNAL_SERVER_ERROR)
+            .statusCode(INTERNAL_SERVER_ERROR.value())
             .path(request.getRequestURI())
             .build();
     }   
