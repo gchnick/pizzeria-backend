@@ -36,7 +36,7 @@ public class ProductResource {
     private final ProductService productService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/save")
+    @PostMapping("")
     public ResponseEntity<Response> saveProduct(@RequestBody @Valid Product product) {
         return ResponseEntity.status(CREATED)
                     .body(
@@ -50,7 +50,7 @@ public class ProductResource {
                     );
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Response> getProduct(@PathVariable("id") Long id) {
         Product product = this.productService.get(id).orElseThrow();
         return ResponseEntity.ok(
@@ -68,7 +68,7 @@ public class ProductResource {
     public ResponseEntity<Response> getProducts(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "5") int size,
-        @RequestParam(defaultValue = "name") String[] sort
+        @RequestParam(defaultValue = "category") String[] sort
     ) {
         List<Order> orders = getOrders(sort);
         return ResponseEntity.ok(
@@ -76,6 +76,25 @@ public class ProductResource {
                 .timeStamp(now())
                 .data(of("products", this.productService.list(PageRequest.of(page, size, by(orders)))))
                 .message("Products retrieved")
+                .status(OK)
+                .statusCode(OK.value())
+                .build()
+        );
+    }
+
+    @GetMapping("/category/{name}")
+    public ResponseEntity<Response> getProductsByCategory(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "5") int size,
+        @RequestParam(defaultValue = "name") String[] sort,
+        @PathVariable("name") String CategoryName
+    ) {
+        List<Order> orders = getOrders(sort);
+        return ResponseEntity.ok(
+            Response.builder()
+                .timeStamp(now())
+                .data(of("products", this.productService.findByCategoryName(CategoryName, PageRequest.of(page, size, by(orders)))))
+                .message("Products by category retrieved")
                 .status(OK)
                 .statusCode(OK.value())
                 .build()

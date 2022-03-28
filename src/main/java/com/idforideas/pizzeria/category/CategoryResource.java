@@ -36,7 +36,7 @@ public class CategoryResource {
     private final CategoryService categoryService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/save")
+    @PostMapping("")
     public ResponseEntity<Response> saveCategory(@RequestBody @Valid Category category) {
         return ResponseEntity.status(CREATED)
                     .body(
@@ -50,7 +50,7 @@ public class CategoryResource {
                     );
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Response> getCategory(@PathVariable("id") Long id) {
         Category category = this.categoryService.get(id).orElseThrow();
         return ResponseEntity.ok(
@@ -64,7 +64,7 @@ public class CategoryResource {
         );
     }
 
-    @GetMapping("/name/{name}")
+    @GetMapping("/{name}")
     public ResponseEntity<Response> getCategory(@PathVariable("name") String name) {
         Category category = this.categoryService.get(name).orElseThrow();
         return ResponseEntity.ok(
