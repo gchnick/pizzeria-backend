@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,10 +60,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void delete(Long id) {
         log.info("Deleting category by id {}",id);
-        try{
+        if(categoryRepo.existsById(id)){
             this.categoryRepo.deleteById(id);
-        } catch(EmptyResultDataAccessException e) {
-            log.info("Category no exists");
         }
     }
     
