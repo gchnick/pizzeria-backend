@@ -66,6 +66,8 @@ public class AppUserResource {
 
     }
 
+    // FIXME Correguir error al usar el token generado
+    // Error logging in: Cannot read the array length because "array" is null
     @GetMapping("/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
