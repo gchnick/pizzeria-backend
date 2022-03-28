@@ -1,7 +1,7 @@
 package com.idforideas.pizzeria.product;
 
 import static javax.persistence.GenerationType.AUTO;
-import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.FetchType.EAGER;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,7 +47,7 @@ public class Product {
 
     private String photo;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = EAGER)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 }

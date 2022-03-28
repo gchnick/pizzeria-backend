@@ -73,6 +73,8 @@ public class ProductResource {
         return ResponseEntity.ok(
             Response.builder()
                 .timeStamp(now())
+                // FIXME La solcitud a la base de datos es LAZY en el caso de Category
+                // Para poder serializar la entidad en necesario hacer una consulta join a la informacion de la DB
                 .data(of("products", this.productService.list(PageRequest.of(page, size, by(orders)))))
                 .message("Products retrieved")
                 .status(OK)
