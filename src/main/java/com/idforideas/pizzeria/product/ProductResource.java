@@ -50,7 +50,7 @@ public class ProductResource {
                     );
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<Response> getProduct(@PathVariable("id") Long id) {
         Product product = this.productService.get(id).orElseThrow();
         return ResponseEntity.ok(
