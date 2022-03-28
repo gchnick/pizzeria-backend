@@ -48,7 +48,7 @@ public class AppUserResource {
     private final AppUserService userService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/save")
+    @PostMapping("")
     public ResponseEntity<Response> saveUser(@RequestBody @Valid AppUser user) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/users/save").toUriString());
         return ResponseEntity.created(uri).body(
