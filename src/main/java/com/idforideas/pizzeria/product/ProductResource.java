@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -49,8 +50,8 @@ public class ProductResource {
                     );
     }
 
-    @GetMapping("/id/{id}")
-    public ResponseEntity<Response> getProduct(@RequestParam Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Response> getProduct(@PathVariable("id") Long id) {
         Product product = this.productService.get(id).orElseThrow();
         return ResponseEntity.ok(
             Response.builder()
@@ -73,8 +74,6 @@ public class ProductResource {
         return ResponseEntity.ok(
             Response.builder()
                 .timeStamp(now())
-                // FIXME La solcitud a la base de datos es LAZY en el caso de Category
-                // Para poder serializar la entidad en necesario hacer una consulta join a la informacion de la DB
                 .data(of("products", this.productService.list(PageRequest.of(page, size, by(orders)))))
                 .message("Products retrieved")
                 .status(OK)
@@ -85,7 +84,7 @@ public class ProductResource {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@RequestParam Long id) {
+    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         this.productService.delete(id);
         return ResponseEntity.status(NO_CONTENT).build();
     }

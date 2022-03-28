@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,8 +50,8 @@ public class CategoryResource {
                     );
     }
 
-    @GetMapping("/id/{id}")
-    public ResponseEntity<Response> getCategory(@RequestParam Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Response> getCategory(@PathVariable("id") Long id) {
         Category category = this.categoryService.get(id).orElseThrow();
         return ResponseEntity.ok(
             Response.builder()
@@ -63,8 +64,8 @@ public class CategoryResource {
         );
     }
 
-    @GetMapping("/name/{name}")
-    public ResponseEntity<Response> getCategory(@RequestParam String name) {
+    @GetMapping("/{name}")
+    public ResponseEntity<Response> getCategory(@PathVariable("name") String name) {
         Category category = this.categoryService.get(name).orElseThrow();
         return ResponseEntity.ok(
             Response.builder()
@@ -97,7 +98,7 @@ public class CategoryResource {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@RequestParam Long id) {
+    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         this.categoryService.delete(id);
         return ResponseEntity.status(NO_CONTENT).build();
     }
