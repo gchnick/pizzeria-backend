@@ -54,6 +54,9 @@ public class CategoryServiceImpl implements CategoryService {
         return null;
     }
 
+    // FIXME Hacer este metodo idempotente. 
+    // Actualmente lanza excepcion al eliminar entidad inexistente
+    // Excepcion lanzada: EmptyResultDataAccessException
     @Override
     public void delete(Long id) {
         log.info("Deleting category by id {}",id);

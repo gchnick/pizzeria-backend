@@ -70,6 +70,9 @@ public class ProductServiceImpl implements ProductService {
         return this.productRepo.save(product);
     }
 
+    // FIXME Hacer este metodo idempotente. 
+    // Actualmente lanza excepcion al eliminar entidad inexistente
+    // Excepcion lanzada: EmptyResultDataAccessException
     @Override
     public void delete(Long id) {
         log.info("Deleting product by id {}",id);

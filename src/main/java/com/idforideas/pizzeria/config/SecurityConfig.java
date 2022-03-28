@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         customAuthenticaionFilter.setFilterProcessesUrl("/api/v1/login");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeRequests().antMatchers("/api/v1/login/**", "/api/v1/token/refresh/**", "/v2/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/v1/login/**", "/api/v1/users/token/refresh/**", "/v2/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll();
         //http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(customAuthenticaionFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
