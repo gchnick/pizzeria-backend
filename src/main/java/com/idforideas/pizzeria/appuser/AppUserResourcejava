@@ -1,6 +1,9 @@
 package com.idforideas.pizzeria.appuser;
 
+import static java.util.Map.of;
+import static java.time.LocalDateTime.now;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static com.idforideas.pizzeria.security.CustomEnvironmentVariables.SECRET;
@@ -9,11 +12,11 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -22,6 +25,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.idforideas.pizzeria.utils.Response;
 
 import org.springframework.http.ResponseEntity;
 
@@ -40,20 +44,23 @@ import lombok.RequiredArgsConstructor;
  * @since 2/28/2022
  */
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
-public class AppUserController {
+public class AppUserResource {
     private final AppUserService userService;
 
-    @GetMapping("/users")
-    public ResponseEntity<List<AppUser>>getUsers() {
-        return ResponseEntity.ok().body(userService.getUsers());
-    }
-
-    @PostMapping("/user/save")
-    public ResponseEntity<AppUser>saveUser(@RequestBody AppUser user) {
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/user/save").toUriString());
-        return ResponseEntity.created(uri).body(userService.saveUser(user));
+    @PostMapping("/save")
+    public ResponseEntity<Response> saveUser(@RequestBody @Valid AppUser user) {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/users/save").toUriString());
+        return ResponseEntity.created(uri).body(
+            Response.builder()
+            .timeStamp(now())
+            .data(of("user", this.userService.saveUser(user)))
+            .message("User created")
+            .status(CREATED)
+            .statusCode(CREATED.value())
+            .build()
+        );
 
     }
 
@@ -91,6 +98,5 @@ public class AppUserController {
         } else {
             throw new RuntimeException("Refresh token is missing");
         }
-    }    
-
+    }
 }
