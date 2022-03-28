@@ -42,7 +42,7 @@ public class ProductResource {
                     .body(
                         Response.builder()
                         .timeStamp(now())
-                        .data(of("product", this.productService.create(product)))
+                        .data(of("product", productService.create(product)))
                         .message("Product created")
                         .status(CREATED)
                         .statusCode(CREATED.value())
@@ -52,7 +52,7 @@ public class ProductResource {
 
     @GetMapping("/{id}")
     public ResponseEntity<Response> getProduct(@PathVariable("id") Long id) {
-        Product product = this.productService.get(id).orElseThrow();
+        Product product = productService.get(id).orElseThrow();
         return ResponseEntity.ok(
             Response.builder()
             .timeStamp(now())
@@ -74,7 +74,7 @@ public class ProductResource {
         return ResponseEntity.ok(
             Response.builder()
                 .timeStamp(now())
-                .data(of("products", this.productService.list(PageRequest.of(page, size, by(orders)))))
+                .data(of("products", productService.list(PageRequest.of(page, size, by(orders)))))
                 .message("Products retrieved")
                 .status(OK)
                 .statusCode(OK.value())
@@ -93,7 +93,7 @@ public class ProductResource {
         return ResponseEntity.ok(
             Response.builder()
                 .timeStamp(now())
-                .data(of("products", this.productService.findByCategoryName(CategoryName, PageRequest.of(page, size, by(orders)))))
+                .data(of("products", productService.findByCategoryName(CategoryName, PageRequest.of(page, size, by(orders)))))
                 .message("Products by category retrieved")
                 .status(OK)
                 .statusCode(OK.value())
@@ -104,7 +104,7 @@ public class ProductResource {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
-        this.productService.delete(id);
+        productService.delete(id);
         return ResponseEntity.status(NO_CONTENT).build();
     }
 }

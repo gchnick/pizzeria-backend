@@ -25,7 +25,7 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        AppUser user = this.userRepo.findByEmail(email).orElseThrow();
+        AppUser user = userRepo.findByEmail(email).orElseThrow();
         if(user == null) {
             String msg = "Email not found in the database";
             log.error(msg);
@@ -39,25 +39,27 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     @Override
     public AppUser create(AppUser user) {
         log.info("Saving new app user");
-        user.setPassword(this.passwordEncoder.encode(user.getPassword()));
-        return this.userRepo.save(user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepo.save(user);
     }
 
     @Override
     public Optional<AppUser> get(String email) {
         log.info("Fetching user by email: {}",email);
-        return this.userRepo.findByEmail(email);
+        return userRepo.findByEmail(email);
     }
 
     @Override
     public Collection<AppUser> getUsers() {
         log.info("Fetching all users");
-        return this.userRepo.findAll();
+        return userRepo.findAll();
     }
 
     @Override
     public void delete(Long id) {
         log.info("Deleting user by id {}",id);
-        this.userRepo.deleteById(id);        
+        if(userRepo.existsById(id)) {
+            userRepo.deleteById(id);
+        }        
     } 
 }

@@ -42,7 +42,7 @@ public class CategoryResource {
                     .body(
                         Response.builder()
                         .timeStamp(now())
-                        .data(of("category", this.categoryService.create(category)))
+                        .data(of("category", categoryService.create(category)))
                         .message("Category created")
                         .status(CREATED)
                         .statusCode(CREATED.value())
@@ -52,7 +52,7 @@ public class CategoryResource {
 
     @GetMapping("/{id}")
     public ResponseEntity<Response> getCategory(@PathVariable("id") Long id) {
-        Category category = this.categoryService.get(id).orElseThrow();
+        Category category = categoryService.get(id).orElseThrow();
         return ResponseEntity.ok(
             Response.builder()
             .timeStamp(now())
@@ -66,7 +66,7 @@ public class CategoryResource {
 
     @GetMapping("/{name}")
     public ResponseEntity<Response> getCategory(@PathVariable("name") String name) {
-        Category category = this.categoryService.get(name).orElseThrow();
+        Category category = categoryService.get(name).orElseThrow();
         return ResponseEntity.ok(
             Response.builder()
             .timeStamp(now())
@@ -88,7 +88,7 @@ public class CategoryResource {
         return ResponseEntity.ok(
             Response.builder()
                 .timeStamp(now())
-                .data(of("categories", this.categoryService.list(PageRequest.of(page, size, by(orders)))))
+                .data(of("categories", categoryService.list(PageRequest.of(page, size, by(orders)))))
                 .message("Categories retrieved")
                 .status(OK)
                 .statusCode(OK.value())
@@ -99,7 +99,7 @@ public class CategoryResource {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
-        this.categoryService.delete(id);
+        categoryService.delete(id);
         return ResponseEntity.status(NO_CONTENT).build();
     }
 }

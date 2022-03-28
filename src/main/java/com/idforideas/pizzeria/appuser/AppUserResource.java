@@ -57,7 +57,7 @@ public class AppUserResource {
         return ResponseEntity.created(uri).body(
             Response.builder()
             .timeStamp(now())
-            .data(of("user", this.userService.create(user)))
+            .data(of("user", userService.create(user)))
             .message("User created")
             .status(CREATED)
             .statusCode(CREATED.value())
@@ -78,7 +78,7 @@ public class AppUserResource {
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(refreshToken);
                 String email = decodedJWT.getSubject();
-                AppUser user = this.userService.get(email).orElseThrow();
+                AppUser user = userService.get(email).orElseThrow();
                 String accessToken = JWT.create()
                     .withSubject(user.getEmail())
                     .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
@@ -107,7 +107,7 @@ public class AppUserResource {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
-        this.userService.delete(id);
+        userService.delete(id);
         return ResponseEntity.status(NO_CONTENT).build();
     }
 }

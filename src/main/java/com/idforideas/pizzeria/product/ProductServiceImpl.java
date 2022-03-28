@@ -25,57 +25,56 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product create(Product product) {
         log.info("Saving new product {}",  product.getName());
-        return this.productRepo.save(product);
+        return productRepo.save(product);
     }
 
     @Override
     public Optional<Product> get(Long id) {
         log.info("Finding product by id {}", id);
-        return this.productRepo.findById(id);
+        return productRepo.findById(id);
     }
 
     @Override
     public Collection<Product> list() {
         log.info("Fetching all products");
-        return this.productRepo.findAll();
+        return productRepo.findAll();
     }
 
     @Override
     public Page<Product> list(Pageable pageable) {
         log.info("Fetching products with pageable");
-        return this.productRepo.findAll(pageable);
+        return productRepo.findAll(pageable);
     }
 
     @Override
     public Page<Product> findByCategoryId(Long categoryId, Pageable pageable) {
         log.info("Finding product by category id {}", categoryId);
-        Category category = this.categoryRepo.findById(categoryId).orElseThrow();
+        Category category = categoryRepo.findById(categoryId).orElseThrow();
         return this.findByCategory(category, pageable);
     }
 
     @Override
     public Page<Product> findByCategoryName(String categoryName, Pageable pageable) {
         log.info("Finding product by category name {}", categoryName);
-        Category category = this.categoryRepo.findByNameIgnoreCase(categoryName).orElseThrow();
+        Category category = categoryRepo.findByNameIgnoreCase(categoryName).orElseThrow();
         return this.findByCategory(category, pageable);
     }
 
     private Page<Product> findByCategory(Category category, Pageable pageable) {
-        return this.productRepo.findByCategory(category, pageable);
+        return productRepo.findByCategory(category, pageable);
     }
 
      @Override
     public Product update(Product product) {
         log.info("Updating this product {}",  product.getName());
-        return this.productRepo.save(product);
+        return productRepo.save(product);
     }
 
-    // FIXME Hacer este metodo idempotente. 
-    // Actualmente lanza excepcion al eliminar entidad inexistente
-    // Excepcion lanzada: EmptyResultDataAccessException
     @Override
     public void delete(Long id) {
         log.info("Deleting product by id {}",id);
-        this.productRepo.deleteById(id);
+        if(productRepo.existsById(id)) {
+            productRepo.deleteById(id);
+        }
     }
 }
