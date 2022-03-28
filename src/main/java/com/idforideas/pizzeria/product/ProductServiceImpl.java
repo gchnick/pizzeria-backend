@@ -3,6 +3,9 @@ package com.idforideas.pizzeria.product;
 import java.util.Collection;
 import java.util.Optional;
 
+import com.idforideas.pizzeria.category.Category;
+import com.idforideas.pizzeria.category.CategoryRepo;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

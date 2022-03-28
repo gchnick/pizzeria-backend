@@ -2,19 +2,21 @@ package com.idforideas.pizzeria.product;
 
 import static java.util.Map.of;
 import static java.time.LocalDateTime.now;
-import static java.util.Arrays.stream;
+import static org.springframework.data.domain.Sort.by;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static com.idforideas.pizzeria.utils.SortUtil.getOrders;
 
 import java.util.List;
 
 import javax.validation.Valid;
 
+import com.idforideas.pizzeria.utils.Response;
+
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.ResponseEntity.HeadersBuilder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,11 +30,11 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
-public class ProductController {
+public class ProductResource {
     private final ProductService productService;
 
     @PostMapping("/save")
-    public ResponseEntity<Response> create(@RequestBody @Valid Product product) {
+    public ResponseEntity<Response> saveProduct(@RequestBody @Valid Product product) {
         return ResponseEntity.status(CREATED)
                     .body(
                         Response.builder()
@@ -59,7 +61,7 @@ public class ProductController {
         );
     }
 
-    @GetMapping("/list")
+    @GetMapping("")
     public ResponseEntity<Response> getProducts(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "5") int size,
@@ -69,7 +71,7 @@ public class ProductController {
         return ResponseEntity.ok(
             Response.builder()
                 .timeStamp(now())
-                .data(of("products", this.productService.list(PageRequest.of(page, size, Sort.by(orders)))))
+                .data(of("products", this.productService.list(PageRequest.of(page, size, by(orders)))))
                 .message("Products retrieved")
                 .status(OK)
                 .statusCode(OK.value())
@@ -77,23 +79,9 @@ public class ProductController {
         );
     }
 
-    @DeleteMapping(value = "/{id}")
-    public HeadersBuilder<?> delete(@RequestParam Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@RequestParam Long id) {
         this.productService.delete(id);
-        return ResponseEntity.noContent();
-    }
-
-    private List<Order> getOrders(String[] sort) {
-        return stream(sort)
-            .map(s -> s.split(","))
-            .map(s ->  {
-                if(s.length == 1) {
-                    return Order.by(s[0]);
-                }
-                if (s[1].contains("desc") || s[1].contains("asd")) {
-                    return s[1].contains("asd") ? Order.asc(s[0]) : Order.desc(s[0]);
-                }
-                return null;
-            }).toList();
+        return ResponseEntity.status(NO_CONTENT).build();
     }
 }

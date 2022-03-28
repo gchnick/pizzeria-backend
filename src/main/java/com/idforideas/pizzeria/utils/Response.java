@@ -1,4 +1,4 @@
-package com.idforideas.pizzeria.product;
+package com.idforideas.pizzeria.utils;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 

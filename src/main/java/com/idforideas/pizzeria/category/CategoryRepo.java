@@ -1,4 +1,4 @@
-package com.idforideas.pizzeria.product;
+package com.idforideas.pizzeria.category;
 
 import java.util.Optional;
 
