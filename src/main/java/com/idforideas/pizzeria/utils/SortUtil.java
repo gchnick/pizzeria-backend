@@ -8,6 +8,8 @@ import org.springframework.data.domain.Sort.Order;
 
 public abstract class SortUtil {
 
+    // FIXME Probar que la logica de negocio funciona
+    // Actualmente ve el segundo indice como propiedad
     public static List<Order> getOrders(String[] sort) {
         return stream(sort)
             .map(s -> s.split(","))
