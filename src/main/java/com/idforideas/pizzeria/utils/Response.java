@@ -19,6 +19,8 @@ public record Response(LocalDateTime timeStamp,
     HttpStatus status,
     String reason,
     String message,
+    String exception,
     String developerMessage,
+    String path,
     Map<?, ?> data) {    
 }
