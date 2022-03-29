@@ -27,7 +27,7 @@ public class SwaggerConfig {
     public Docket api(){
         return new Docket(SWAGGER_2)
         .select()
-        .apis(RequestHandlerSelectors.basePackage("com.idforideas.pizzeria"))
+        .apis(RequestHandlerSelectors.any())
         .paths(PathSelectors.ant("/api/v1/*"))
         .build()
         .apiInfo(apiInfo());

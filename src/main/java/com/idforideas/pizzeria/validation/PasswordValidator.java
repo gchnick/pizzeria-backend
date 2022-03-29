@@ -14,7 +14,7 @@ public class PasswordValidator implements ConstraintValidator<Password, String> 
         if( !pwd.matches("[a-z]") ) return false;
         if( !pwd.matches("[A-Z]") ) return false;
         if( !pwd.matches("[@#$%^&+=]") ) return false;
-        if( pwd.matches("\\s") ) return false;
+        //if( pwd.matches("\\s") ) return false;
         
         return true;
     }
