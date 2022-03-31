@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.idforideas.pizzeria.validation.Password;
@@ -56,7 +57,7 @@ public class AppUser implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @NotBlank
+    @NotNull
     @Size(min = 3, max = 16)
     @Enumerated(STRING)
     @Column(nullable = false, length = 16)
