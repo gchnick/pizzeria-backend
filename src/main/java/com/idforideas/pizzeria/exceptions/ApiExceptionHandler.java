@@ -9,6 +9,7 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.UnexpectedTypeException;
 
 import com.idforideas.pizzeria.utils.Response;
 
@@ -49,6 +50,7 @@ public class ApiExceptionHandler {
         DuplicateKeyException.class,
         IllegalArgumentException.class,
         MethodArgumentNotValidException.class,
+        UnexpectedTypeException.class,
         HttpRequestMethodNotSupportedException.class,
         MissingRequestHeaderException.class,
         MissingServletRequestParameterException.class,
