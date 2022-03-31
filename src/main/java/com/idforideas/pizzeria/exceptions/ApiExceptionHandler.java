@@ -112,6 +112,7 @@ public class ApiExceptionHandler {
             .timeStamp(now())
             .exception(exception.getClass().getSimpleName())
             .message(exception.getMessage())
+            .developerMessage(exception.getStackTrace().toString())
             .status(INTERNAL_SERVER_ERROR)
             .statusCode(INTERNAL_SERVER_ERROR.value())
             .path(request.getRequestURI())
