@@ -23,7 +23,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import lombok.extern.slf4j.Slf4j;
@@ -61,13 +60,13 @@ public class CustomAuthenticaionFilter extends UsernamePasswordAuthenticationFil
             .withSubject(user.getEmail())
             .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
             .withIssuer(request.getRequestURL().toString())
-            .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+            .withClaim("roles", user.getAuthorities().stream().collect(Collectors.toList()))
             .sign(algorithm);
         String refreshToken = JWT.create()
             .withSubject(user.getEmail())
             .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
             .withIssuer(request.getRequestURL().toString())
-            .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+            .withClaim("roles", user.getAuthorities().stream().collect(Collectors.toList()))
             .sign(algorithm);
         Map<String, String> tokens = new HashMap<>();
         tokens.put("access_token", accessToken);
