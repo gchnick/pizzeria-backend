@@ -71,17 +71,31 @@ public class AppUserResource {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("")
+    public ResponseEntity<Response> getUsers() {
+        return ResponseEntity.ok(
+            Response.builder()
+                .timeStamp(now())
+                .data(of("users", userService.getUsers()))
+                .message("Users retrieved")
+                .status(OK)
+                .statusCode(OK.value())
+                .build()
+        );
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<Response> updateUser(@RequestBody @Valid AppUser user, @PathVariable("id") Long id) {
-            return userService.get(id).map(u -> {
-                u.setFullName(user.getFullName());
-                u.setEmail(user.getEmail());
-                u.setPassword(user.getPassword());
-                u.setRole(user.getRole());
+    public ResponseEntity<Response> updateUser(@RequestBody @Valid AppUser newUser, @PathVariable("id") Long id) {
+            return userService.get(id).map(user -> {
+                user.setFullName(newUser.getFullName());
+                user.setEmail(newUser.getEmail());
+                user.setPassword(newUser.getPassword());
+                user.setRole(newUser.getRole());
                 return ResponseEntity.ok(
                     Response.builder()
                         .timeStamp(now())
-                        .data(of("user", userService.update(u)))
+                        .data(of("user", userService.update(user)))
                         .message("User updated")
                         .status(OK)
                         .statusCode(OK.value())
@@ -92,7 +106,7 @@ public class AppUserResource {
                 return ResponseEntity.created(uri).body(
                     Response.builder()
                         .timeStamp(now())
-                        .data(of("user", userService.create(user)))
+                        .data(of("user", userService.create(newUser)))
                         .message("User created")
                         .status(CREATED)
                         .statusCode(CREATED.value())
