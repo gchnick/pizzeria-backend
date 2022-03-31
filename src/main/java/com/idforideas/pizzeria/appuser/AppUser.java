@@ -58,7 +58,6 @@ public class AppUser implements UserDetails {
     private String password;
 
     @NotNull
-    @Size(min = 3, max = 16)
     @Enumerated(STRING)
     @Column(nullable = false, length = 16)
     private AppUserRole role;
