@@ -68,7 +68,7 @@ public class AppUserResource {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/list")
+    @GetMapping("")
     public ResponseEntity<Response> getUsers() {
         return ResponseEntity.ok(
             Response.builder()

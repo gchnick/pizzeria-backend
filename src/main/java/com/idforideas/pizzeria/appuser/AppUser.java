@@ -1,8 +1,10 @@
 package com.idforideas.pizzeria.appuser;
 
 import static javax.persistence.GenerationType.AUTO;
+import static javax.persistence.EnumType.STRING;
 
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -20,8 +22,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 import javax.persistence.Column;
 /**
@@ -56,8 +58,9 @@ public class AppUser implements UserDetails {
 
     @NotBlank
     @Size(min = 3, max = 16)
+    @Enumerated(STRING)
     @Column(nullable = false, length = 16)
-    private String role;
+    private AppUserRole role;
 
     public String getName() {
         return fullName;
@@ -65,9 +68,8 @@ public class AppUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(role));
-        return authorities;
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.name());
+        return Collections.singleton(authority);
     }
 
     @Override
