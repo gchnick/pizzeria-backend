@@ -38,7 +38,7 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
 
     @Override
     public AppUser create(AppUser user) {
-        log.info("Saving new app user");
+        log.info("Saving new app user {}",user.getName());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepo.save(user);
     }
@@ -63,7 +63,7 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
 
     @Override
     public AppUser update(AppUser user) {
-        log.info("Updating app user");
+        log.info("Updating this app user {}",user.getName());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepo.save(user);
     }

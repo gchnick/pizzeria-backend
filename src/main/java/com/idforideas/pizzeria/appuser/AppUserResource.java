@@ -64,7 +64,6 @@ public class AppUserResource {
                 .statusCode(CREATED.value())
                 .build()
         );
-
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
