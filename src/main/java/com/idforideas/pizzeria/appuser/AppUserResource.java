@@ -52,7 +52,7 @@ import lombok.RequiredArgsConstructor;
 public class AppUserResource {
     private final AppUserService userService;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("")
     public ResponseEntity<Response> saveUser(@RequestBody @Valid AppUser user) {
         return ResponseEntity.status(CREATED).body(
