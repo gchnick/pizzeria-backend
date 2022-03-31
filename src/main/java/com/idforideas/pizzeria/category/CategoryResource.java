@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -94,6 +95,33 @@ public class CategoryResource {
                 .statusCode(OK.value())
                 .build()
         );
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/{id}")
+    public ResponseEntity<Response> updateCategory(@RequestBody @Valid Category newCategory, @PathVariable("id") Long id) {
+        return categoryService.get(id).map(category -> {
+            category.setName(newCategory.getName());
+            return ResponseEntity.ok(
+                Response.builder()
+                .timeStamp(now())
+                .data(of("category", categoryService.update(category)))
+                .message("Category updated")
+                .status(OK)
+                .statusCode(OK.value())
+                .build()
+            );
+        }).orElseGet(() -> {
+            return ResponseEntity.status(CREATED).body(
+                Response.builder()
+                .timeStamp(now())
+                .data(of("category", categoryService.create(newCategory)))
+                .message("Category created")
+                .status(CREATED)
+                .statusCode(CREATED.value())
+                .build()
+            );
+        });
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

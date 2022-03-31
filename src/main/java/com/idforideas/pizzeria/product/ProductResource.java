@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import lombok.RequiredArgsConstructor;
@@ -99,6 +100,37 @@ public class ProductResource {
                 .statusCode(OK.value())
                 .build()
         );
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/{id}")
+    public ResponseEntity<Response> updateProduct(@RequestBody @Valid Product newProduct, @PathVariable("id") Long id) {
+        return productService.get(id).map(product -> {
+            product.setName(newProduct.getName());
+            product.setDescription(newProduct.getDescription());
+            product.setPrice(newProduct.getPrice());
+            product.setPhoto(newProduct.getPhoto());
+            product.setCategory(newProduct.getCategory());
+            return ResponseEntity.ok(
+                Response.builder()
+                    .timeStamp(now())
+                    .data(of("product", productService.update(product)))
+                    .message("Product updated")
+                    .status(OK)
+                    .statusCode(OK.value())
+                    .build()
+            );
+        }).orElseGet(() -> {
+            return ResponseEntity.status(CREATED).body(
+                Response.builder()
+                    .timeStamp(now())
+                    .data(of("product", productService.create(newProduct)))
+                    .message("Product created")
+                    .status(CREATED)
+                    .statusCode(CREATED.value())
+                    .build()
+            );
+        });
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

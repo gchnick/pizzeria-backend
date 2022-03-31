@@ -44,6 +44,12 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     }
 
     @Override
+    public Optional<AppUser> get(Long id) {
+        log.info("Fetching user by id: {}",id);
+        return userRepo.findById(id);
+    }
+
+    @Override
     public Optional<AppUser> get(String email) {
         log.info("Fetching user by email: {}",email);
         return userRepo.findByEmail(email);
@@ -53,6 +59,13 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     public Collection<AppUser> getUsers() {
         log.info("Fetching all users");
         return userRepo.findAll();
+    }
+
+    @Override
+    public AppUser update(AppUser user) {
+        log.info("Updating app user");
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepo.save(user);
     }
 
     @Override
