@@ -3,22 +3,43 @@ package com.idforideas.pizzeria.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public class PasswordValidator implements ConstraintValidator<Password, String> {
+	private static final int MIN_LENGTH = 8;
+	private static final String ESPECIAL_CHARACTERS = "@#$%^&+=";
 
     @Override
-    public boolean isValid(String pwd, ConstraintValidatorContext arg1) {
-        log.info("This is pwd {}", pwd);
-        if( pwd == null || pwd.isEmpty() || pwd.isBlank()){ log.info("Pwd is blank"); return false;}
-        if( pwd.length() < 8 ) { log.info("pwd.length() = {}",pwd.length()); return false;}
-        if( !pwd.matches("(?=.*[0-9])") ) { log.info("pwd not [0-9]"); return false;}
-        if( !pwd.matches("[a-z]") ) { log.info("pwd not [a-z]"); return false;}
-        if( !pwd.matches("[A-Z]") ) { log.info("pwd not [A-Z]"); return false;}
-        if( !pwd.matches("[@#$%^&+=]") ) { log.info("pwd not special character"); return false;}
-        //if( pwd.matches("\\s") ) return false;
-        
-        return true;
+    public boolean isValid(String arg0, ConstraintValidatorContext arg1) {
+        if(arg0 == null || arg0.isEmpty() || arg0.isBlank()) return false;
+        if(arg0.length() < MIN_LENGTH) return false;
+		if(containsEspace(arg0)) return false;
+        if(!containsDigits(arg0)) return false;
+        if(!containsLowerCase(arg0)) return false;
+        if(!containsUpperCase(arg0)) return false;
+        if(!containsEspecialCharacter(arg0)) return false;
+
+		return true;
     }
+    
+    private static boolean containsEspace(String arg) {
+		return arg.chars().filter(Character::isSpaceChar).findFirst().isPresent();
+	}
+
+	private static boolean containsDigits(String arg) {
+		return arg.chars().filter(Character::isDigit).findFirst().isPresent();
+	}
+
+	private static boolean containsUpperCase(String arg) {
+		return arg.chars().filter(Character::isUpperCase).findFirst().isPresent();
+	}
+
+	private static boolean containsLowerCase(String arg) {
+		return arg.chars().filter(Character::isLowerCase).findFirst().isPresent();
+	}
+
+	private static boolean containsEspecialCharacter(String arg) {
+		return arg.chars()
+			.filter(a -> ESPECIAL_CHARACTERS.chars().filter(b -> a==b)
+				.findFirst().isPresent()
+			).findFirst().isPresent();
+	}
 }
