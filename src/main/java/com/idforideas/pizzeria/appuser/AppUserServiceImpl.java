@@ -40,7 +40,13 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     public AppUser create(AppUser user) {
         log.info("Saving new app user {}",user.getName());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepo.save(user);
+        try {
+            
+        }catch(Exception e) {
+            userRepo.save(user);
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
