@@ -68,7 +68,7 @@ public class AppUser implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.name());
-        return Collections.singleton(authority);
+        return Collections.singletonList(authority);
     }
 
     @Override

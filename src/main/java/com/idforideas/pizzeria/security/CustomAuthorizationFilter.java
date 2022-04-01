@@ -52,7 +52,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     String email = decodedJWT.getSubject();
                     String role = decodedJWT.getClaim("roles").toString();
                     SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role);
-                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, null, Collections.singleton(authority));
+                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, null, Collections.singletonList(authority));
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     filterChain.doFilter(request, response);
                 } catch (Exception e) {
