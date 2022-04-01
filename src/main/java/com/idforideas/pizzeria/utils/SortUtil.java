@@ -13,12 +13,12 @@ public abstract class SortUtil {
     public static List<Order> getOrders(String[] sort) {
         return stream(sort)
             .map(s -> s.split(","))
-            .map(s ->  {
-                if(s.length == 1) {
-                    return Order.by(s[0]);
+            .map(o ->  {
+                if(o.length == 1) {
+                    return Order.by(o[0]);
                 }
-                if (s[1].contains("desc") || s[1].contains("asd")) {
-                    return s[1].contains("asd") ? Order.asc(s[0]) : Order.desc(s[0]);
+                if (o[1].contains("desc") || o[1].contains("asd")) {
+                    return o[1].contains("asd") ? Order.asc(o[0]) : Order.desc(o[0]);
                 }
                 return null;
             }).toList();

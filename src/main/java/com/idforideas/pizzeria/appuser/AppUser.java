@@ -53,7 +53,6 @@ public class AppUser implements UserDetails {
     private String email;
 
     @Password
-    @Size(max = 16)
     @Column(nullable = false)
     private String password;
 

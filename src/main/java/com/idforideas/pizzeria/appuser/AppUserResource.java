@@ -11,7 +11,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static com.idforideas.pizzeria.security.CustomEnvironmentVariables.SECRET;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +38,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import lombok.RequiredArgsConstructor;
 
@@ -56,9 +54,16 @@ public class AppUserResource {
 
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("")
-    public ResponseEntity<?> saveUser(@RequestBody @Valid AppUser user) {
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/user/save").toUriString());
-        return ResponseEntity.created(uri).body(userService.create(user));
+    public ResponseEntity<Response> saveUser(@RequestBody @Valid AppUser user) {
+        return ResponseEntity.status(CREATED).body(
+            Response.builder()
+                .timeStamp(now())
+                .data(of("user", userService.create(user)))
+                .message("User created")
+                .status(CREATED)
+                .statusCode(CREATED.value())
+                .build()
+        );
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
