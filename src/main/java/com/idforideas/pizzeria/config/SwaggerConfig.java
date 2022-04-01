@@ -21,12 +21,14 @@ import springfox.documentation.spring.web.plugins.Docket;
 @Configuration
 public class SwaggerConfig {
 
+    // FIXME Correguir configuracion
+    // Actualmente solo ve los recursos de product
     @Bean
     public Docket api(){
         return new Docket(SWAGGER_2)
         .select()
-        .apis(RequestHandlerSelectors.basePackage("com.idforideas.pizzeria"))
-        .paths(PathSelectors.ant("/api/v1/*"))
+        .apis(RequestHandlerSelectors.any())
+        .paths(PathSelectors.any())
         .build()
         .apiInfo(apiInfo());
     }
@@ -35,10 +37,10 @@ public class SwaggerConfig {
         return new ApiInfo("API de la pizzeria Don Remolo",
             "API para la solicitud de pedidos de productos a la pizzeria",
             "1.0",
-            "",
+            "Term of service",
             new Contact("Equipo # 221 de ID FOR IDEAS", "www.idforideas.org", "pizzeriadonremolo@gmail.com"),
             "MIT",
-            "url.licence",
+            "https://opensource.org/licenses/MIT",
             Collections.emptyList());
     }
 }

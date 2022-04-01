@@ -1,9 +1,19 @@
 package com.idforideas.pizzeria.appuser;
 
+import static javax.persistence.GenerationType.AUTO;
+import static javax.persistence.EnumType.STRING;
+
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import com.idforideas.pizzeria.validation.Password;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,10 +23,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import static javax.persistence.GenerationType.AUTO;
-
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 import javax.persistence.Column;
 /**
@@ -33,17 +41,25 @@ public class AppUser implements UserDetails {
     @Id @GeneratedValue(strategy = AUTO)
     private Long id;
 
+    @NotBlank
+    @Size(min = 3, max = 100)
     @Column(nullable = false, length = 100)
     private String fullName;
 
+    @Email
+    @NotBlank
+    @Size(min = 3, max = 100)
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
+    @Password
     @Column(nullable = false)
     private String password;
 
+    @NotNull
+    @Enumerated(STRING)
     @Column(nullable = false, length = 16)
-    private String role;
+    private AppUserRole role;
 
     public String getName() {
         return fullName;
@@ -51,9 +67,8 @@ public class AppUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(role));
-        return authorities;
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.name());
+        return Collections.singleton(authority);
     }
 
     @Override

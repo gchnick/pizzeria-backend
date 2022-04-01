@@ -1,6 +1,7 @@
 package com.idforideas.pizzeria.appuser;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,7 +25,7 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        AppUser user = this.userRepo.findByEmail(email);
+        AppUser user = userRepo.findByEmail(email).orElseThrow();
         if(user == null) {
             String msg = "Email not found in the database";
             log.error(msg);
@@ -36,21 +37,50 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     }
 
     @Override
-    public AppUser saveUser(AppUser appUser) {
-        log.info("Saving new app user");
-        appUser.setPassword(this.passwordEncoder.encode(appUser.getPassword()));
-        return this.userRepo.save(appUser);
+    public AppUser create(AppUser user) {
+        log.info("Saving new app user {}",user.getName());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        AppUser app = null;
+        try {
+            app = userRepo.save(user);
+            
+        }catch(Exception e) {
+            
+            e.printStackTrace();
+        }
+        return app;
     }
 
     @Override
-    public AppUser getUser(String email) {
+    public Optional<AppUser> get(Long id) {
+        log.info("Fetching user by id: {}",id);
+        return userRepo.findById(id);
+    }
+
+    @Override
+    public Optional<AppUser> get(String email) {
         log.info("Fetching user by email: {}",email);
-        return this.userRepo.findByEmail(email);
+        return userRepo.findByEmail(email);
     }
 
     @Override
-    public List<AppUser> getUsers() {
-        log.info("Ftching all users");
-        return this.userRepo.findAll();
+    public Collection<AppUser> getUsers() {
+        log.info("Fetching all users");
+        return userRepo.findAll();
+    }
+
+    @Override
+    public AppUser update(AppUser user) {
+        log.info("Updating this app user {}",user.getName());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepo.save(user);
+    }
+
+    @Override
+    public void delete(Long id) {
+        log.info("Deleting user by id {}",id);
+        if(userRepo.existsById(id)) {
+            userRepo.deleteById(id);
+        }        
     } 
 }
