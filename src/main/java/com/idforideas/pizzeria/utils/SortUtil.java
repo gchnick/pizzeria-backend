@@ -14,15 +14,16 @@ import org.springframework.data.domain.Sort.Order;
 public abstract class SortUtil {
 
    public static List<Order> getOrders(String[] sort) {
-        return stream(sort)
-            .map(s -> s.split(","))
-            .map(a ->  {
-                if(stream(a).filter(str -> str.equalsIgnoreCase(ASC.name()) || str.equalsIgnoreCase(DESC.name())).findFirst().isPresent()) {
-                    return a[1].equalsIgnoreCase(ASC.name()) ? asc(a[0]) : desc(a[0]);
-                }
-                else {
-                    return by(a[0]);
-                }
-            }).toList();
+        final List<Order> orders = stream(sort).filter(s -> !s.contains(",")).map(o -> by(o)).toList();
+
+        stream(sort).filter(s -> s.contains(",")).forEach(str -> {
+            if (str.contains(ASC.name()) || str.contains(DESC.name())) {
+                String o[] = str.split(",");
+                Order order = o[1].equalsIgnoreCase(ASC.name()) ? asc(o[0]) : desc(o[0]);
+                orders.add(order);
+            }    
+        });
+
+        return orders;
     }
 }
