@@ -14,16 +14,61 @@ import org.springframework.data.domain.Sort.Order;
 public abstract class SortUtil {
 
    public static List<Order> getOrders(String[] sort) {
-        final List<Order> orders = stream(sort).filter(s -> !s.contains(",")).map(o -> by(o)).toList();
+        public static List<Order> getOrders(String[] sort) {
+        final List<Order> orders = new ArrayList<>();
+        final boolean withDirection = stream(sort).anyMatch(SortUtil::isDirection);
 
-        stream(sort).filter(s -> s.contains(",")).forEach(str -> {
-            if (str.contains(ASC.name()) || str.contains(DESC.name())) {
-                String o[] = str.split(",");
-                Order order = o[1].equalsIgnoreCase(ASC.name()) ? asc(o[0]) : desc(o[0]);
-                orders.add(order);
-            }    
-        });
-
+        if(!withDirection) { stream(sort).forEach(s -> orders.add(by(s))); }
+        else {
+            if(isValid(sort)) {
+                IntStream.range(0, sort.length).forEach( i -> {
+                    if(isDirection(sort[i])) {
+                        Order order = getOrder(sort[i-1], sort[i]);
+                        orders.add(order);
+                    }
+                });
+            } else {
+                throw new BadRequestException("Bad use of direction in sort");
+            }
+        }
         return orders;
+    }
+
+    private static Order getOrder(String property, String direction) {
+        return direction.equalsIgnoreCase(ASC.name()) ? by(property) : desc(property);
+    }
+
+    private static boolean isValid(String[] sort) {
+        if(hasDirectionAtZeroIndex(sort[0])) return false;
+        if(hasDirectionsTogether(sort)) return false;
+        return true;
+    }
+
+    private static boolean hasDirectionAtZeroIndex(String arg) {
+        return isDirection(arg) ? true : false;
+    }
+
+    private static boolean hasDirectionsTogether(String[] args) {
+        int index = 0;
+        int last = 0;
+        int now = -1;
+        boolean isTogether = false;
+
+        for(String arg : args) {
+            if(isDirection(arg)) {
+                last = now;
+                now = index;
+            }
+            if(last == now-1) {
+                isTogether = true;
+            }
+            index++;
+        }
+
+        return isTogether;
+    }
+
+    private static boolean isDirection(String arg) {
+        return arg.equalsIgnoreCase(ASC.name()) || arg.equalsIgnoreCase(DESC.name());
     }
 }
