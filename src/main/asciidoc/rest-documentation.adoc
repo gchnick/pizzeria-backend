@@ -1,0 +1,16 @@
+= API Don Remolo Documentación
+Nick Galán
+
+Este es un ejemplo de las cargas útiles del servicio en https://donremolo-backend.herokuapp.com/api/v1/
+
+== GET API DE CATEGORIAS
+
+[[example_curl_request]]
+== Curl request
+
+include::{snippets}/category-documentation/get-categories-with-pageable/curl-request.adoc[]
+
+[[example_http_response]]
+== HTTP response
+
+include::{snippets/category-documentation/get-categories-with-pageable/http-response.adoc[]
