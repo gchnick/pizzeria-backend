@@ -21,25 +21,22 @@ public class PasswordValidator implements ConstraintValidator<Password, String> 
     }
     
     private static boolean containsEspace(String arg) {
-		return arg.chars().filter(Character::isSpaceChar).findFirst().isPresent();
+		return arg.chars().anyMatch(Character::isSpaceChar);
 	}
 
 	private static boolean containsDigits(String arg) {
-		return arg.chars().filter(Character::isDigit).findFirst().isPresent();
+		return arg.chars().anyMatch(Character::isDigit);
 	}
 
 	private static boolean containsUpperCase(String arg) {
-		return arg.chars().filter(Character::isUpperCase).findFirst().isPresent();
+		return arg.chars().anyMatch(Character::isUpperCase);
 	}
 
 	private static boolean containsLowerCase(String arg) {
-		return arg.chars().filter(Character::isLowerCase).findFirst().isPresent();
+		return arg.chars().anyMatch(Character::isLowerCase);
 	}
 
 	private static boolean containsEspecialCharacter(String arg) {
-		return arg.chars()
-			.filter(a -> ESPECIAL_CHARACTERS.chars().filter(b -> a==b)
-				.findFirst().isPresent()
-			).findFirst().isPresent();
+		return arg.chars().anyMatch(a -> ESPECIAL_CHARACTERS.chars().anyMatch(b -> a==b));
 	}
 }

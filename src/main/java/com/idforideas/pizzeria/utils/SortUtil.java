@@ -3,18 +3,20 @@ package com.idforideas.pizzeria.utils;
 import static java.util.Arrays.stream;
 import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.data.domain.Sort.Direction.DESC;
-import static org.springframework.data.domain.Sort.Order.asc;
 import static org.springframework.data.domain.Sort.Order.desc;
 import static org.springframework.data.domain.Sort.Order.by;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
+
+import com.idforideas.pizzeria.exceptions.BadRequestException;
 
 import org.springframework.data.domain.Sort.Order;
 
 public abstract class SortUtil {
 
    public static List<Order> getOrders(String[] sort) {
-        public static List<Order> getOrders(String[] sort) {
         final List<Order> orders = new ArrayList<>();
         final boolean withDirection = stream(sort).anyMatch(SortUtil::isDirection);
 
