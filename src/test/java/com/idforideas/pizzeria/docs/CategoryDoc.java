@@ -6,6 +6,8 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,6 +39,8 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringBootTest
 @ExtendWith({ RestDocumentationExtension.class, SpringExtension.class })
 public class CategoryDoc {
+    private final String URL = "/api/v1/categories?page=0&size=2&sort=name,desc";
+    private final int TOTAL_ELEMENTS = 4;
 
     @MockBean
     private CategoryService categoryService;
@@ -59,7 +63,7 @@ public class CategoryDoc {
             .collect(Collectors.toList());
         
         this.categories = new PageImpl<>(categories);
-        this.pageable = PageRequest.of(0, 2, Sort.by("name"));
+        this.pageable = PageRequest.of(0, 2, Sort.by("name").descending());
     }
 
     @Test
@@ -68,13 +72,17 @@ public class CategoryDoc {
         Mockito.when(categoryService.list(pageable)).thenReturn(categories);
 
         // When
-        this.mockMvc.perform(get("/api/v1/categories").contentType(APPLICATION_JSON))
+        this.mockMvc.perform(get(URL).contentType(APPLICATION_JSON))
         // Then
             .andExpect(status().isOk())
             .andExpect(content().contentType(APPLICATION_JSON))
             .andExpect(jsonPath("$.data.categories").exists())
-            .andExpect(jsonPath("$.data.categories.totalElements").value(4))
-            .andDo(document("{class-name}/{method-name}"));
+            .andExpect(jsonPath("$.data.categories.totalElements").value(TOTAL_ELEMENTS))
+            .andDo(document("{class-name}/{method-name}", requestParameters(
+                parameterWithName("page").description("Numero de la pagina a recuperar"),
+                parameterWithName("size").description("Elementos por pagina"),
+                parameterWithName("sort").description("Propiedad que se usara como referencia para ordenar")
+            )));
 
         Mockito.verify(categoryService).list(pageable);
     }
