@@ -1,16 +1,21 @@
-= API Don Remolo Documentación
-Nick Galán
+= Documentación de la API Don Remolo 
+Por: {author}
 
-Este es un ejemplo de las cargas útiles del servicio en https://donremolo-backend.herokuapp.com/api/v1/
+Esta pagina documenta el recurso de categorias de la pizzeria Don Remolo.
 
-== GET API DE CATEGORIAS
-
-[[example_curl_request]]
 == Curl request
+Ejemplo de curl request
 
-include::{snippets}/category-documentation/get-categories-with-pageable/curl-request.adoc[]
+include::{snippets}/category-doc/get-categories-with-pageable/curl-request.adoc[]
 
-[[example_http_response]]
+
+== Request Parameters
+Descripcion de los parametros
+
+include::{snippets}/category-doc/get-categories-with-pageable/request-parameters.adoc[]
+
+[[Ejemplo de http response]]
+
 == HTTP response
 
-include::{snippets/category-documentation/get-categories-with-pageable/http-response.adoc[]
+include::{snippets}/category-doc/get-categories-with-pageable/http-response.adoc[]

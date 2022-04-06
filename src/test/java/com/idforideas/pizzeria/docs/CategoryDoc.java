@@ -8,6 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -78,10 +80,12 @@ public class CategoryDoc {
             .andExpect(content().contentType(APPLICATION_JSON))
             .andExpect(jsonPath("$.data.categories").exists())
             .andExpect(jsonPath("$.data.categories.totalElements").value(TOTAL_ELEMENTS))
-            .andDo(document("{class-name}/{method-name}", requestParameters(
-                parameterWithName("page").description("Numero de la pagina a recuperar"),
-                parameterWithName("size").description("Elementos por pagina"),
-                parameterWithName("sort").description("Propiedad que se usara como referencia para ordenar")
+            .andDo(document("{class-name}/{method-name}",
+                preprocessResponse(prettyPrint()),
+                requestParameters(
+                    parameterWithName("page").description("Numero de la pagina a recuperar"),
+                    parameterWithName("size").description("Elementos por pagina"),
+                    parameterWithName("sort").description("Propiedad que se usara como referencia para ordenar")
             )));
 
         Mockito.verify(categoryService).list(pageable);
