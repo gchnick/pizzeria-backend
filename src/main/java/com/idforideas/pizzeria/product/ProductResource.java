@@ -6,13 +6,13 @@ import static org.springframework.data.domain.Sort.by;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
-import static com.idforideas.pizzeria.utils.SortUtil.getOrders;
 
 import java.util.List;
 
 import javax.validation.Valid;
 
-import com.idforideas.pizzeria.utils.Response;
+import com.idforideas.pizzeria.util.Response;
+import com.idforideas.pizzeria.util.SortUtil;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Order;
@@ -35,6 +35,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProductResource {
     private final ProductService productService;
+    private final SortUtil sort;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("")
@@ -71,7 +72,7 @@ public class ProductResource {
         @RequestParam(defaultValue = "5") int size,
         @RequestParam(defaultValue = "category") String[] sort
     ) {
-        List<Order> orders = getOrders(sort);
+        List<Order> orders = this.sort.getOrders(sort);
         return ResponseEntity.ok(
             Response.builder()
                 .timeStamp(now())
@@ -90,7 +91,7 @@ public class ProductResource {
         @RequestParam(defaultValue = "name") String[] sort,
         @PathVariable("name") String CategoryName
     ) {
-        List<Order> orders = getOrders(sort);
+        List<Order> orders = this.sort.getOrders(sort);
         return ResponseEntity.ok(
             Response.builder()
                 .timeStamp(now())

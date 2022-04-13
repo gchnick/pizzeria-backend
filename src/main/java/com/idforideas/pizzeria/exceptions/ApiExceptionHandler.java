@@ -11,7 +11,7 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.UnexpectedTypeException;
 
-import com.idforideas.pizzeria.utils.Response;
+import com.idforideas.pizzeria.util.Response;
 
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
