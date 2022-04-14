@@ -20,18 +20,17 @@ public class PasswordValidator implements ConstraintValidator<Password, String> 
 
     @Override
     public boolean isValid(String arg0, ConstraintValidatorContext arg1) {
+		IntStream pwd = arg0.chars();
+		IntStream match = ESPECIAL_CHARACTERS.chars();
+		
         if(arg0 == null || arg0.isEmpty() || arg0.isBlank()) return false;
         if(arg0.length() < MIN_LENGTH) return false;
-		if(anyMatch(arg0, IS_SPACE_CHAR)) return false;
-        if(!anyMatch(arg0, IS_DIGIT)) return false;
-        if(!anyMatch(arg0, IS_UPPERCASE)) return false;
-        if(!anyMatch(arg0, IS_LOWERCASE)) return false;
-        if(!CONTAINS.test(arg0.chars(), ESPECIAL_CHARACTERS.chars())) return false;
+		if(pwd.anyMatch(IS_SPACE_CHAR)) return false;
+        if(!pwd.anyMatch(IS_DIGIT)) return false;
+        if(!pwd.anyMatch(IS_UPPERCASE)) return false;
+        if(!pwd.anyMatch(IS_LOWERCASE)) return false;
+        if(!CONTAINS.test(pwd, match)) return false;
 
 		return true;
     }
-
-	private static boolean anyMatch(String pwd, IntPredicate match) {
-		return pwd.chars().anyMatch(match);
-	}
 }
