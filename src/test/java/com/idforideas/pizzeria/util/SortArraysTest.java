@@ -1,4 +1,4 @@
-package com.idforideas.pizzeria.utils;
+package com.idforideas.pizzeria.util;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -16,18 +16,20 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 
-public class SortUtilTest {
+public class SortArraysTest {
+
+    private final SortUtil sort = new SortArrays();
    
     @ParameterizedTest
     @MethodSource("sortArguments")
     void whenGetOrdersThenNotNull(String[] sort) {
-        assertNotNull(SortUtil.getOrders(sort));
+        assertNotNull(this.sort.getOrders(sort));
     }
 
     @ParameterizedTest
     @MethodSource("sortArguments")
     void whenGetOrdersThenNotContains_ASC_Or_DESC_Properties(String[] sort) {
-        List<Order> orders = SortUtil.getOrders(sort);
+        List<Order> orders = this.sort.getOrders(sort);
         assertFalse(orders.contains(Order.by("asc")));
         assertFalse(orders.contains(Order.desc("asc")));
         assertFalse(orders.contains(Order.by("desc")));
@@ -37,7 +39,7 @@ public class SortUtilTest {
     @ParameterizedTest
     @MethodSource("sortInvalidArguments")
     void whenInvalidParametersThenThrowBadRequestException(String[] sort) {
-        assertThrows(BadRequestException.class, () -> SortUtil.getOrders(sort));
+        assertThrows(BadRequestException.class, () -> this.sort.getOrders(sort));
     }
 
     

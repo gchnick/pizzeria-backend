@@ -58,10 +58,10 @@ public class CategoryDoc {
                 .build();
         
         List<Category> categories = Stream.of(
-            new Category(1L, "Pizzas"),
-            new Category(2L, "Empanadas"),
-            new Category(3L, "Bebidas"),
-            new Category(4L, "Postres"))
+            new Category("Pizzas"),
+            new Category("Empanadas"),
+            new Category("Bebidas"),
+            new Category("Postres"))
             .collect(Collectors.toList());
         
         this.categories = new PageImpl<>(categories);
