@@ -1,18 +1,16 @@
 package com.idforideas.pizzeria.appuser;
 
-import static javax.persistence.GenerationType.AUTO;
 import static javax.persistence.EnumType.STRING;
 
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.idforideas.pizzeria.util.BaseEntity;
 import com.idforideas.pizzeria.validation.Password;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -21,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.Collection;
@@ -35,11 +34,10 @@ import javax.persistence.Column;
 @Entity
 @Table(name = "users")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class AppUser implements UserDetails {
-    @Id @GeneratedValue(strategy = AUTO)
-    private Long id;
+public class AppUser extends BaseEntity implements UserDetails {
 
     @NotBlank
     @Size(min = 3, max = 100)
