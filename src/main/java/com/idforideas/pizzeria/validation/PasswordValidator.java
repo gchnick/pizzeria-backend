@@ -25,11 +25,11 @@ public class PasswordValidator implements ConstraintValidator<Password, String> 
 		
         if(arg0 == null || arg0.isEmpty() || arg0.isBlank()) return false;
         if(arg0.length() < MIN_LENGTH) return false;
-		if(pwd.anyMatch(IS_SPACE_CHAR)) return false;
-        if(!pwd.anyMatch(IS_DIGIT)) return false;
-        if(!pwd.anyMatch(IS_UPPERCASE)) return false;
-        if(!pwd.anyMatch(IS_LOWERCASE)) return false;
         if(!CONTAINS.test(pwd, match)) return false;
+        if(!pwd.anyMatch(IS_DIGIT)) return false;
+        if(!pwd.anyMatch(IS_LOWERCASE)) return false;
+        if(!pwd.anyMatch(IS_UPPERCASE)) return false;
+		if(pwd.anyMatch(IS_SPACE_CHAR)) return false;
 
 		return true;
     }

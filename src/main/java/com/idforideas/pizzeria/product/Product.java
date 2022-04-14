@@ -1,12 +1,9 @@
 package com.idforideas.pizzeria.product;
 
-import static javax.persistence.GenerationType.AUTO;
 import static javax.persistence.FetchType.EAGER;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -15,22 +12,20 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.idforideas.pizzeria.category.Category;
+import com.idforideas.pizzeria.util.BaseEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "products")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
-
-    @Id
-    @GeneratedValue(strategy = AUTO)
-    @Column(name = "product_id")
-    private Long id;
+public class Product extends BaseEntity {
 
     @NotBlank
     @Size(min = 3, max = 100)
