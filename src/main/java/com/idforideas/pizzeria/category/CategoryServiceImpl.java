@@ -3,6 +3,8 @@ package com.idforideas.pizzeria.category;
 import java.util.Collection;
 import java.util.Optional;
 
+import com.idforideas.pizzeria.exception.BadRequestException;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category create(Category category) {
         log.info("Saving new category {}",  category.getName());
+        valid(category);
         return categoryRepo.save(category);
     }
 
@@ -59,6 +62,15 @@ public class CategoryServiceImpl implements CategoryService {
         log.info("Deleting category by id {}",id);
         if(categoryRepo.existsById(id)){
             this.categoryRepo.deleteById(id);
+        }
+    }
+
+    @Override
+    public void valid(Category category) {
+        boolean isPresent = categoryRepo.findByNameIgnoreCase(category.getName()).isPresent();
+        if(isPresent) { 
+            log.error("{} category is already registered", category.getName());
+            throw new BadRequestException("The name of category is already registered");
         }
     }
     

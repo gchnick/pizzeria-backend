@@ -1,4 +1,4 @@
-package com.idforideas.pizzeria.exceptions;
+package com.idforideas.pizzeria.exception;
 
 import static java.time.LocalDateTime.now;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -36,7 +36,6 @@ public class ApiExceptionHandler {
     public Response noFountRequest(HttpServletRequest request, Exception exception) {
         return Response.builder()
             .timeStamp(now())
-            .exception(exception.getClass().getSimpleName())
             .message(exception.getMessage())
             .path(request.getRequestURI())
             .status(NOT_FOUND)
@@ -61,7 +60,6 @@ public class ApiExceptionHandler {
     public Response badRequest(HttpServletRequest request, Exception exception) {
         return Response.builder()
             .timeStamp(now())
-            .exception(exception.getClass().getSimpleName())
             .message(exception.getMessage())
             .status(BAD_REQUEST)
             .statusCode(BAD_REQUEST.value())

@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.idforideas.pizzeria.exception.NotFoundException;
 import com.idforideas.pizzeria.util.Response;
 import com.idforideas.pizzeria.util.SortUtil;
 
@@ -54,7 +55,8 @@ public class CategoryResource {
 
     @GetMapping("/{id}")
     public ResponseEntity<Response> getCategory(@PathVariable("id") Long id) {
-        Category category = categoryService.get(id).orElseThrow();
+        Category category = categoryService.get(id)
+            .orElseThrow(() -> new NotFoundException("Id category not exists"));
         return ResponseEntity.ok(
             Response.builder()
             .timeStamp(now())
@@ -84,9 +86,10 @@ public class CategoryResource {
         );
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/category/{name}")
     public ResponseEntity<Response> getCategory(@PathVariable("name") String name) {
-        Category category = categoryService.get(name).orElseThrow();
+        Category category = categoryService
+            .get(name).orElseThrow(() -> new NotFoundException("Name category not exists"));
         return ResponseEntity.ok(
             Response.builder()
             .timeStamp(now())
@@ -102,6 +105,7 @@ public class CategoryResource {
     @PutMapping("/{id}")
     public ResponseEntity<Response> updateCategory(@RequestBody @Valid Category newCategory, @PathVariable("id") Long id) {
         return categoryService.get(id).map(category -> {
+            categoryService.valid(newCategory);
             category.setName(newCategory.getName());
             return ResponseEntity.ok(
                 Response.builder()

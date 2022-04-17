@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.IntStream;
 
-import com.idforideas.pizzeria.exceptions.BadRequestException;
+import com.idforideas.pizzeria.exception.BadRequestException;
 
 import org.springframework.data.domain.Sort.Order;
 

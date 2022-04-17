@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.List;
 import java.util.stream.Stream;
 
-import com.idforideas.pizzeria.exceptions.BadRequestException;
+import com.idforideas.pizzeria.exception.BadRequestException;
 
 import org.springframework.data.domain.Sort.Order;
 
