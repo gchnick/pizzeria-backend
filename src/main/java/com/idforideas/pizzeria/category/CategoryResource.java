@@ -38,7 +38,7 @@ public class CategoryResource {
     private final SortUtil sort;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<Response> saveCategory(@RequestBody @Valid Category category) {
         return ResponseEntity.status(CREATED)
                     .body(
@@ -66,21 +66,7 @@ public class CategoryResource {
         );
     }
 
-    @GetMapping("/{name}")
-    public ResponseEntity<Response> getCategory(@PathVariable("name") String name) {
-        Category category = categoryService.get(name).orElseThrow();
-        return ResponseEntity.ok(
-            Response.builder()
-            .timeStamp(now())
-            .data(of("category", category))
-            .message("Category retrieved")
-            .status(OK)
-            .statusCode(OK.value())
-            .build()
-        );
-    }
-
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<Response> getCategories(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "5") int size,
@@ -95,6 +81,20 @@ public class CategoryResource {
                 .status(OK)
                 .statusCode(OK.value())
                 .build()
+        );
+    }
+
+    @GetMapping("/{name}")
+    public ResponseEntity<Response> getCategory(@PathVariable("name") String name) {
+        Category category = categoryService.get(name).orElseThrow();
+        return ResponseEntity.ok(
+            Response.builder()
+            .timeStamp(now())
+            .data(of("category", category))
+            .message("Category retrieved")
+            .status(OK)
+            .statusCode(OK.value())
+            .build()
         );
     }
 

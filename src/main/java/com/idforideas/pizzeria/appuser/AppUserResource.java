@@ -53,7 +53,7 @@ public class AppUserResource {
     private final AppUserService userService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<Response> saveUser(@RequestBody @Valid AppUser user) {
         return ResponseEntity.status(CREATED).body(
             Response.builder()
@@ -67,7 +67,7 @@ public class AppUserResource {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<Response> getUsers() {
         return ResponseEntity.ok(
             Response.builder()
@@ -110,7 +110,7 @@ public class AppUserResource {
             });
     }
 
-    @GetMapping("/token/refresh")
+    @PostMapping("/refresh-token")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {

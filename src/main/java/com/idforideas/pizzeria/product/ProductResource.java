@@ -38,7 +38,7 @@ public class ProductResource {
     private final SortUtil sort;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<Response> saveProduct(@RequestBody @Valid Product product) {
         return ResponseEntity.status(CREATED)
                     .body(
@@ -66,7 +66,7 @@ public class ProductResource {
         );
     }
 
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<Response> getProducts(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "5") int size,
