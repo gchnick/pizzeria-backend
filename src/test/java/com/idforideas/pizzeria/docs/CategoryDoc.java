@@ -12,6 +12,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 
 import java.util.List;
+import java.util.ListIterator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -56,13 +57,19 @@ public class CategoryDoc {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .apply(documentationConfiguration(restDocumentation))
                 .build();
-        
+
         List<Category> categories = Stream.of(
             new Category("Pizzas"),
             new Category("Empanadas"),
             new Category("Bebidas"),
             new Category("Postres"))
             .collect(Collectors.toList());
+
+        ListIterator<Category> iterator = categories.listIterator();
+        while(iterator.hasNext()) {
+            Long id = Long.valueOf( Integer.valueOf(iterator.nextIndex()).longValue() );
+            iterator.next().setId(id);
+        }
         
         this.categories = new PageImpl<>(categories);
         this.pageable = PageRequest.of(0, 2, Sort.by("name").descending());

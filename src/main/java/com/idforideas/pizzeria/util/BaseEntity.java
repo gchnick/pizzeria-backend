@@ -4,21 +4,23 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.GeneratedValue;
 
-import org.springframework.data.domain.Persistable;
 
 import lombok.Data;
 
 @Data
 @MappedSuperclass
-public abstract class BaseEntity implements Persistable<Long> {
+public abstract class BaseEntity  {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long id;
+    protected Long id;
 
-    @Override
+    @JsonIgnore
     public boolean isNew() {
         return id == null ? true : false;
     }

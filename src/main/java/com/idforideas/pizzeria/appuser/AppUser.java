@@ -10,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.idforideas.pizzeria.util.BaseEntity;
 import com.idforideas.pizzeria.validation.Password;
 
@@ -52,6 +53,7 @@ public class AppUser extends BaseEntity implements UserDetails {
 
     @Password
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
 
     @NotNull
@@ -59,10 +61,12 @@ public class AppUser extends BaseEntity implements UserDetails {
     @Column(nullable = false, length = 16)
     private AppUserRole role;
 
+    @JsonIgnore
     public String getName() {
         return fullName;
     }
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.name());
@@ -74,21 +78,25 @@ public class AppUser extends BaseEntity implements UserDetails {
         return email;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;
