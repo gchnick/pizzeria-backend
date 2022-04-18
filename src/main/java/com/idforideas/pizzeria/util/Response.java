@@ -23,5 +23,6 @@ public record Response(LocalDateTime timeStamp,
     String developerMessage,
     StackTraceElement[] stackTrace,
     String path,
+    Map<?, ?> errors,
     Map<?, ?> data) {    
 }

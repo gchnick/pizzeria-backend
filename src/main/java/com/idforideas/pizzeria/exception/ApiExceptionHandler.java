@@ -6,6 +6,9 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+
+import java.util.stream.Collectors;
+
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +19,7 @@ import com.idforideas.pizzeria.util.Response;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestHeaderException;
@@ -25,7 +29,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-
 
 @ControllerAdvice
 public class ApiExceptionHandler {
@@ -48,7 +51,6 @@ public class ApiExceptionHandler {
         BadRequestException.class,
         DuplicateKeyException.class,
         IllegalArgumentException.class,
-        MethodArgumentNotValidException.class,
         UnexpectedTypeException.class,
         HttpRequestMethodNotSupportedException.class,
         MissingRequestHeaderException.class,
@@ -58,9 +60,28 @@ public class ApiExceptionHandler {
     })
     @ResponseBody
     public Response badRequest(HttpServletRequest request, Exception exception) {
+
         return Response.builder()
             .timeStamp(now())
             .message(exception.getMessage())
+            .status(BAD_REQUEST)
+            .statusCode(BAD_REQUEST.value())
+            .path(request.getRequestURI())
+            .build();
+    }
+
+    @ResponseStatus(BAD_REQUEST)
+    @ExceptionHandler({MethodArgumentNotValidException.class})
+    @ResponseBody
+    public Response handleValidationExceptions(HttpServletRequest request, MethodArgumentNotValidException exception) {
+        
+        return Response.builder()
+            .timeStamp(now())
+            .errors(exception.getBindingResult()
+                .getAllErrors()
+                .stream()
+                .map(e -> new Errors(((FieldError) e).getField(), e.getDefaultMessage()))
+                .collect(Collectors.toMap(Errors::fielName, Errors::errorMessage)))
             .status(BAD_REQUEST)
             .statusCode(BAD_REQUEST.value())
             .path(request.getRequestURI())
@@ -80,6 +101,8 @@ public class ApiExceptionHandler {
             .path(request.getRequestURI())
             .build();
     }
+
+    
 
     @ResponseStatus(CONFLICT)
     @ExceptionHandler({ConflictException.class})
@@ -117,5 +140,7 @@ public class ApiExceptionHandler {
             .statusCode(INTERNAL_SERVER_ERROR.value())
             .path(request.getRequestURI())
             .build();
-    }   
+    }
+    
+    record Errors (String fielName, String errorMessage){};
 }
