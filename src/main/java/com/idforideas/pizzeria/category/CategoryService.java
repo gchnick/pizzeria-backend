@@ -10,9 +10,11 @@ public interface CategoryService {
 
     Category create(Category category);
 
-    Optional<Category> get(Long id);
+    Category get(Long id);
 
-    Optional<Category> get(String name);
+    Category get(String name);
+
+    Optional<Category> getWithOptional(Long id);
 
     Collection<Category> list();
 

@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import com.idforideas.pizzeria.exception.BadRequestException;
+import com.idforideas.pizzeria.exception.NotFoundException;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
@@ -28,16 +29,23 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Optional<Category> get(Long id) {
+    public Category get(Long id) {
+        log.info("Finding category by id {}", id);
+        return categoryRepo.findById(id).orElseThrow(() -> new NotFoundException("Id category not exists"));
+    }
+
+    @Override
+    public Category get(String name) {
+        log.info("Finding category by name {}", name);
+        return categoryRepo.findByNameIgnoreCase(name).orElseThrow(() -> new NotFoundException("Name category not exists"));
+    }
+
+    @Override
+    public Optional<Category> getWithOptional(Long id) {
         log.info("Finding category by id {}", id);
         return categoryRepo.findById(id);
     }
 
-    @Override
-    public Optional<Category> get(String name) {
-        log.info("Finding category by name {}", name);
-        return categoryRepo.findByNameIgnoreCase(name);
-    }
 
     @Override
     public Collection<Category> list() {
