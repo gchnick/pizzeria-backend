@@ -19,6 +19,7 @@ import com.idforideas.pizzeria.util.Response;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -71,10 +72,12 @@ public class ApiExceptionHandler {
     }
 
     @ResponseStatus(BAD_REQUEST)
-    @ExceptionHandler({MethodArgumentNotValidException.class})
+    @ExceptionHandler({
+        BindException.class,
+        MethodArgumentNotValidException.class
+    })
     @ResponseBody
-    public Response handleValidationExceptions(HttpServletRequest request, MethodArgumentNotValidException exception) {
-        
+    public Response handleValidationExceptions(HttpServletRequest request, BindException exception) {
         return Response.builder()
             .timeStamp(now())
             .errors(exception.getBindingResult()

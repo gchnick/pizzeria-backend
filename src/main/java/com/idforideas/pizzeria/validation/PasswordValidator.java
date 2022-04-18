@@ -6,33 +6,43 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class PasswordValidator implements ConstraintValidator<Password, String> {
-	public static final int MIN_LENGTH = 8;
+	private static final int MIN_LENGTH = 8;
 	private static final String ESPECIAL_CHARACTERS = "@#$%^&+=";
 
-	private static final IntPredicate IS_SPACE_CHAR = Character::isSpaceChar;
-	private static final IntPredicate IS_DIGIT = Character::isDigit;
-	private static final IntPredicate IS_UPPERCASE = Character::isUpperCase;
-	private static final IntPredicate IS_LOWERCASE = Character::isLowerCase;
+	public static final IntPredicate SPACE_CHAR = Character::isSpaceChar;
+	public static final IntPredicate DIGIT = Character::isDigit;
+	public static final IntPredicate UPPERCASE = Character::isUpperCase;
+	public static final IntPredicate LOWERCASE = Character::isLowerCase;
 
     @Override
-    public boolean isValid(String arg0, ConstraintValidatorContext arg1) {
+    public boolean isValid(String password, ConstraintValidatorContext arg1) {
 		
-        if(arg0 == null || arg0.isEmpty() || arg0.isBlank()) return false;
-        if(arg0.length() < MIN_LENGTH) return false;
-        if(!anyMatch(arg0)) return false;
-        if(!anyMatch(arg0, IS_DIGIT)) return false;
-        if(!anyMatch(arg0, IS_LOWERCASE)) return false;
-        if(!anyMatch(arg0, IS_UPPERCASE)) return false;
-		if(anyMatch(arg0, IS_SPACE_CHAR)) return false;
+        if(isNullOrBlankOrEmpty(password)) return false;
+        if(isShortLength(password)) return false;
+        if(!containsEspecialCharacters(password)) return false;
+        if(!containsThis(password, DIGIT)) return false;
+        if(!containsThis(password, LOWERCASE)) return false;
+        if(!containsThis(password, UPPERCASE)) return false;
+		if(containsThis(password, SPACE_CHAR)) return false;
 		
 		return true;
     }
 
-	private static boolean anyMatch(String pwd, IntPredicate math) {
-		return pwd.chars().anyMatch(math);
+	public static boolean isNullOrBlankOrEmpty(String password) {
+		if(password == null || password.isEmpty() || password.isBlank()) return true;
+		return false;
 	}
 
-	private static boolean anyMatch(String pwd) {
-		return pwd.chars().anyMatch(a -> ESPECIAL_CHARACTERS.chars().anyMatch(b -> a==b));
+	public static boolean isShortLength(String password) {
+        if(password.length() < MIN_LENGTH) return true;
+		return false;
+	}
+
+	public static boolean containsThis(String password, IntPredicate mathWith) {
+		return password.chars().anyMatch(mathWith);
+	}
+
+	public static boolean containsEspecialCharacters(String password) {
+		return password.chars().anyMatch(a -> ESPECIAL_CHARACTERS.chars().anyMatch(b -> a==b));
 	}
 }
