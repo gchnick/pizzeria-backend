@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.idforideas.pizzeria.category.Category;
 import com.idforideas.pizzeria.category.CategoryRepo;
+import com.idforideas.pizzeria.exception.NotFoundException;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,7 +30,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<Product> get(Long id) {
+    public Product get(Long id) {
+        log.info("Finding product by id {}", id);
+        return productRepo.findById(id).orElseThrow(() -> new NotFoundException("Id product not exists"));
+    }
+
+    @Override
+    public Optional<Product> getWithOptional(Long id) {
         log.info("Finding product by id {}", id);
         return productRepo.findById(id);
     }

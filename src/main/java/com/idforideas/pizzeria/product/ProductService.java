@@ -9,8 +9,10 @@ import org.springframework.data.domain.Pageable;
 public interface ProductService {
 
     Product create(Product product);
+
+    Product get(Long id);
     
-    Optional<Product> get(Long id);
+    Optional<Product> getWithOptional(Long id);
 
     Collection<Product> list();
 

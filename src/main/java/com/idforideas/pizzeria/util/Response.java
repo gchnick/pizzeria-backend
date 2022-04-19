@@ -21,7 +21,6 @@ public record Response(LocalDateTime timeStamp,
     String message,
     String exception,
     String developerMessage,
-    StackTraceElement[] stackTrace,
     String path,
     Map<?, ?> errors,
     Map<?, ?> data) {    

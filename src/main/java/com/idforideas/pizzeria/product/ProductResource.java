@@ -15,6 +15,12 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jsonpatch.JsonPatch;
+import com.github.fge.jsonpatch.JsonPatchException;
+import com.idforideas.pizzeria.exception.ConflictException;
 import com.idforideas.pizzeria.util.Response;
 import com.idforideas.pizzeria.util.SortUtil;
 
@@ -25,6 +31,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -63,13 +70,11 @@ public class ProductResource {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping(path = "/with-picture", consumes = {MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(path = "/with-picture", consumes = MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Response> saveProductWithPicture(@Valid Product product,
-        @RequestPart MultipartFile file) throws IllegalStateException, IOException {
-            if (!file.isEmpty()) {              
-                product.setPictureURL( parsePathPicture(file.getOriginalFilename()) );
-                file.transferTo(new File(path.concat(product.getPictureURL())));
-            }
+        @RequestPart(required = true) MultipartFile file) throws IllegalStateException, IOException {
+            product.setPictureURL( parsePathPicture(file.getOriginalFilename()) );
+            file.transferTo(new File(path.concat(product.getPictureURL())));
             return ResponseEntity.status(CREATED)
                 .body(
                     Response.builder()
@@ -83,12 +88,11 @@ public class ProductResource {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response> getProduct(@PathVariable("id") Long id) {
-        Product product = productService.get(id).orElseThrow();
+    public ResponseEntity<Response> getProduct(@PathVariable Long id) {
         return ResponseEntity.ok(
             Response.builder()
             .timeStamp(now())
-            .data(of("product", product))
+            .data(of("product", productService.get(id)))
             .message("Product retrieved")
             .status(OK)
             .statusCode(OK.value())
@@ -135,8 +139,8 @@ public class ProductResource {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<Response> updateProduct(@RequestBody @Valid Product newProduct, @PathVariable("id") Long id) {
-        return productService.get(id).map(product -> {
+    public ResponseEntity<Response> updateProduct(@RequestBody @Valid Product newProduct, @PathVariable Long id) {
+        return productService.getWithOptional(id).map(product -> {
             product.setName(newProduct.getName());
             product.setDescription(newProduct.getDescription());
             product.setPrice(newProduct.getPrice());
@@ -165,8 +169,24 @@ public class ProductResource {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PatchMapping(path = "/{id}", consumes = "application/json-patch+json")
+    public ResponseEntity<Response> updateParcial(@PathVariable Long id, @RequestBody JsonPatch patch) {
+        Product product = productService.get(id);
+        Product patched = applyPatchToProduct(patch, product);
+        return ResponseEntity.ok().body(
+            Response.builder()
+            .timeStamp(now())
+            .data(of("product", productService.update(patched)))
+            .message("Product patched")
+            .status(OK)
+            .statusCode(OK.value())
+            .build()
+        );
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         productService.delete(id);
         return ResponseEntity.status(NO_CONTENT).build();
     }
@@ -179,5 +199,19 @@ public class ProductResource {
             .append("-")
             .append(parse)
             .toString();
+    }
+
+    private Product applyPatchToProduct(JsonPatch patch, Product targetProduct) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode patched;
+        Product productPatched;
+        try {
+            patched = patch.apply(objectMapper.convertValue(targetProduct, JsonNode.class));
+            productPatched = objectMapper.treeToValue(patched, Product.class);
+        } catch (JsonPatchException | JsonProcessingException e) {
+            e.printStackTrace();
+            throw new ConflictException("Error applying patch to product");
+        }
+        return productPatched;
     }
 }

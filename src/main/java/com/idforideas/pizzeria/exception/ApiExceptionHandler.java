@@ -1,6 +1,7 @@
 package com.idforideas.pizzeria.exception;
 
 import static java.time.LocalDateTime.now;
+import static java.util.Map.of;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 @ControllerAdvice
 public class ApiExceptionHandler {
@@ -74,7 +76,7 @@ public class ApiExceptionHandler {
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler({
         BindException.class,
-        MethodArgumentNotValidException.class
+        MethodArgumentNotValidException.class,
     })
     @ResponseBody
     public Response handleValidationExceptions(HttpServletRequest request, BindException exception) {
@@ -85,6 +87,19 @@ public class ApiExceptionHandler {
                 .stream()
                 .map(e -> new Errors(((FieldError) e).getField(), e.getDefaultMessage()))
                 .collect(Collectors.toMap(Errors::fielName, Errors::errorMessage)))
+            .status(BAD_REQUEST)
+            .statusCode(BAD_REQUEST.value())
+            .path(request.getRequestURI())
+            .build();
+    }
+
+    @ResponseStatus(BAD_REQUEST)
+    @ExceptionHandler({MissingServletRequestPartException.class})
+    @ResponseBody
+    public Response multipartException(HttpServletRequest request, MissingServletRequestPartException exception) {
+        return Response.builder()
+            .timeStamp(now())
+            .errors(of(exception.getRequestPartName(), exception.getMessage()))
             .status(BAD_REQUEST)
             .statusCode(BAD_REQUEST.value())
             .path(request.getRequestURI())
@@ -104,8 +119,6 @@ public class ApiExceptionHandler {
             .path(request.getRequestURI())
             .build();
     }
-
-    
 
     @ResponseStatus(CONFLICT)
     @ExceptionHandler({ConflictException.class})
@@ -138,7 +151,6 @@ public class ApiExceptionHandler {
             .timeStamp(now())
             .exception(exception.getClass().getSimpleName())
             .message(exception.getMessage())
-            .stackTrace(exception.getStackTrace())
             .status(INTERNAL_SERVER_ERROR)
             .statusCode(INTERNAL_SERVER_ERROR.value())
             .path(request.getRequestURI())
