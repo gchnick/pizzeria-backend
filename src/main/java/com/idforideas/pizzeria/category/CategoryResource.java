@@ -7,6 +7,7 @@ import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import lombok.RequiredArgsConstructor;
 
@@ -40,11 +42,17 @@ public class CategoryResource {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<Response> saveCategory(@RequestBody @Valid Category category) {
-        return ResponseEntity.status(CREATED)
+        Category createdCategory = categoryService.create(category);
+        URI uri = ServletUriComponentsBuilder
+            .fromCurrentRequest()
+            .path("{/id}")
+            .buildAndExpand(createdCategory.getId())
+            .toUri();
+        return ResponseEntity.created(uri)
                     .body(
                         Response.builder()
                         .timeStamp(now())
-                        .data(of("category", categoryService.create(category)))
+                        .data(of("category", createdCategory))
                         .message("Category created")
                         .status(CREATED)
                         .statusCode(CREATED.value())
@@ -98,7 +106,7 @@ public class CategoryResource {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<Response> updateCategory(@RequestBody @Valid Category newCategory, @PathVariable("id") Long id) {
+    public ResponseEntity<Response> updateCategory(@PathVariable Long id, @RequestBody @Valid Category newCategory) {
         return categoryService.getWithOptional(id).map(category -> {
             categoryService.valid(newCategory);
             category.setName(newCategory.getName());
@@ -112,14 +120,20 @@ public class CategoryResource {
                 .build()
             );
         }).orElseGet(() -> {
-            return ResponseEntity.status(CREATED).body(
+            Category createdCategory = categoryService.create(newCategory);
+            URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("{/id}")
+                .buildAndExpand(createdCategory.getId())
+                .toUri();
+            return ResponseEntity.created(uri).body(
                 Response.builder()
-                .timeStamp(now())
-                .data(of("category", categoryService.create(newCategory)))
-                .message("Category created")
-                .status(CREATED)
-                .statusCode(CREATED.value())
-                .build()
+                    .timeStamp(now())
+                    .data(of("category", createdCategory))
+                    .message("Category created")
+                    .status(CREATED)
+                    .statusCode(CREATED.value())
+                    .build()
             );
         });
     }

@@ -6,12 +6,8 @@ import static org.springframework.data.domain.Sort.by;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 import javax.validation.Valid;
 
@@ -38,13 +34,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 
-@RestController
+@RestController()
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
 public class ProductResource {
@@ -67,24 +61,6 @@ public class ProductResource {
                             .statusCode(CREATED.value())
                             .build()
                         );
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping(path = "/with-picture", consumes = MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Response> saveProductWithPicture(@Valid Product product,
-        @RequestPart(required = true) MultipartFile file) throws IllegalStateException, IOException {
-            product.setPictureURL( parsePathPicture(file.getOriginalFilename()) );
-            file.transferTo(new File(path.concat(product.getPictureURL())));
-            return ResponseEntity.status(CREATED)
-                .body(
-                    Response.builder()
-                    .timeStamp(now())
-                    .data(of("product", productService.create(product)))
-                    .message("Product created")
-                    .status(CREATED)
-                    .statusCode(CREATED.value())
-                    .build()
-                );
     }
 
     @GetMapping("/{id}")
@@ -189,16 +165,6 @@ public class ProductResource {
     public ResponseEntity<?> delete(@PathVariable Long id) {
         productService.delete(id);
         return ResponseEntity.status(NO_CONTENT).build();
-    }
-
-    private String parsePathPicture(String fileName) {
-        String parse = fileName.replace(" ", "-")
-            .replace(":", "")
-            .replace("\\", "");
-        return new StringBuilder().append(UUID.randomUUID().toString())
-            .append("-")
-            .append(parse)
-            .toString();
     }
 
     private Product applyPatchToProduct(JsonPatch patch, Product targetProduct) {
