@@ -107,7 +107,7 @@ public class CategoryResource {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Response> updateCategory(@PathVariable Long id, @RequestBody @Valid Category newCategory) {
-        return categoryService.getWithOptional(id).map(category -> {
+        return categoryService.getAsOptional(id).map(category -> {
             categoryService.valid(newCategory);
             category.setName(newCategory.getName());
             return ResponseEntity.ok(

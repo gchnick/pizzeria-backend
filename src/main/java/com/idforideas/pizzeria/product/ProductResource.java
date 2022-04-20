@@ -116,7 +116,7 @@ public class ProductResource {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Response> updateProduct(@RequestBody @Valid Product newProduct, @PathVariable Long id) {
-        return productService.getWithOptional(id).map(product -> {
+        return productService.getAsOptional(id).map(product -> {
             product.setName(newProduct.getName());
             product.setDescription(newProduct.getDescription());
             product.setPrice(newProduct.getPrice());

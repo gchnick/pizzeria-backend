@@ -12,7 +12,7 @@ public interface ProductService {
 
     Product get(Long id);
     
-    Optional<Product> getWithOptional(Long id);
+    Optional<Product> getAsOptional(Long id);
 
     Collection<Product> list();
 

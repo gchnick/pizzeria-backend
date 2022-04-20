@@ -14,7 +14,7 @@ public interface CategoryService {
 
     Category get(String name);
 
-    Optional<Category> getWithOptional(Long id);
+    Optional<Category> getAsOptional(Long id);
 
     Collection<Category> list();
 

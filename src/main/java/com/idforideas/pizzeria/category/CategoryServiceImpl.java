@@ -41,7 +41,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Optional<Category> getWithOptional(Long id) {
+    public Optional<Category> getAsOptional(Long id) {
         log.info("Finding category by id {}", id);
         return categoryRepo.findById(id);
     }

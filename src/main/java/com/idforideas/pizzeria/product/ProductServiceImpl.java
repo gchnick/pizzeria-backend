@@ -36,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<Product> getWithOptional(Long id) {
+    public Optional<Product> getAsOptional(Long id) {
         log.info("Finding product by id {}", id);
         return productRepo.findById(id);
     }
