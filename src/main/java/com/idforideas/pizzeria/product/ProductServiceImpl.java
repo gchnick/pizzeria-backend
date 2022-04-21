@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Optional;
 
 import com.idforideas.pizzeria.category.Category;
-import com.idforideas.pizzeria.category.CategoryRepo;
 import com.idforideas.pizzeria.exception.NotFoundException;
 
 import org.springframework.data.domain.Page;
@@ -21,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ProductServiceImpl implements ProductService {
     private final ProductRepo productRepo;
-    private final CategoryRepo categoryRepo;
 
     @Override
     public Product create(Product product) {
@@ -54,20 +52,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> findByCategoryId(Long categoryId, Pageable pageable) {
-        log.info("Finding product by category id {}", categoryId);
-        Category category = categoryRepo.findById(categoryId).orElseThrow();
-        return this.findByCategory(category, pageable);
+    public Collection<Product> findByCategory(Category category) {
+        log.info("Finding product by category name {}", category.getName());
+        return productRepo.findByCategory(category);
     }
 
     @Override
-    public Page<Product> findByCategoryName(String categoryName, Pageable pageable) {
-        log.info("Finding product by category name {}", categoryName);
-        Category category = categoryRepo.findByNameIgnoreCase(categoryName).orElseThrow();
-        return this.findByCategory(category, pageable);
-    }
-
-    private Page<Product> findByCategory(Category category, Pageable pageable) {
+    public Page<Product> findByCategory(Category category, Pageable pageable) {
+        log.info("Finding product by category name {} with pageable", category.getName());
         return productRepo.findByCategory(category, pageable);
     }
 
