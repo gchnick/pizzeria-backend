@@ -73,6 +73,11 @@ public class CategoryResource {
         );
     }
 
+    /**
+     * @param page Pagina
+     * @param size Cantidad
+     * @param sort Ordenar
+     */
     @GetMapping
     public ResponseEntity<Response> getCategories(
         @RequestParam(defaultValue = "0") int page,

@@ -80,13 +80,13 @@ public class CustomAuthenticaionFilter extends UsernamePasswordAuthenticationFil
         Algorithm algorithm = Algorithm.HMAC256(System.getenv(SECRET).getBytes());
         return JWT.create()
             .withSubject(user.getEmail())
-            .withExpiresAt(new Date(System.currentTimeMillis() + min * 60 * 1000))
+            .withExpiresAt(new Date(System.currentTimeMillis() + minExpires * 60 * 1000))
             .withIssuer(access.request().getRequestURL().toString())
             .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
             .sign(algorithm);
     }
 
-    private Collection<String, String> getTokens(Access access) {
+    private Map<String, String> getTokens(Access access) {
         String accessToken = createJWT(access, 10);
         String refreshToken = createJWT(access, 30);
         Map<String, String> tokens = new HashMap<>();
