@@ -16,6 +16,9 @@ import lombok.Data;
 @MappedSuperclass
 public abstract class BaseEntity  {
 
+    /**
+     * Identificación única
+     */
     @Id
     @GeneratedValue(strategy = IDENTITY)
     protected Long id;

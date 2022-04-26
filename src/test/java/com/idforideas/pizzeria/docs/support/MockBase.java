@@ -1,4 +1,4 @@
-package com.idforideas.pizzeria.docs;
+package com.idforideas.pizzeria.docs.support;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -72,7 +72,6 @@ public class MockBase {
                 .uris()
                 .withScheme("https")
                 .withHost("donremolo-backend.herokuapp.com")
-                .withPort(8080)
                 .and().snippets()
                 .withDefaults(CliDocumentation.curlRequest(),
                         HttpDocumentation.httpRequest(),

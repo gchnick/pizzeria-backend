@@ -22,6 +22,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Category extends BaseEntity {
 
+    /**
+     * Nombre único de la categoría
+     */
     @NotBlank
     @Size(min = 3, max = 100)
     @Column(nullable = false, unique = true, length = 100)

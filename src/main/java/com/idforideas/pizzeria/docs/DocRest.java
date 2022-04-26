@@ -10,6 +10,6 @@ public class DocRest {
     
     @GetMapping
     public String doc() {
-        return "/docs/rest-documentation";    
+        return "/docs/index";    
     }
 }

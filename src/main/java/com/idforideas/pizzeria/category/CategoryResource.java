@@ -60,6 +60,11 @@ public class CategoryResource {
                     );
     }
 
+    /**
+     * Devuelve una categoría por ID
+     * @param id ID de la categoría a recuperar
+     * @return {@link Response}
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Response> getCategory(@PathVariable("id") Long id) {
         return ResponseEntity.ok(
@@ -74,9 +79,26 @@ public class CategoryResource {
     }
 
     /**
-     * @param page Pagina
-     * @param size Cantidad
-     * @param sort Ordenar
+     * Devuelve una categoría por nombre
+     * @param name Nombre de la categoría a recuperar. No se hace distinción entre mayúsculas o minúsculas
+     * @return {@link Response}
+     */
+    @GetMapping("/category/{name}")
+    public ResponseEntity<Response> getCategory(@PathVariable("name") String name) {
+        return ResponseEntity.ok(
+            Response.builder()
+            .timeStamp(now())
+            .data(of("category", categoryService.get(name)))
+            .message("Category retrieved")
+            .status(OK)
+            .statusCode(OK.value())
+            .build()
+        );
+    }
+
+    /**
+     * Devuelve una lista paginada de categorías
+     * @return {@link Response}
      */
     @GetMapping
     public ResponseEntity<Response> getCategories(
@@ -93,19 +115,6 @@ public class CategoryResource {
                 .status(OK)
                 .statusCode(OK.value())
                 .build()
-        );
-    }
-
-    @GetMapping("/category/{name}")
-    public ResponseEntity<Response> getCategory(@PathVariable("name") String name) {
-        return ResponseEntity.ok(
-            Response.builder()
-            .timeStamp(now())
-            .data(of("category", categoryService.get(name)))
-            .message("Category retrieved")
-            .status(OK)
-            .statusCode(OK.value())
-            .build()
         );
     }
 
