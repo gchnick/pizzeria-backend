@@ -3,6 +3,10 @@ package com.idforideas.pizzeria.category;
 import java.util.Collection;
 import java.util.Optional;
 
+import com.idforideas.pizzeria.exception.BadRequestException;
+import com.idforideas.pizzeria.exception.NotFoundException;
+import com.idforideas.pizzeria.product.ProductRepo;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -17,24 +21,33 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepo categoryRepo;
+    private final ProductRepo produdctRepo;
 
     @Override
     public Category create(Category category) {
         log.info("Saving new category {}",  category.getName());
+        valid(category);
         return categoryRepo.save(category);
     }
 
     @Override
-    public Optional<Category> get(Long id) {
+    public Category get(Long id) {
+        log.info("Finding category by id {}", id);
+        return categoryRepo.findById(id).orElseThrow(() -> new NotFoundException("Id category not exists"));
+    }
+
+    @Override
+    public Category get(String name) {
+        log.info("Finding category by name {}", name);
+        return categoryRepo.findByNameIgnoreCase(name).orElseThrow(() -> new NotFoundException("Name category not exists"));
+    }
+
+    @Override
+    public Optional<Category> getAsOptional(Long id) {
         log.info("Finding category by id {}", id);
         return categoryRepo.findById(id);
     }
 
-    @Override
-    public Optional<Category> get(String name) {
-        log.info("Finding category by name {}", name);
-        return categoryRepo.findByNameIgnoreCase(name);
-    }
 
     @Override
     public Collection<Category> list() {
@@ -57,8 +70,19 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void delete(Long id) {
         log.info("Deleting category by id {}",id);
-        if(categoryRepo.existsById(id)){
-            this.categoryRepo.deleteById(id);
+        Optional<Category> category = categoryRepo.findById(id);
+        if(category.isPresent()){
+            produdctRepo.deleteAllByCategory(category.get());
+            categoryRepo.deleteById(id);
+        }
+    }
+
+    @Override
+    public void valid(Category category) {
+        boolean isPresent = categoryRepo.findByNameIgnoreCase(category.getName()).isPresent();
+        if(isPresent) { 
+            log.error("{} category is already registered", category.getName());
+            throw new BadRequestException("The name of category is already registered");
         }
     }
     

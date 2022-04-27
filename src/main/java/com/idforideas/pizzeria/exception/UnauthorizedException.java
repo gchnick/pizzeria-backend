@@ -1,4 +1,4 @@
-package com.idforideas.pizzeria.exceptions;
+package com.idforideas.pizzeria.exception;
 
 public class UnauthorizedException extends RuntimeException{
 

@@ -10,9 +10,11 @@ public interface CategoryService {
 
     Category create(Category category);
 
-    Optional<Category> get(Long id);
+    Category get(Long id);
 
-    Optional<Category> get(String name);
+    Category get(String name);
+
+    Optional<Category> getAsOptional(Long id);
 
     Collection<Category> list();
 
@@ -20,5 +22,7 @@ public interface CategoryService {
 
     Category update(Category category);
 
-    void delete(Long id);    
+    void delete(Long id);
+    
+    void valid(Category category);
 }

@@ -1,12 +1,12 @@
-package com.idforideas.pizzeria.security;
+package com.idforideas.pizzeria.config.security;
 
+import static com.idforideas.pizzeria.config.security.CustomEnvironmentVariables.SECRET;
+import static java.util.Map.of;
+import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static com.idforideas.pizzeria.security.CustomEnvironmentVariables.SECRET;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
@@ -17,7 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.idforideas.pizzeria.appuser.AppUser;
+import com.idforideas.pizzeria.auth.Tokens;
+import com.idforideas.pizzeria.util.Response;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -55,25 +58,39 @@ public class CustomAuthenticaionFilter extends UsernamePasswordAuthenticationFil
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
             Authentication authentication) throws IOException, ServletException {
-        AppUser user = (AppUser) authentication.getPrincipal();
-        Algorithm algorithm = Algorithm.HMAC256(System.getenv(SECRET).getBytes());
-        String accessToken = JWT.create()
-            .withSubject(user.getEmail())
-            .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
-            .withIssuer(request.getRequestURL().toString())
-            .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-            .sign(algorithm);
-        String refreshToken = JWT.create()
-            .withSubject(user.getEmail())
-            .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
-            .withIssuer(request.getRequestURL().toString())
-            .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-            .sign(algorithm);
-        Map<String, String> tokens = new HashMap<>();
-        tokens.put("access_token", accessToken);
-        tokens.put("refresh_token", refreshToken);
+        
+        Access access = new Access(authentication, request);
+
         response.setContentType(APPLICATION_JSON_VALUE);
-        new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+
+        new ObjectMapper().writeValue(response.getOutputStream(), 
+            Response.builder()
+                .data(of("tokens", getTokens(access)))
+                .message("Tokens created")
+                .status(OK)
+                .statusCode(OK.value())
+            .build()
+        );
     }
+
+    private String createJWT(Access access, int minExpires) {
+        AppUser user = (AppUser) access.authentication().getPrincipal();
+        Algorithm algorithm = Algorithm.HMAC256(System.getenv(SECRET).getBytes());
+        return JWT.create()
+            .withSubject(user.getEmail())
+            .withExpiresAt(new Date(System.currentTimeMillis() + minExpires * 60 * 1000))
+            .withIssuer(access.request().getRequestURL().toString())
+            .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+            .sign(algorithm);
+    }
+
+    private Tokens getTokens(Access access) {
+        String accessToken = createJWT(access, 10);
+        String refreshToken = createJWT(access, 30);
+       
+        return new Tokens(accessToken, refreshToken);
+    }
+
+    private record Access (Authentication authentication, HttpServletRequest request) {}
 
 }

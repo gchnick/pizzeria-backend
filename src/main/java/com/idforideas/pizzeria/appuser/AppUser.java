@@ -1,18 +1,18 @@
 package com.idforideas.pizzeria.appuser;
 
-import static javax.persistence.GenerationType.AUTO;
 import static javax.persistence.EnumType.STRING;
 
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.idforideas.pizzeria.util.BaseEntity;
 import com.idforideas.pizzeria.validation.Password;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.Collection;
@@ -35,15 +36,15 @@ import javax.persistence.Column;
 @Entity
 @Table(name = "users")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class AppUser implements UserDetails {
-    @Id @GeneratedValue(strategy = AUTO)
-    private Long id;
+public class AppUser extends BaseEntity implements UserDetails {
 
     @NotBlank
     @Size(min = 3, max = 100)
-    @Column(nullable = false, length = 100)
+    @Column(name = "full_name", nullable = false, length = 100)
+    @JsonProperty("full_name")
     private String fullName;
 
     @Email
@@ -54,6 +55,7 @@ public class AppUser implements UserDetails {
 
     @Password
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
 
     @NotNull
@@ -61,10 +63,12 @@ public class AppUser implements UserDetails {
     @Column(nullable = false, length = 16)
     private AppUserRole role;
 
+    @JsonIgnore
     public String getName() {
         return fullName;
     }
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.name());
@@ -72,25 +76,30 @@ public class AppUser implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public String getUsername() {
         return email;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;

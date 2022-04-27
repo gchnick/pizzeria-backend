@@ -1,0 +1,178 @@
+= Documentación de la API REST
+Documentada por: 
+Nick Galan - Powered by team #221 of idforideas.com
+:doctype: book
+:page-layout!:
+:toc: left
+:toclevels: 2
+:sectanchors:
+:sectlinks:
+:sectnums:
+:linkattrs:
+:source-highlighter: highlightjs
+
+
+[[overview]]
+= Descripción
+
+Esta es una interfaz de programación de aplicaciones (API o API web) que se ajusta a los límites de la arquitectura REST *(API de RESTful)*. Esta diseñada para entender la solicitud de la *Pizzería Don Remolo*, y asi proveer un sistema de solicitud de pedidos y envíos a la carta. A la vez que sus administradores puedan mantener al dia los productos ofrecidos.
+
+Este documento describe como se puede usar este backend API REST. El equipo de frontend puede usar esta información para poder comunicarse con una base de datos.
+
+[[overview-general]]
+== General
+
+[[overview-http-verbs]]
+=== Verbos HTTP
+
+HTTP define un conjunto de *métodos de petición* para indicar la acción que se desea realizar para un recurso determinado. Se describirán a continuación los verbos HTTP implementados en esta API y como se usan.
+
+.Verbos HTTP usados en esta API
+|===
+| Verbo | Uso
+
+| `GET`
+| Se utiliza para recuperar un recurso (idempotente)
+
+| `POST`
+| Se utiliza para crear un nuevo recurso
+
+| `PUT`
+| Se utilizada para actualizar un recurso existente. Este reemplaza todas las representaciones actuales del recurso existente con la carga útil de la petición (idempotente)
+
+| `PATCH`
+| Se utilizada para aplicar modificaciones parciales a un recurso existente.
+
+| `DELETE`
+| Se utilizada para eliminar un recurso existente (idempotente)
+|===
+
+[[overview-response]]
+=== Common response fields
+
+Una solicitud a un punto final o `enpoint` obtiene una carga útil o `payload` en el cuerpo de la respuesta. En la siguiente tabla se describen los campos más comunes.
+
+.Campos comunes en la respuesta
+|===
+| Path | Tipo | Opcional | Descripción
+
+| timeStamp
+| String
+| false
+| Marca temporal en la que ocurrió el evento
+
+| statusCode
+| Integer
+| false
+| Códigos de estado de respuesta HTTP
+
+| status
+| String
+| false
+| Frase estándar asociada al código de estado de respuesta HTTP
+
+| message
+| String
+| true
+| Mensaje explicativo sobre el evento ocurrido
+
+| path
+| String
+| true
+| Ruta en la que ocurrió el error
+
+| errors
+| Map
+| true
+| Campos y mensajes de errores
+
+| data
+| Map
+| true
+| Datos del recurso recuperado
+|===
+
+[[overview-pagination]]
+=== Paginación
+
+La paginación de esta API dispone de los siguientes parámetros de solicitud (request parameters):
+
+.Parámetros de solicitud
+|===
+| Parámetro | Tipo | Opcional | Descripción
+
+| page
+| Integer
+| true
+| Página que desea recuperar, 0 por defecto.
+
+| size
+| Integer
+| true
+| Tamaño de la pagina que desea recuperar, 5 por defecto.
+
+| sort
+| String
+| true
+| Propiedades por las que se debe ordenar el formato `property,property(,ASC\|DESC)`. La dirección de clasificación predeterminada es ascendente. Utilice varios parámetros de clasificación si desea cambiar la dirección, p. ej. `?sort=name&sort=price,asc`.
+|===
+
+Una respuesta con paginación tiene la siguiente estructura:
+
+.Estructura de respuesta
+|===
+| Path | Tipo | Opcional | Descripción
+
+| content
+| Array[Object]
+| false
+| Objectos recuperados
+
+| totalElements
+| Integer
+| false
+| Total de elementos en registrados
+
+| totalPages
+| Integer
+| false
+| Total de páginas con el tamaño de página actual
+
+| last
+| Boolean
+| false
+| Si esta página es la última
+
+| numberOfElements
+| Integer
+| false
+| Tamaño actual de la matriz de 'content' (número de elementos).
+
+| first
+| Boolean
+| false
+| Si esta página es la primera.
+
+| sort
+| Object
+| true
+| Objecto con información de orden.
+
+| size
+| Integer
+| false
+| Tamaño solicitado de la página.
+
+| number
+| Integer
+| false
+| Número de página.
+|===
+
+[[resources]]
+= Recursos
+
+Esta pagina documenta todos los recursos implementados en la API hasta el momento.
+
+include::category.adoc[]
+include::product.adoc[]

@@ -1,9 +1,9 @@
-package com.idforideas.pizzeria.security;
+package com.idforideas.pizzeria.config.security;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static com.idforideas.pizzeria.security.CustomEnvironmentVariables.SECRET;
+import static com.idforideas.pizzeria.config.security.CustomEnvironmentVariables.SECRET;
 import static java.util.Arrays.stream;
 
 import java.io.IOException;
@@ -41,7 +41,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        if(request.getServletPath().equals("/api/v1/login") || request.getServletPath().equals("/api/v1/users/token/refresh")) {
+        if(request.getServletPath().equals("/api/v1/auth/token") || request.getServletPath().equals("/api/v1/auth/token/refresh")) {
             filterChain.doFilter(request, response);
         } else {
             String authorizationHeader = request.getHeader(AUTHORIZATION);
@@ -62,10 +62,10 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     filterChain.doFilter(request, response);
                 } catch (Exception e) {
                     log.error("Error logging in: {}", e.getMessage());
-                    response.setHeader("error", e.getMessage());
+                    response.setHeader("errors", e.getMessage());
                     response.setStatus(FORBIDDEN.value());
                     Map<String, String> error = new HashMap<>();
-                    error.put("error_message",  e.getMessage());
+                    error.put("error",  e.getMessage());
                     response.setContentType(APPLICATION_JSON_VALUE);
                     new ObjectMapper().writeValue(response.getOutputStream(), error);
                 }
