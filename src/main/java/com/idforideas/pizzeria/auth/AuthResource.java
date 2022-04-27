@@ -1,14 +1,14 @@
-package com.idforideas.pizzeria.security;
+package com.idforideas.pizzeria.auth;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static com.idforideas.pizzeria.security.CustomEnvironmentVariables.SECRET;
+import static java.util.Map.of;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.auth0.jwt.JWT;
@@ -18,6 +18,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.idforideas.pizzeria.appuser.AppUser;
 import com.idforideas.pizzeria.appuser.AppUserService;
+import com.idforideas.pizzeria.util.Response;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,7 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 
 @RequestMapping("/api/v1/auth/token")
-public class TokenRefreshResource {
+public class AuthResource {
 
     @Autowired
     private AppUserService userService;
@@ -50,19 +51,28 @@ public class TokenRefreshResource {
                     .withIssuer(request.getRequestURL().toString())
                     .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                     .sign(algorithm);
-                Map<String, String> tokens = new HashMap<>();
-                tokens.put("access_token", accessToken);
-                tokens.put("refresh_token", refreshToken);
                 response.setContentType(APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+                response.setStatus(OK.value());
+
+                new ObjectMapper().writeValue(response.getOutputStream(), 
+                    Response.builder()
+                        .data(of("tokens", new Tokens(accessToken, refreshToken)))
+                        .message("Token created")
+                        .status(OK)
+                        .statusCode(OK.value())
+                    .build());
                
             } catch (Exception e) {
                 response.setHeader("error", e.getMessage());
                 response.setStatus(FORBIDDEN.value());
-                Map<String, String> error = new HashMap<>();
-                error.put("error_message",  e.getMessage());
                 response.setContentType(APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(), error);
+                new ObjectMapper().writeValue(response.getOutputStream(), 
+                    Response.builder()
+                        .message("Error trying to refresh token")
+                        .errors(of("exception", e.getMessage()))
+                        .status(FORBIDDEN)
+                        .statusCode(FORBIDDEN.value())
+                    .build());
             }
         } else {
             throw new RuntimeException("Refresh token is missing");

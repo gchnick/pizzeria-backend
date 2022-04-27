@@ -2,6 +2,7 @@ package com.idforideas.pizzeria.docs.category;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
@@ -23,5 +24,15 @@ public class CategoryResourceTest extends MockBase {
         mockMvc.perform(get("/api/v1/categories").contentType(APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(APPLICATION_JSON));
+    }
+
+    @Test
+    void addCategory() throws Exception {
+        mockMvc.perform(post("/api/v1/categories")
+        .with(userToken())
+        .contentType(APPLICATION_JSON)
+        .content("{\"name\":\"Helados\"}"))
+        .andExpect(status().isCreated())
+        .andExpect(content().contentType(APPLICATION_JSON));
     }
 }

@@ -8,6 +8,8 @@ Usted puede administrar una lista de categorías de los productos en su pizzerí
 
 include::{snippets}/category-resource-test/get-category/auto-method-path.adoc[]
 
+include::{snippets}/category-resource-test/get-category/auto-description.adoc[]
+
 ==== Autorización
 
 include::{snippets}/category-resource-test/get-category/auto-authorization.adoc[]
@@ -22,7 +24,8 @@ include::{snippets}/category-resource-test/get-category/auto-request-fields.adoc
 
 ==== Campos de respuesta (response fields)
 
-include::{snippets}/category-resource-test/get-category/auto-response-fields.adoc[]
+Pendiente documentación de respuesta
+// include::{snippets}/category-resource-test/get-category/auto-response-fields.adoc[]
 
 ==== Ejemplo de request/response
 
@@ -47,12 +50,41 @@ include::{snippets}/category-resource-test/get-all-categories/auto-request-field
 
 ==== Campos de respuesta (response fields)
 
-include::{snippets}/category-resource-test/get-all-categories/auto-response-fields.adoc[]
+Pendiente documentación de respuesta
+// include::{snippets}/category-resource-test/get-all-categories/auto-response-fields.adoc[]
 
-==== Ejemplo de request/response
+==== Ejemplo de request
 
 include::{snippets}/category-resource-test/get-all-categories/curl-request.adoc[]
 
-The array shortening feature intercepted here and reduced the 100 items to 3.
+==== Ejemplo de response
 
 include::{snippets}/category-resource-test/get-all-categories/http-response.adoc[]
+
+[[resources-category-add]]
+=== Añadir nueva categoría
+
+include::{snippets}/category-resource-test/add-category/auto-method-path.adoc[]
+
+include::{snippets}/category-resource-test/add-category/auto-description.adoc[]
+
+==== Autorización
+
+include::{snippets}/category-resource-test/add-category/auto-authorization.adoc[]
+
+==== Campos de solicitud (request fields)
+
+include::{snippets}/category-resource-test/add-category/auto-request-fields.adoc[]
+
+==== Campos de respuesta (response fields)
+
+Pendiente documentación de respuesta
+// include::{snippets}/category-resource-test/add-category/auto-response-fields.adoc[]
+
+==== Ejemplo de request
+
+include::{snippets}/category-resource-test/add-category/curl-request.adoc[]
+
+==== Ejemplo de response
+
+include::{snippets}/category-resource-test/add-category/http-response.adoc[]

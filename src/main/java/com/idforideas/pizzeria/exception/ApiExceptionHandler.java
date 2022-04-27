@@ -112,7 +112,7 @@ public class ApiExceptionHandler {
     public Response forbiddenRequest(HttpServletRequest request, Exception exception) {
         return Response.builder()
             .timeStamp(now())
-            .exception(exception.getClass().getSimpleName())
+            .errors(of("exception", exception.getClass().getSimpleName()))
             .message(exception.getMessage())
             .status(FORBIDDEN)
             .statusCode(FORBIDDEN.value())
@@ -126,7 +126,7 @@ public class ApiExceptionHandler {
     public Response conflict(HttpServletRequest request, Exception exception) {
         return Response.builder()
             .timeStamp(now())
-            .exception(exception.getClass().getSimpleName())
+            .errors(of("exception", exception.getClass().getSimpleName()))
             .message(exception.getMessage())
             .status(CONFLICT)
             .statusCode(CONFLICT.value())
@@ -149,7 +149,7 @@ public class ApiExceptionHandler {
     public Response fatalErrorUnexpectedException(HttpServletRequest request, Exception exception) {
         return Response.builder()
             .timeStamp(now())
-            .exception(exception.getClass().getSimpleName())
+            .errors(of("exception", exception.getClass().getSimpleName()))
             .message(exception.getMessage())
             .status(INTERNAL_SERVER_ERROR)
             .statusCode(INTERNAL_SERVER_ERROR.value())
@@ -157,5 +157,5 @@ public class ApiExceptionHandler {
             .build();
     }
     
-    record Errors (String fielName, String errorMessage){};
+    private record Errors (String fielName, String errorMessage){};
 }

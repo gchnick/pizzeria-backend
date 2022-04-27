@@ -1,5 +1,6 @@
 -- USER
 INSERT INTO Users (full_name, email, password, role) VALUES ('Jhon Doe', 'jhon.doe@mail.com', '$2a$10$7TB3GlYYojP3qBKEPoU2Ou1hLsX6/V5iO.V3xMLJCX0rCC0UbrPZm', 'ROLE_ADMIN');
+INSERT INTO Users (full_name, email, password, role) VALUES ('Docs Test', 'test@mail.com', '$2a$10$7TB3GlYYojP3qBKEPoU2Ou1hLsX6/V5iO.V3xMLJCX0rCC0UbrPZm', 'ROLE_ADMIN');
 
 -- CATEGORY
 INSERT INTO Categories VALUES (1, 'Pizzas');

@@ -1,14 +1,12 @@
 package com.idforideas.pizzeria.security;
 
-import static java.time.LocalDateTime.now;
+import static java.util.Map.of;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static com.idforideas.pizzeria.security.CustomEnvironmentVariables.SECRET;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
@@ -21,6 +19,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.idforideas.pizzeria.appuser.AppUser;
+import com.idforideas.pizzeria.auth.Tokens;
 import com.idforideas.pizzeria.util.Response;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -66,8 +65,7 @@ public class CustomAuthenticaionFilter extends UsernamePasswordAuthenticationFil
 
         new ObjectMapper().writeValue(response.getOutputStream(), 
             Response.builder()
-                .timeStamp(now())
-                .data(getTokens(access))
+                .data(of("tokens", getTokens(access)))
                 .message("Tokens created")
                 .status(OK)
                 .statusCode(OK.value())
@@ -86,13 +84,11 @@ public class CustomAuthenticaionFilter extends UsernamePasswordAuthenticationFil
             .sign(algorithm);
     }
 
-    private Map<String, String> getTokens(Access access) {
+    private Tokens getTokens(Access access) {
         String accessToken = createJWT(access, 10);
         String refreshToken = createJWT(access, 30);
-        Map<String, String> tokens = new HashMap<>();
-        tokens.put("token", accessToken);
-        tokens.put("refreshToken", refreshToken);
-        return tokens;
+       
+        return new Tokens(accessToken, refreshToken);
     }
 
     private record Access (Authentication authentication, HttpServletRequest request) {}

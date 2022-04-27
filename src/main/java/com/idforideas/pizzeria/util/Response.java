@@ -12,15 +12,22 @@ import org.springframework.http.HttpStatus;
 import lombok.Builder;
 
 
+/**
+ * Response general
+ * @param timeStamp
+ * @param statusCode
+ * @param status
+ * @param message
+ * @param path
+ * @param errors
+ * @param data
+ */
 @JsonInclude(NON_NULL)
 @Builder
 public record Response(LocalDateTime timeStamp,
     int statusCode,
     HttpStatus status,
-    String reason,
     String message,
-    String exception,
-    String developerMessage,
     String path,
     Map<?, ?> errors,
     Map<?, ?> data) {    

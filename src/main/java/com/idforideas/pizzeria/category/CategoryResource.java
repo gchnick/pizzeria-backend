@@ -39,6 +39,11 @@ public class CategoryResource {
     private final CategoryService categoryService;
     private final SortUtil sort;
 
+    /**
+     * Añadir nueva <b>categoría</b>
+     * @param category Información de la categoría
+     * @return {@link Response}
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<Response> saveCategory(@RequestBody @Valid Category category) {
@@ -118,6 +123,12 @@ public class CategoryResource {
         );
     }
 
+    /**
+     * 
+     * @param id
+     * @param newCategory
+     * @return
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Response> updateCategory(@PathVariable Long id, @RequestBody @Valid Category newCategory) {
@@ -152,6 +163,11 @@ public class CategoryResource {
         });
     }
 
+    /**
+     * 
+     * @param id
+     * @return
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {

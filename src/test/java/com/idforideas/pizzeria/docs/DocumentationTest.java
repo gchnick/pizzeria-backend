@@ -14,6 +14,6 @@ public class DocumentationTest extends MockBase {
     void docsForwarding() throws Exception {
         mockMvc.perform(get("/docs"))
             .andExpect(status().isOk())
-            .andExpect(forwardedUrl("/docs/index.html"));
+            .andExpect(forwardedUrl("/docs/index"));
     }
 }

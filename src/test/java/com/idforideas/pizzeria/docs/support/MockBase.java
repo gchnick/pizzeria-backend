@@ -2,14 +2,16 @@ package com.idforideas.pizzeria.docs.support;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static com.idforideas.pizzeria.security.CustomEnvironmentVariables.USER_TEST;
 import static com.idforideas.pizzeria.security.CustomEnvironmentVariables.PWD_TEST;
 import static java.lang.System.getenv;
-
 
 import javax.servlet.Filter;
 
@@ -25,13 +27,12 @@ import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.cli.CliDocumentation;
 import org.springframework.restdocs.http.HttpDocumentation;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
-import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-// import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
 import capital.scalable.restdocs.AutoDocumentation;
 import capital.scalable.restdocs.jackson.JacksonResultHandlers;
@@ -42,7 +43,7 @@ import capital.scalable.restdocs.misc.AuthorizationSnippet;
 @SpringBootTest
 public class MockBase {
 
-    private static String DEFAULT_AUTHORIZATION = "Resource is public.";
+    private static String DEFAULT_AUTHORIZATION = "Recurso público.";
     
     @Autowired
     private ObjectMapper objectMapper;
@@ -50,8 +51,8 @@ public class MockBase {
     @Autowired
     private Filter springSecurityFilterChain;
 
-    // @Autowired
-    // private RequestMappingHandlerAdapter requestMappingHandlerAdapter;
+    @Autowired
+    private RequestMappingHandlerAdapter requestMappingHandlerAdapter;
 
     protected MockMvc mockMvc;
 
@@ -62,9 +63,9 @@ public class MockBase {
         .addFilters(springSecurityFilterChain)
         .alwaysDo(JacksonResultHandlers.prepareJackson(objectMapper))
         .alwaysDo(MockMvcRestDocumentation.document("{class-name}/{method-name}",
-                Preprocessors.preprocessRequest(
+                preprocessRequest(
                     prettyPrint()),
-                Preprocessors.preprocessResponse(
+                preprocessResponse(
                     ResponseModifyingPreprocessors.replaceBinaryContent(),
                     ResponseModifyingPreprocessors.limitJsonArrayLength(objectMapper),
                     prettyPrint())))
@@ -72,19 +73,18 @@ public class MockBase {
                 .uris()
                 .withScheme("https")
                 .withHost("donremolo-backend.herokuapp.com")
+                .withPort(443)
                 .and().snippets()
                 .withDefaults(CliDocumentation.curlRequest(),
                         HttpDocumentation.httpRequest(),
                         HttpDocumentation.httpResponse(),
                         AutoDocumentation.requestFields(),
-                        AutoDocumentation.responseFields(),
                         AutoDocumentation.pathParameters(),
                         AutoDocumentation.requestParameters(),
                         AutoDocumentation.description(),
                         AutoDocumentation.methodAndPath(),
-                        AutoDocumentation.section(),
-                        AutoDocumentation.authorization(DEFAULT_AUTHORIZATION)/*,
-                        AutoDocumentation.modelAttribute(requestMappingHandlerAdapter.getArgumentResolvers())*/))
+                        AutoDocumentation.authorization(DEFAULT_AUTHORIZATION),
+                        AutoDocumentation.modelAttribute(requestMappingHandlerAdapter.getArgumentResolvers())))
         .build();
     }
 
@@ -102,7 +102,7 @@ public class MockBase {
                     }
 
                     request.addHeader("Authorization", "Bearer " + accessToken);
-                    return AuthorizationSnippet.documentAuthorization(request, "User access token required.");
+                    return AuthorizationSnippet.documentAuthorization(request, "Se requiere token de acceso de usuario.");
             }
         };
     }
@@ -111,24 +111,21 @@ public class MockBase {
 
         String body = mockMvc
             .perform(
-                post("/api/v1/oauth/token")
+                post("/api/v1/auth/token")
                     .contentType(APPLICATION_FORM_URLENCODED)
                     .param("email", email)
-                    .param("password", password)
-                    // .param("grant_type", "password")
-                    // .param("scope", "read write")
-                    // .param("client_id", "app")
-                    /* .param("client_secret", "very_secret")*/)
+                    .param("password", password))
             .andExpect(status().isOk())
             .andExpect(content().contentType(APPLICATION_JSON))
-            // .andExpect(jsonPath("$.access_token", `is`(notNullValue())))
-            // .andExpect(jsonPath("$.token_type", `is`(equalTo("bearer"))))
-            // .andExpect(jsonPath("$.refresh_token", `is`(notNullValue())))
-            // .andExpect(jsonPath("$.expires_in", `is`(greaterThan(4000))))
-            // .andExpect(jsonPath("$.scope", `is`(equalTo("read write"))))
-            .andReturn().getResponse().toString();
+            .andExpect(jsonPath("$.data.tokens.accessToken").isNotEmpty())
+            .andExpect(jsonPath("$.data.tokens.refreshToken").isNotEmpty())
+            .andReturn().getResponse().getContentAsString();
 
-        return body.substring(17, 53);
+            int beginning = body.indexOf("accessToken");
+            beginning += "accessToken\":\"".length();
+            int end = body.indexOf("\"", beginning);
+
+        return body.substring(beginning, end);
     }
 
 }
