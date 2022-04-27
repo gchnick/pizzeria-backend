@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.idforideas.pizzeria.util.BaseEntity;
 import com.idforideas.pizzeria.validation.Password;
 
@@ -44,7 +43,6 @@ public class AppUser extends BaseEntity implements UserDetails {
     @NotBlank
     @Size(min = 3, max = 100)
     @Column(name = "full_name", nullable = false, length = 100)
-    @JsonProperty("full_name")
     private String fullName;
 
     @Email

@@ -12,7 +12,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.idforideas.pizzeria.category.Category;
 import com.idforideas.pizzeria.util.BaseEntity;
 
@@ -43,7 +42,6 @@ public class Product extends BaseEntity {
     private Float price;
 
     @Column(name = "picture_url")
-    @JsonProperty("picture_url")
     private String pictureURL;
 
     @ManyToOne(fetch = EAGER)
