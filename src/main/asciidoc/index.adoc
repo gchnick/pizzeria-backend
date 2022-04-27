@@ -50,7 +50,7 @@ HTTP define un conjunto de *métodos de petición* para indicar la acción que s
 [[overview-response]]
 === Common response fields
 
-Una solicitud a un punto final o 'enpoint' obtiene una carga útil o 'payload' en el cuerpo de la respuesta. En la siguiente tabla se describen los campos más comunes.
+Una solicitud a un punto final o `enpoint` obtiene una carga útil o `payload` en el cuerpo de la respuesta. En la siguiente tabla se describen los campos más comunes.
 
 .Campos comunes en la respuesta
 |===

@@ -1,9 +1,9 @@
-package com.idforideas.pizzeria.security;
+package com.idforideas.pizzeria.config.security;
 
+import static com.idforideas.pizzeria.config.security.CustomEnvironmentVariables.SECRET;
 import static java.util.Map.of;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static com.idforideas.pizzeria.security.CustomEnvironmentVariables.SECRET;
 
 import java.io.IOException;
 import java.util.Date;

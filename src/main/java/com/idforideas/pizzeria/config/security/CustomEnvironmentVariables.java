@@ -1,4 +1,4 @@
-package com.idforideas.pizzeria.security;
+package com.idforideas.pizzeria.config.security;
 
 public interface CustomEnvironmentVariables {
 

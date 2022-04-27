@@ -1,9 +1,9 @@
-package com.idforideas.pizzeria.security;
+package com.idforideas.pizzeria.config.security;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static com.idforideas.pizzeria.security.CustomEnvironmentVariables.SECRET;
+import static com.idforideas.pizzeria.config.security.CustomEnvironmentVariables.SECRET;
 import static java.util.Arrays.stream;
 
 import java.io.IOException;

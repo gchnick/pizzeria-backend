@@ -18,18 +18,16 @@ include::{snippets}/category-resource-test/get-category/auto-authorization.adoc[
 
 include::{snippets}/category-resource-test/get-category/auto-path-parameters.adoc[]
 
-==== Campos de solicitud (request fields)
-
-include::{snippets}/category-resource-test/get-category/auto-request-fields.adoc[]
-
 ==== Campos de respuesta (response fields)
 
-Pendiente documentación de respuesta
-// include::{snippets}/category-resource-test/get-category/auto-response-fields.adoc[]
+include::{snippets}/category-resource-test/get-category/response-fields.adoc[]
 
-==== Ejemplo de request/response
+==== Ejemplo de request
 
 include::{snippets}/category-resource-test/get-category/curl-request.adoc[]
+
+==== Ejemplo de response
+
 include::{snippets}/category-resource-test/get-category/http-response.adoc[]
 
 
@@ -44,14 +42,10 @@ include::{snippets}/category-resource-test/get-all-categories/auto-description.a
 
 include::{snippets}/category-resource-test/get-all-categories/auto-authorization.adoc[]
 
-==== Campos de solicitud (request fields)
-
-include::{snippets}/category-resource-test/get-all-categories/auto-request-fields.adoc[]
 
 ==== Campos de respuesta (response fields)
 
-Pendiente documentación de respuesta
-// include::{snippets}/category-resource-test/get-all-categories/auto-response-fields.adoc[]
+include::{snippets}/category-resource-test/get-all-categories/response-fields.adoc[]
 
 ==== Ejemplo de request
 
@@ -78,8 +72,7 @@ include::{snippets}/category-resource-test/add-category/auto-request-fields.adoc
 
 ==== Campos de respuesta (response fields)
 
-Pendiente documentación de respuesta
-// include::{snippets}/category-resource-test/add-category/auto-response-fields.adoc[]
+include::{snippets}/category-resource-test/add-category/response-fields.adoc[]
 
 ==== Ejemplo de request
 
@@ -88,3 +81,22 @@ include::{snippets}/category-resource-test/add-category/curl-request.adoc[]
 ==== Ejemplo de response
 
 include::{snippets}/category-resource-test/add-category/http-response.adoc[]
+
+[[resources-category-delete]]
+=== Eliminar categoría
+
+include::{snippets}/category-resource-test/delete-category/auto-method-path.adoc[]
+
+include::{snippets}/category-resource-test/delete-category/auto-description.adoc[]
+
+==== Autorización
+
+include::{snippets}/category-resource-test/delete-category/auto-authorization.adoc[]
+
+==== Ejemplo de request
+
+include::{snippets}/category-resource-test/delete-category/curl-request.adoc[]
+
+==== Ejemplo de response
+
+include::{snippets}/category-resource-test/delete-category/http-response.adoc[]

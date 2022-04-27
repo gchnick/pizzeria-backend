@@ -9,8 +9,8 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static com.idforideas.pizzeria.security.CustomEnvironmentVariables.USER_TEST;
-import static com.idforideas.pizzeria.security.CustomEnvironmentVariables.PWD_TEST;
+import static com.idforideas.pizzeria.config.security.CustomEnvironmentVariables.PWD_TEST;
+import static com.idforideas.pizzeria.config.security.CustomEnvironmentVariables.USER_TEST;
 import static java.lang.System.getenv;
 
 import javax.servlet.Filter;

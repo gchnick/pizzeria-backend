@@ -76,4 +76,10 @@ public class ProductServiceImpl implements ProductService {
             productRepo.deleteById(id);
         }
     }
+
+    @Override
+    public void deleteAllByCategory(Category category) {
+        log.info("Deleting all products by category {}",category.getName());
+        productRepo.deleteAllByCategory(category);
+    }
 }

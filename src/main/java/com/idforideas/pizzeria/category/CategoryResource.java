@@ -50,8 +50,8 @@ public class CategoryResource {
         Category createdCategory = categoryService.create(category);
         URI uri = ServletUriComponentsBuilder
             .fromCurrentRequest()
-            .path("{/id}")
-            .buildAndExpand(createdCategory.getId())
+            .path("/" + createdCategory.getId())
+            .buildAndExpand()
             .toUri();
         return ResponseEntity.created(uri)
                     .body(
@@ -124,10 +124,10 @@ public class CategoryResource {
     }
 
     /**
-     * 
-     * @param id
-     * @param newCategory
-     * @return
+     * Actualiza todos los campos de la categoría a la que pertenece el ID con la nueva información. En caso de no existir una categoría con el ID suministrado se procederá a crear una nueva categoría
+     * @param id ID de la categoría a actualizar
+     * @param newCategory Nueva información de categoría para aplicar en actualización
+     * @return {@link Response}
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
@@ -148,8 +148,8 @@ public class CategoryResource {
             Category createdCategory = categoryService.create(newCategory);
             URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
-                .path("{/id}")
-                .buildAndExpand(createdCategory.getId())
+                .path("/" + createdCategory.getId())
+                .buildAndExpand()
                 .toUri();
             return ResponseEntity.created(uri).body(
                 Response.builder()
@@ -164,9 +164,9 @@ public class CategoryResource {
     }
 
     /**
-     * 
-     * @param id
-     * @return
+     * Elimina la categoría a la que corresponde el ID suministrado. Tenga cuidado al usar este endpoint pues se eliminaran todos los productos asociados con esta categoría 
+     * @param id ID de la categoría a eliminar
+     * @return void
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")

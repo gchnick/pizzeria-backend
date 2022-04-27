@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.idforideas.pizzeria.exception.BadRequestException;
 import com.idforideas.pizzeria.exception.NotFoundException;
+import com.idforideas.pizzeria.product.ProductRepo;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepo categoryRepo;
+    private final ProductRepo produdctRepo;
 
     @Override
     public Category create(Category category) {
@@ -68,8 +70,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void delete(Long id) {
         log.info("Deleting category by id {}",id);
-        if(categoryRepo.existsById(id)){
-            this.categoryRepo.deleteById(id);
+        Optional<Category> category = categoryRepo.findById(id);
+        if(category.isPresent()){
+            produdctRepo.deleteAllByCategory(category.get());
+            categoryRepo.deleteById(id);
         }
     }
 
