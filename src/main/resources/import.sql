@@ -9,14 +9,15 @@ INSERT INTO Categories VALUES (3, 'Bebidas');
 INSERT INTO Categories VALUES (4, 'Postres');
 
 -- PRODUCTS (Pizzas)
-INSERT INTO Products (name, description, price, category_id) VALUES ('Napolitana', 'Excelente pizza con salsa napolitana', 12.6, 1);
-INSERT INTO Products (name, description, price, category_id) VALUES ('Peperoni', 'Pizza con panceta', 11.23, 1);
+INSERT INTO Products (id, name, description, price, category_id) VALUES (1, 'Napolitana', 'Excelente pizza con salsa napolitana', 12.6, 1);
+INSERT INTO Products (id, name, description, price, category_id) VALUES (2, 'Peperoni', 'Pizza con panceta', 11.23, 1);
+INSERT INTO Products (id, name, description, price, category_id) VALUES (3, 'Pizza de jamon', 'Con jamon de espalda', 10.50, 1);
 
 -- PRODUCTS (Empanadas)
-INSERT INTO Products (name, description, price, category_id) VALUES ('Empanada de carne', 'Tradicional empanada de carne desmechada', 0.57, 2);
+INSERT INTO Products (id ,name, description, price, category_id) VALUES (4, 'Empanada de carne', 'Tradicional empanada de carne desmechada', 0.57, 2);
 
 -- PRODUCTS (Bebidas)
-INSERT INTO Products (name, description, price, category_id) VALUES ('Pepsi cola', 'Pepsi selfie', 1.23, 3);
+INSERT INTO Products (id, name, description, price, category_id) VALUES (5, 'Pepsi cola', 'Pepsi selfie', 1.23, 3);
 
 -- PRODUCTS (Postres)
-INSERT INTO Products (name, description, price, category_id) VALUES ('Torta tres leches', 'Deliciosa torta para postre', 2.32, 4);
+INSERT INTO Products (id, name, description, price, category_id) VALUES (6, 'Torta tres leches', 'Deliciosa torta para postre', 2.32, 4);

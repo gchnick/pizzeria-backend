@@ -16,6 +16,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
+import com.idforideas.pizzeria.category.Category;
+import com.idforideas.pizzeria.category.CategoryService;
 import com.idforideas.pizzeria.exception.ConflictException;
 import com.idforideas.pizzeria.util.Response;
 import com.idforideas.pizzeria.util.SortUtil;
@@ -43,6 +45,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProductResource {
     private final ProductService productService;
+    private final CategoryService categoryService;
+
     private final SortUtil sort;
 
     @Value("${config.uploads.path}")
@@ -99,13 +103,14 @@ public class ProductResource {
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "5") int size,
         @RequestParam(defaultValue = "name") String[] sort,
-        @PathVariable("name") String CategoryName
+        @PathVariable("name") String categoryName
     ) {
         List<Order> orders = this.sort.getOrders(sort);
+        Category category = categoryService.get(categoryName);    
         return ResponseEntity.ok(
             Response.builder()
                 .timeStamp(now())
-                .data(of("products", productService.findByCategoryName(CategoryName, PageRequest.of(page, size, by(orders)))))
+                .data(of("products", productService.findByCategory(category, PageRequest.of(page, size, by(orders)))))
                 .message("Products by category retrieved")
                 .status(OK)
                 .statusCode(OK.value())
