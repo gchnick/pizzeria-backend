@@ -28,9 +28,8 @@ import java.util.Collections;
 
 import javax.persistence.Column;
 /**
- * @author Nick Galan
- * @version 1.0
- * @since 2/28/2022
+ * Extiende de {@link BaseEntity} e implementa {@link UserDetails}
+ * @author Nick Galán
  */
 @Entity
 @Table(name = "users")

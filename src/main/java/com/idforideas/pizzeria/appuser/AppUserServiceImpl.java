@@ -14,9 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author Nick Galan
- * @version 1.0
- * @since 2/28/2022
+ * @author Nick Galán
  */
 @Service @RequiredArgsConstructor @Transactional @Slf4j
 public class AppUserServiceImpl implements AppUserService, UserDetailsService {

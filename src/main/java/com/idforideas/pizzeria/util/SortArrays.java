@@ -11,6 +11,9 @@ import com.idforideas.pizzeria.exception.BadRequestException;
 
 import org.springframework.data.domain.Sort.Order;
 
+/**
+ * @author Nick Galán
+ */
 public class SortArrays extends SortUtil {
 
     public List<Order> getOrders(String[] sort) {

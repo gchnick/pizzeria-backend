@@ -6,9 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
- * @author Nick Galan
- * @version 1.0
- * @since 3/1/2022
+ * @author Nick Galán
  */
 @Configuration
 public class CustomPasswordEncoder {

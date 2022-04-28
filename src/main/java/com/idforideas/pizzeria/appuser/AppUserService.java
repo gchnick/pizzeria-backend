@@ -4,9 +4,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 /**
- * @author Nick Galan
- * @version 1.0
- * @since 2/28/2022
+ * @author Nick Galán
  */
 public interface AppUserService {
 

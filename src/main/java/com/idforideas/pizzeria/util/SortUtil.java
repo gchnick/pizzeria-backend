@@ -9,6 +9,9 @@ import java.util.List;
 
 import org.springframework.data.domain.Sort.Order;
 
+/**
+ * @author Nick Galán
+ */
 public abstract class SortUtil {
     
     public abstract List<Order> getOrders(String[] sort);

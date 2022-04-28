@@ -1,6 +1,6 @@
 package com.idforideas.pizzeria.config.security;
 
-import static com.idforideas.pizzeria.config.security.CustomEnvironmentVariables.SECRET;
+import static com.idforideas.pizzeria.config.security.EnvVariable.SECRET;
 import static java.util.Map.of;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -32,9 +32,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author Nick Galan
- * @version 1.0
- * @since 3/10/2022
+ * @author Nick Galán
  */
 @Slf4j
 public class CustomAuthenticaionFilter extends UsernamePasswordAuthenticationFilter {
@@ -75,7 +73,7 @@ public class CustomAuthenticaionFilter extends UsernamePasswordAuthenticationFil
 
     private String createJWT(Access access, int minExpires) {
         AppUser user = (AppUser) access.authentication().getPrincipal();
-        Algorithm algorithm = Algorithm.HMAC256(System.getenv(SECRET).getBytes());
+        Algorithm algorithm = Algorithm.HMAC256(System.getenv(SECRET.name()).getBytes());
         return JWT.create()
             .withSubject(user.getEmail())
             .withExpiresAt(new Date(System.currentTimeMillis() + minExpires * 60 * 1000))

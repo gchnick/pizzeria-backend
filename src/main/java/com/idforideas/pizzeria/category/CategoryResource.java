@@ -32,6 +32,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * @author Nick Galán
+ */
 @RestController
 @RequestMapping("/api/v1/categories")
 @RequiredArgsConstructor

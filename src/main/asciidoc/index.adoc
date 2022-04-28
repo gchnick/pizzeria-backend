@@ -1,6 +1,6 @@
 = Documentación de la API REST
 Documentada por: 
-Nick Galan - Powered by team #221 of idforideas.com
+Nick Galán - Powered by team #221 of idforideas.com
 :doctype: book
 :page-layout!:
 :toc: left
