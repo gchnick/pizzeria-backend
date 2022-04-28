@@ -14,6 +14,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+/**
+ * Extiende de {@link BaseEntity}
+ * @author Nick Galán
+ */
 @Entity
 @Table(name = "categories")
 @Data

@@ -24,9 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 
 /**
- * @author Nick Galan
- * @version 1.0
- * @since 2/28/2022
+ * @author Nick Galán
  */
 @RestController
 @RequestMapping("/api/v1/users")

@@ -4,7 +4,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static com.idforideas.pizzeria.config.security.CustomEnvironmentVariables.SECRET;
+import static com.idforideas.pizzeria.config.security.EnvVariable.SECRET;
 import static java.util.Map.of;
 
 import java.io.IOException;
@@ -40,7 +40,7 @@ public class AuthResource {
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             try {
                 String refreshToken  = authorizationHeader.substring("Bearer ".length());
-                Algorithm algorithm = Algorithm.HMAC256(System.getenv(SECRET).getBytes());
+                Algorithm algorithm = Algorithm.HMAC256(System.getenv(SECRET.name()).getBytes());
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(refreshToken);
                 String email = decodedJWT.getSubject();

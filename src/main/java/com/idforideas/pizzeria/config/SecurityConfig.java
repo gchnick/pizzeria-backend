@@ -20,9 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import lombok.RequiredArgsConstructor;
 
 /**
- * @author Nick Galan
- * @version 1.0
- * @since 3/1/2022
+ * @author Nick Galán
  */
 @Configuration
 @EnableWebSecurity

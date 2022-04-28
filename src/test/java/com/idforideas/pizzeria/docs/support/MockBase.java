@@ -9,8 +9,9 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static com.idforideas.pizzeria.config.security.CustomEnvironmentVariables.PWD_TEST;
-import static com.idforideas.pizzeria.config.security.CustomEnvironmentVariables.USER_TEST;
+import static com.idforideas.pizzeria.config.security.EnvVariable.USER_TEST;
+import static com.idforideas.pizzeria.config.security.EnvVariable.PWD_TEST;
+
 import static java.lang.System.getenv;
 
 import javax.servlet.Filter;
@@ -96,7 +97,7 @@ public class MockBase {
                     String accessToken;
             
                     try {
-                            accessToken = getAccessToken(getenv(USER_TEST), getenv(PWD_TEST));
+                            accessToken = getAccessToken(getenv(USER_TEST.name()), getenv(PWD_TEST.name()));
                     } catch (Exception e) {
                             throw new RuntimeException(e);
                     }
