@@ -3,6 +3,9 @@ package com.idforideas.pizzeria.appuser;
 import java.util.Collection;
 import java.util.Optional;
 
+import com.idforideas.pizzeria.exception.BadRequestException;
+import com.idforideas.pizzeria.exception.NotFoundException;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,46 +26,42 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        AppUser user = userRepo.findByEmail(email).orElseThrow();
-        if(user == null) {
-            String msg = "Email not found in the database";
-            log.error(msg);
-            throw new UsernameNotFoundException(msg);
-        } else {
-            log.info("Email found in the database: {}", email);
-        }
+        String msg = "Email not found in the database";
+        AppUser user = userRepo.findByEmailIgnoreCase(email).orElseThrow(() -> new UsernameNotFoundException(msg));
+       
+        log.info("Email found in the database: {}", email);
         return user;
     }
 
     @Override
     public AppUser create(AppUser user) {
         log.info("Saving new app user {}",user.getName());
+        valid(user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        AppUser app = null;
-        try {
-            app = userRepo.save(user);
-            
-        }catch(Exception e) {
-            
-            e.printStackTrace();
-        }
-        return app;
+        
+        return userRepo.save(user);
     }
 
     @Override
-    public Optional<AppUser> get(Long id) {
+    public AppUser get(Long id) {
+        log.info("Fetching user by id: {}",id);
+        return userRepo.findById(id).orElseThrow(() -> new NotFoundException("Id user not exists"));
+    }
+
+    @Override
+    public AppUser get(String email) {
+        log.info("Fetching user by email: {}",email);
+        return userRepo.findByEmailIgnoreCase(email).orElseThrow(() -> new NotFoundException("User email not exists"));
+    }
+
+    @Override
+    public Optional<AppUser> getAsOptional(Long id) {
         log.info("Fetching user by id: {}",id);
         return userRepo.findById(id);
     }
 
     @Override
-    public Optional<AppUser> get(String email) {
-        log.info("Fetching user by email: {}",email);
-        return userRepo.findByEmail(email);
-    }
-
-    @Override
-    public Collection<AppUser> getUsers() {
+    public Collection<AppUser> list() {
         log.info("Fetching all users");
         return userRepo.findAll();
     }
@@ -80,5 +79,15 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         if(userRepo.existsById(id)) {
             userRepo.deleteById(id);
         }        
-    } 
+    }
+
+	@Override
+	public void valid(AppUser user) {
+		boolean isPresent = userRepo.findByEmailIgnoreCase(user.getEmail()).isPresent();
+        if(isPresent) { 
+            log.error("{} user email is already registered", user.getEmail());
+            throw new BadRequestException("The user email is already registered");
+        }
+		
+	} 
 }

@@ -39,22 +39,30 @@ import javax.persistence.Column;
 @AllArgsConstructor
 public class AppUser extends BaseEntity implements UserDetails {
 
+    /**
+     * Nombre completo del usuario
+     */
     @NotBlank
     @Size(min = 3, max = 100)
     @Column(name = "full_name", nullable = false, length = 100)
     private String fullName;
 
+    /**
+     * Correo electrónico del usuario. Este se usara como <code>username</code> para poder solicitar un token de acceso
+     */
     @Email
     @NotBlank
     @Size(min = 3, max = 100)
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
-    @Password
+    @Password(message = "La contraseña debe tener al menos: un dígito, una letra en mayúscula y minúscula, un signo especial [@#@#$%^&+=]. Tener 8 caracteres de tamaño y no tener ningún espacios.")
     @Column(nullable = false)
-    @JsonIgnore
     private String password;
 
+    /**
+     * El valor siempre debe ser <code>ROLE_ADMIN</code>
+     */
     @NotNull
     @Enumerated(STRING)
     @Column(nullable = false, length = 16)

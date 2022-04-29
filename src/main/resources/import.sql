@@ -9,8 +9,8 @@ INSERT INTO Categories VALUES (4, 'Postres');
 
 -- PRODUCTS (Pizzas)
 INSERT INTO Products (id, name, description, price, category_id) VALUES (1, 'Napolitana', 'Sabrosa pizza con salsa napolitana', 15.65, 1);
-VALUES (2, 'Pizza de pollo', 'No apta para vegetarianos pero deliciosa. La salsa barbacoa acompaña exquisitamente al pollo', 17.23, 1);
-VALUES (3, 'Pizza 4 quesos', 'Si eres amante del queso no podrás resistirte a una combinación equilibrada de cuatro de sus variedades: mozzarella, queso azul, parmesano, provolone', 18.0, 1);
+INSERT INTO Products VALUES (2, 'Pizza de pollo', 'No apta para vegetarianos pero deliciosa. La salsa barbacoa acompaña exquisitamente al pollo', 17.23, 1);
+INSERT INTO Products VALUES (3, 'Pizza 4 quesos', 'Si eres amante del queso no podrás resistirte a una combinación equilibrada de cuatro de sus variedades: mozzarella, queso azul, parmesano, provolone', 18.0, 1);
 INSERT INTO Products (id, name, description, price, category_id) VALUES (4, 'Pizza de huevo y panceta', 'Aunque suena a desayuno americano es una de las pizzas más consumidas a nivel mundial', 16.0, 1);
 INSERT INTO Products (id, name, description, price, category_id) VALUES (5, 'Margarita', 'Pizza italiana, lleva los colores de su bandera representados por el tomate, la albahaca y la muzzarella', 14.45, 1);
 

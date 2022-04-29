@@ -10,13 +10,17 @@ public interface AppUserService {
 
     AppUser create(AppUser user);
 
-    Optional<AppUser> get(Long id);
+    AppUser get(Long id);
 
-    Optional<AppUser> get(String email);
+    AppUser get(String email);
 
-    Collection<AppUser> getUsers();
+    Optional<AppUser> getAsOptional(Long id);
+
+    Collection<AppUser> list();
 
     AppUser update(AppUser user);
 
     void delete(Long id);
+
+    void valid(AppUser user);
 }
