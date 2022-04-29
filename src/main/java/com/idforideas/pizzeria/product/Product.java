@@ -28,6 +28,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Product extends BaseEntity {
 
+    /**
+     * Nombre del producto
+     */
     @NotBlank
     @Size(min = 3, max = 100)
     @Column(nullable = false, length = 100)
