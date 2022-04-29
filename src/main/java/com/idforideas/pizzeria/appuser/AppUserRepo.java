@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Nick Galán
  */
 public interface AppUserRepo extends JpaRepository<AppUser, Long> {
-    Optional<AppUser> findByEmail(String email);
+    Optional<AppUser> findByEmailIgnoreCase(String email);
 }

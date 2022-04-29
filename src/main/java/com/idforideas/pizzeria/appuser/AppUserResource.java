@@ -3,6 +3,9 @@ package com.idforideas.pizzeria.appuser;
 import static java.util.Map.of;
 import static java.time.LocalDateTime.now;
 import static org.springframework.http.HttpStatus.OK;
+
+import java.net.URI;
+
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,13 +36,24 @@ import lombok.RequiredArgsConstructor;
 public class AppUserResource {
     private final AppUserService userService;
 
+    /**
+     * Añadir un nuevo <b>usuario</b> administrador del sistema
+     * @param user Información del usuario
+     * @return {@link Response}
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public ResponseEntity<Response> saveUser(@RequestBody @Valid AppUser user) {
-        return ResponseEntity.status(CREATED).body(
+    public ResponseEntity<Response> save(@RequestBody @Valid AppUser user) {
+        AppUser createdUser = userService.create(user);
+        URI uri = ServletUriComponentsBuilder
+            .fromCurrentRequest()
+            .path("/" + createdUser.getId())
+            .buildAndExpand()
+            .toUri();                
+        return ResponseEntity.created(uri).body(
             Response.builder()
                 .timeStamp(now())
-                .data(of("user", userService.create(user)))
+                .data(of("user", createdUser))
                 .message("User created")
                 .status(CREATED)
                 .statusCode(CREATED.value())
@@ -46,13 +61,17 @@ public class AppUserResource {
         );
     }
 
+    /**
+     * Devuelve una lista sin paginación de usuarios
+     * @return {@link Response}
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
-    public ResponseEntity<Response> getUsers() {
+    public ResponseEntity<Response> list() {
         return ResponseEntity.ok(
             Response.builder()
                 .timeStamp(now())
-                .data(of("users", userService.getUsers()))
+                .data(of("users", userService.list()))
                 .message("Users retrieved")
                 .status(OK)
                 .statusCode(OK.value())
@@ -60,10 +79,16 @@ public class AppUserResource {
         );
     }
 
+    /**
+     * Actualiza todos los campos de usuario a la que pertenece el ID con la nueva información. En caso de no existir un usuario con el ID suministrado se procederá a crear un nuevo usuario
+     * @param id ID del usuario a actualizar
+     * @param newUser Nueva información del usuario para aplicar en actualización
+     * @return {@link Response}
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<Response> updateUser(@RequestBody @Valid AppUser newUser, @PathVariable("id") Long id) {
-            return userService.get(id).map(user -> {
+    public ResponseEntity<Response> update(@PathVariable("id") Long id, @RequestBody @Valid AppUser newUser) {
+            return userService.getAsOptional(id).map(user -> {
                 user.setFullName(newUser.getFullName());
                 user.setEmail(newUser.getEmail());
                 user.setPassword(newUser.getPassword());
@@ -78,10 +103,16 @@ public class AppUserResource {
                         .build()
                 );
             }).orElseGet(() -> {
-                return ResponseEntity.status(CREATED).body(
+                AppUser createdUser = userService.create(newUser);
+                URI uri = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/" + createdUser.getId())
+                    .buildAndExpand()
+                    .toUri();
+                return ResponseEntity.created(uri).body(
                     Response.builder()
                         .timeStamp(now())
-                        .data(of("user", userService.create(newUser)))
+                        .data(of("user", createdUser))
                         .message("User created")
                         .status(CREATED)
                         .statusCode(CREATED.value())
@@ -90,6 +121,11 @@ public class AppUserResource {
             });
     }
 
+    /**
+     * Elimina el usuario al que corresponde el ID suministrado 
+     * @param id ID del usuario a eliminar
+     * @return {@link Response}
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {

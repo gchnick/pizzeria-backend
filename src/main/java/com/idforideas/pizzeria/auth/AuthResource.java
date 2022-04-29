@@ -44,7 +44,7 @@ public class AuthResource {
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(refreshToken);
                 String email = decodedJWT.getSubject();
-                AppUser user = userService.get(email).orElseThrow();
+                AppUser user = userService.get(email);
                 String accessToken = JWT.create()
                     .withSubject(user.getEmail())
                     .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))

@@ -49,7 +49,7 @@ public class CategoryResource {
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public ResponseEntity<Response> saveCategory(@RequestBody @Valid Category category) {
+    public ResponseEntity<Response> save(@RequestBody @Valid Category category) {
         Category createdCategory = categoryService.create(category);
         URI uri = ServletUriComponentsBuilder
             .fromCurrentRequest()
@@ -74,7 +74,7 @@ public class CategoryResource {
      * @return {@link Response}
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Response> getCategory(@PathVariable("id") Long id) {
+    public ResponseEntity<Response> get(@PathVariable("id") Long id) {
         return ResponseEntity.ok(
             Response.builder()
             .timeStamp(now())
@@ -92,7 +92,7 @@ public class CategoryResource {
      * @return {@link Response}
      */
     @GetMapping("/category/{name}")
-    public ResponseEntity<Response> getCategory(@PathVariable("name") String name) {
+    public ResponseEntity<Response> get(@PathVariable("name") String name) {
         return ResponseEntity.ok(
             Response.builder()
             .timeStamp(now())
@@ -109,7 +109,7 @@ public class CategoryResource {
      * @return {@link Response}
      */
     @GetMapping
-    public ResponseEntity<Response> getCategories(
+    public ResponseEntity<Response> listAsPage(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "5") int size,
         @RequestParam(defaultValue = "name") String[] sort
@@ -134,7 +134,7 @@ public class CategoryResource {
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<Response> updateCategory(@PathVariable Long id, @RequestBody @Valid Category newCategory) {
+    public ResponseEntity<Response> update(@PathVariable Long id, @RequestBody @Valid Category newCategory) {
         return categoryService.getAsOptional(id).map(category -> {
             categoryService.valid(newCategory);
             category.setName(newCategory.getName());
