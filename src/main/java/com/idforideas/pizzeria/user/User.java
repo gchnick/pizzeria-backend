@@ -1,4 +1,4 @@
-package com.idforideas.pizzeria.appuser;
+package com.idforideas.pizzeria.user;
 
 import static javax.persistence.EnumType.STRING;
 
@@ -37,7 +37,7 @@ import javax.persistence.Column;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class AppUser extends BaseEntity implements UserDetails {
+public class User extends BaseEntity implements UserDetails {
 
     /**
      * Nombre completo del usuario
@@ -66,7 +66,7 @@ public class AppUser extends BaseEntity implements UserDetails {
     @NotNull
     @Enumerated(STRING)
     @Column(nullable = false, length = 16)
-    private AppUserRole role;
+    private UserRole role;
 
     @JsonIgnore
     public String getName() {

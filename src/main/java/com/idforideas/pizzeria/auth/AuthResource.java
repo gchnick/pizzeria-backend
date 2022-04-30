@@ -16,8 +16,9 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.idforideas.pizzeria.appuser.AppUser;
-import com.idforideas.pizzeria.appuser.AppUserService;
+
+import com.idforideas.pizzeria.user.User;
+import com.idforideas.pizzeria.user.UserService;
 import com.idforideas.pizzeria.util.Response;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +33,7 @@ import org.springframework.security.core.GrantedAuthority;
 public class AuthResource {
 
     @Autowired
-    private AppUserService userService;
+    private UserService userService;
 
     @PostMapping("/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -44,7 +45,7 @@ public class AuthResource {
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(refreshToken);
                 String email = decodedJWT.getSubject();
-                AppUser user = userService.get(email);
+                User user = userService.get(email);
                 String accessToken = JWT.create()
                     .withSubject(user.getEmail())
                     .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))

@@ -18,8 +18,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.idforideas.pizzeria.appuser.AppUser;
 import com.idforideas.pizzeria.auth.Tokens;
+import com.idforideas.pizzeria.user.User;
 import com.idforideas.pizzeria.util.Response;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -72,7 +72,7 @@ public class CustomAuthenticaionFilter extends UsernamePasswordAuthenticationFil
     }
 
     private String createJWT(Access access, int minExpires) {
-        AppUser user = (AppUser) access.authentication().getPrincipal();
+        User user = (User) access.authentication().getPrincipal();
         Algorithm algorithm = Algorithm.HMAC256(System.getenv(SECRET.name()).getBytes());
         return JWT.create()
             .withSubject(user.getEmail())

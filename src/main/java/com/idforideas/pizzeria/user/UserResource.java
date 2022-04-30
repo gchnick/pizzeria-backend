@@ -1,4 +1,4 @@
-package com.idforideas.pizzeria.appuser;
+package com.idforideas.pizzeria.user;
 
 import static java.util.Map.of;
 import static java.time.LocalDateTime.now;
@@ -33,8 +33,8 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
-public class AppUserResource {
-    private final AppUserService userService;
+public class UserResource {
+    private final UserService userService;
 
     /**
      * Añadir un nuevo <b>usuario</b> administrador del sistema
@@ -43,8 +43,8 @@ public class AppUserResource {
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public ResponseEntity<Response> save(@RequestBody @Valid AppUser user) {
-        AppUser createdUser = userService.create(user);
+    public ResponseEntity<Response> save(@RequestBody @Valid User user) {
+        User createdUser = userService.create(user);
         URI uri = ServletUriComponentsBuilder
             .fromCurrentRequest()
             .path("/" + createdUser.getId())
@@ -87,7 +87,7 @@ public class AppUserResource {
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<Response> update(@PathVariable("id") Long id, @RequestBody @Valid AppUser newUser) {
+    public ResponseEntity<Response> update(@PathVariable("id") Long id, @RequestBody @Valid User newUser) {
             return userService.getAsOptional(id).map(user -> {
                 user.setFullName(newUser.getFullName());
                 user.setEmail(newUser.getEmail());
@@ -103,7 +103,7 @@ public class AppUserResource {
                         .build()
                 );
             }).orElseGet(() -> {
-                AppUser createdUser = userService.create(newUser);
+                User createdUser = userService.create(newUser);
                 URI uri = ServletUriComponentsBuilder
                     .fromCurrentRequest()
                     .path("/" + createdUser.getId())

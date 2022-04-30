@@ -128,7 +128,10 @@
 						<goals>
 							<goal>copy-resources</goal>
 						</goals>
-						<configuration> 
+						<configuration>
+							<attributes>
+								<snippets>${project.build.directory}/generated-snippets</snippets>
+							</attributes> 
 							<outputDirectory>
 								${project.build.outputDirectory}/static/docs
 							</outputDirectory>
