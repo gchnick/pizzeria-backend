@@ -62,6 +62,25 @@ public class UserResource {
     }
 
     /**
+    * Devuelve un usuario por ID
+     * @param id ID del usuario a recuperar
+     * @return {@link Response}
+     */
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/{id}")
+    public ResponseEntity<Response> get(@PathVariable Long id) {
+        return ResponseEntity.ok(
+            Response.builder()
+                .timeStamp(now())
+                .data(of("user", userService.get(id)))
+                .message("User retrieved")
+                .status(OK)
+                .statusCode(OK.value())
+                .build()
+        );
+    }
+
+    /**
      * Devuelve una lista sin paginación de usuarios
      * @return {@link Response}
      */
@@ -87,7 +106,7 @@ public class UserResource {
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<Response> update(@PathVariable("id") Long id, @RequestBody @Valid User newUser) {
+    public ResponseEntity<Response> update(@PathVariable Long id, @RequestBody @Valid User newUser) {
             return userService.getAsOptional(id).map(user -> {
                 user.setFullName(newUser.getFullName());
                 user.setEmail(newUser.getEmail());
@@ -128,7 +147,7 @@ public class UserResource {
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         userService.delete(id);
         return ResponseEntity.status(NO_CONTENT).build();
     }

@@ -6,97 +6,97 @@ Usted puede administrar una lista de categorías de los productos en su pizzerí
 [[resources-category-get]]
 === Obtener una categoría por nombre
 
-include::{snippets}/category-resource-test/get-category/auto-method-path.adoc[]
+include::{snippets}/category-resource-test/get-one/auto-method-path.adoc[]
 
-include::{snippets}/category-resource-test/get-category/auto-description.adoc[]
+include::{snippets}/category-resource-test/get-one/auto-description.adoc[]
 
 ==== Autorización
 
-include::{snippets}/category-resource-test/get-category/auto-authorization.adoc[]
+include::{snippets}/category-resource-test/get-one/auto-authorization.adoc[]
 
 ==== Parámetros de ruta
 
-include::{snippets}/category-resource-test/get-category/auto-path-parameters.adoc[]
+include::{snippets}/category-resource-test/get-one/auto-path-parameters.adoc[]
 
 ==== Campos de respuesta (response fields)
 
-include::{snippets}/category-resource-test/get-category/response-fields.adoc[]
+include::{snippets}/category-resource-test/get-one/response-fields.adoc[]
 
 ==== Ejemplo de request
 
-include::{snippets}/category-resource-test/get-category/curl-request.adoc[]
+include::{snippets}/category-resource-test/get-one/curl-request.adoc[]
 
 ==== Ejemplo de response
 
-include::{snippets}/category-resource-test/get-category/http-response.adoc[]
+include::{snippets}/category-resource-test/get-one/http-response.adoc[]
 
 
 [[resources-category-all]]
 === Obtener todas las categorías
 
-include::{snippets}/category-resource-test/get-all-categories/auto-method-path.adoc[]
+include::{snippets}/category-resource-test/get-all/auto-method-path.adoc[]
 
-include::{snippets}/category-resource-test/get-all-categories/auto-description.adoc[]
+include::{snippets}/category-resource-test/get-all/auto-description.adoc[]
 
 ==== Autorización
 
-include::{snippets}/category-resource-test/get-all-categories/auto-authorization.adoc[]
+include::{snippets}/category-resource-test/get-all/auto-authorization.adoc[]
 
 
 ==== Campos de respuesta (response fields)
 
-include::{snippets}/category-resource-test/get-all-categories/response-fields.adoc[]
+include::{snippets}/category-resource-test/get-all/response-fields.adoc[]
 
 ==== Ejemplo de request
 
-include::{snippets}/category-resource-test/get-all-categories/curl-request.adoc[]
+include::{snippets}/category-resource-test/get-all/curl-request.adoc[]
 
 ==== Ejemplo de response
 
-include::{snippets}/category-resource-test/get-all-categories/http-response.adoc[]
+include::{snippets}/category-resource-test/get-all/http-response.adoc[]
 
 [[resources-category-add]]
 === Añadir nueva categoría
 
-include::{snippets}/category-resource-test/add-category/auto-method-path.adoc[]
+include::{snippets}/category-resource-test/add/auto-method-path.adoc[]
 
-include::{snippets}/category-resource-test/add-category/auto-description.adoc[]
+include::{snippets}/category-resource-test/add/auto-description.adoc[]
 
 ==== Autorización
 
-include::{snippets}/category-resource-test/add-category/auto-authorization.adoc[]
+include::{snippets}/category-resource-test/add/auto-authorization.adoc[]
 
 ==== Campos de solicitud (request fields)
 
-include::{snippets}/category-resource-test/add-category/auto-request-fields.adoc[]
+include::{snippets}/category-resource-test/add/auto-request-fields.adoc[]
 
 ==== Campos de respuesta (response fields)
 
-include::{snippets}/category-resource-test/add-category/response-fields.adoc[]
+include::{snippets}/category-resource-test/add/response-fields.adoc[]
 
 ==== Ejemplo de request
 
-include::{snippets}/category-resource-test/add-category/curl-request.adoc[]
+include::{snippets}/category-resource-test/add/curl-request.adoc[]
 
 ==== Ejemplo de response
 
-include::{snippets}/category-resource-test/add-category/http-response.adoc[]
+include::{snippets}/category-resource-test/add/http-response.adoc[]
 
 [[resources-category-delete]]
 === Eliminar categoría
 
-include::{snippets}/category-resource-test/delete-category/auto-method-path.adoc[]
+include::{snippets}/category-resource-test/delete-one/auto-method-path.adoc[]
 
-include::{snippets}/category-resource-test/delete-category/auto-description.adoc[]
+include::{snippets}/category-resource-test/delete-one/auto-description.adoc[]
 
 ==== Autorización
 
-include::{snippets}/category-resource-test/delete-category/auto-authorization.adoc[]
+include::{snippets}/category-resource-test/delete-one/auto-authorization.adoc[]
 
 ==== Ejemplo de request
 
-include::{snippets}/category-resource-test/delete-category/curl-request.adoc[]
+include::{snippets}/category-resource-test/delete-one/curl-request.adoc[]
 
 ==== Ejemplo de response
 
-include::{snippets}/category-resource-test/delete-category/http-response.adoc[]
+include::{snippets}/category-resource-test/delete-one/http-response.adoc[]
