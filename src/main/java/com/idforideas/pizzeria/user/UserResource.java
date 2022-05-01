@@ -1,6 +1,7 @@
 package com.idforideas.pizzeria.user;
 
 import static java.util.Map.of;
+import static java.util.stream.Collectors.toList;
 import static java.time.LocalDateTime.now;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -93,7 +94,7 @@ public class UserResource {
         return ResponseEntity.ok(
             Response.builder()
                 .timeStamp(now())
-                .data(of("users", userService.list()))
+                .data(of("users", userService.list().stream().map(u -> withoutPassword(u)).collect(toList()) ))
                 .message("Users retrieved")
                 .status(OK)
                 .statusCode(OK.value())

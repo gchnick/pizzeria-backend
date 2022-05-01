@@ -88,6 +88,7 @@ public class UserResourceTest extends MockBase {
        // Then
        result.andExpect(status().isOk())
         .andExpect(content().contentType(APPLICATION_JSON))
+        .andExpect(jsonPath("$.data.users[0].password").doesNotExist())
         .andDo(document("{class-name}/{method-name}", 
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint()),
