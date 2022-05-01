@@ -16,7 +16,6 @@ import com.idforideas.pizzeria.validation.Password;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,7 +27,7 @@ import java.util.Collections;
 
 import javax.persistence.Column;
 /**
- * Extiende de {@link BaseEntity} e implementa {@link UserDetails}
+ * Extiende de {@link BaseEntity}
  * @author Nick Galán
  */
 @Entity
@@ -37,7 +36,7 @@ import javax.persistence.Column;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class User extends BaseEntity implements UserDetails {
+public class User extends BaseEntity {
 
     /**
      * Nombre completo del usuario
@@ -69,44 +68,8 @@ public class User extends BaseEntity implements UserDetails {
     private UserRole role;
 
     @JsonIgnore
-    public String getName() {
-        return fullName;
-    }
-
-    @JsonIgnore
-    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.name());
         return Collections.singleton(authority);
-    }
-
-    @Override
-    @JsonIgnore
-    public String getUsername() {
-        return email;
-    }
-
-    @JsonIgnore
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @JsonIgnore
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @JsonIgnore
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @JsonIgnore
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 }

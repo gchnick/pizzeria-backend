@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public abstract class UserObjectMother {
 
     public static User getNewUser () {
-        User user = new User("John Doe", "johndoe@mail.com", "uS3rp@ss", UserRole.ROLE_ADMIN);
+        User user = new User("Don Remolo", "donremolo@pizzeria.com", "uS3rp@ss", UserRole.ROLE_ADMIN);
         return user;
     }
 

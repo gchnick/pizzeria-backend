@@ -6,9 +6,6 @@ import java.util.Optional;
 import com.idforideas.pizzeria.exception.BadRequestException;
 import com.idforideas.pizzeria.exception.NotFoundException;
 
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,22 +17,13 @@ import lombok.extern.slf4j.Slf4j;
  * @author Nick Galán
  */
 @Service @RequiredArgsConstructor @Transactional @Slf4j
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService {
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
-    
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        String msg = "Email not found in the database";
-        User user = userRepo.findByEmailIgnoreCase(email).orElseThrow(() -> new UsernameNotFoundException(msg));
-       
-        log.info("Email found in the database: {}", email);
-        return user;
-    }
 
     @Override
     public User create(User user) {
-        log.info("Saving new app user {}",user.getName());
+        log.info("Saving new app user {}",user.getFullName());
         valid(user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         
@@ -68,7 +56,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User update(User user) {
-        log.info("Updating this app user {}",user.getName());
+        log.info("Updating this app user {}",user.getFullName());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepo.save(user);
     }

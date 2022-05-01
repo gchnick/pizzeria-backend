@@ -21,7 +21,6 @@ import static com.idforideas.pizzeria.user.UserObjectMother.getUpdateUserAsJson;
 
 import com.idforideas.pizzeria.docs.support.MockBase;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -44,6 +43,7 @@ public class UserResourceTest extends MockBase {
         result.andExpect(status().isCreated())
         .andExpect(header().string("Location", containsString(URL_TEMPLATE + "/3")))
         .andExpect(content().contentType(APPLICATION_JSON))
+        .andExpect(jsonPath("$.data.user.password").doesNotExist())
         .andDo(document("{class-name}/{method-name}", 
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint()),
@@ -53,7 +53,6 @@ public class UserResourceTest extends MockBase {
     }
 
     @Test
-    @Disabled
     void getOne() throws Exception {
         //Given
         final Long mockedId = 1L;
@@ -100,7 +99,7 @@ public class UserResourceTest extends MockBase {
     @Test
     void update() throws Exception {
         // Given
-        final Long mockedId = 1L;
+        final Long mockedId = 2L;
         final String mockedPathVariable = "/{id}";
         final String mockedContentJson = getUpdateUserAsJson();
 
@@ -113,7 +112,8 @@ public class UserResourceTest extends MockBase {
          // Then
          result.andExpect(status().isOk())
          .andExpect(content().contentType(APPLICATION_JSON))
-         .andExpect(jsonPath("$.data.user.id").value(mockedId));
+         .andExpect(jsonPath("$.data.user.id").value(mockedId))
+         .andExpect(jsonPath("$.data.user.password").doesNotExist());
     }
 
     @Test

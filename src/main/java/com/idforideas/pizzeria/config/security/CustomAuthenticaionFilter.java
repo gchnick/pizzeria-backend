@@ -19,7 +19,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.idforideas.pizzeria.auth.Tokens;
-import com.idforideas.pizzeria.user.User;
 import com.idforideas.pizzeria.util.Response;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +26,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import lombok.extern.slf4j.Slf4j;
@@ -75,7 +75,7 @@ public class CustomAuthenticaionFilter extends UsernamePasswordAuthenticationFil
         User user = (User) access.authentication().getPrincipal();
         Algorithm algorithm = Algorithm.HMAC256(System.getenv(SECRET.name()).getBytes());
         return JWT.create()
-            .withSubject(user.getEmail())
+            .withSubject(user.getUsername())
             .withExpiresAt(new Date(System.currentTimeMillis() + minExpires * 60 * 1000))
             .withIssuer(access.request().getRequestURL().toString())
             .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))

@@ -11,6 +11,7 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 import javax.validation.Valid;
 
+
 import com.idforideas.pizzeria.util.Response;
 
 import org.springframework.http.ResponseEntity;
@@ -45,6 +46,7 @@ public class UserResource {
     @PostMapping
     public ResponseEntity<Response> save(@RequestBody @Valid User user) {
         User createdUser = userService.create(user);
+
         URI uri = ServletUriComponentsBuilder
             .fromCurrentRequest()
             .path("/" + createdUser.getId())
@@ -53,7 +55,7 @@ public class UserResource {
         return ResponseEntity.created(uri).body(
             Response.builder()
                 .timeStamp(now())
-                .data(of("user", createdUser))
+                .data(of("user", withoutPassword(createdUser)))
                 .message("User created")
                 .status(CREATED)
                 .statusCode(CREATED.value())
@@ -68,11 +70,12 @@ public class UserResource {
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
-    public ResponseEntity<Response> get(@PathVariable Long id) {
+    public ResponseEntity<Response> get(@PathVariable Long id) throws Exception {
+        User user = userService.get(id);
         return ResponseEntity.ok(
             Response.builder()
                 .timeStamp(now())
-                .data(of("user", userService.get(id)))
+                .data(of("user", withoutPassword(user)))
                 .message("User retrieved")
                 .status(OK)
                 .statusCode(OK.value())
@@ -107,37 +110,39 @@ public class UserResource {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Response> update(@PathVariable Long id, @RequestBody @Valid User newUser) {
-            return userService.getAsOptional(id).map(user -> {
-                user.setFullName(newUser.getFullName());
-                user.setEmail(newUser.getEmail());
-                user.setPassword(newUser.getPassword());
-                user.setRole(newUser.getRole());
-                return ResponseEntity.ok(
-                    Response.builder()
-                        .timeStamp(now())
-                        .data(of("user", userService.update(user)))
-                        .message("User updated")
-                        .status(OK)
-                        .statusCode(OK.value())
-                        .build()
-                );
-            }).orElseGet(() -> {
-                User createdUser = userService.create(newUser);
-                URI uri = ServletUriComponentsBuilder
-                    .fromCurrentRequest()
-                    .path("/" + createdUser.getId())
-                    .buildAndExpand()
-                    .toUri();
-                return ResponseEntity.created(uri).body(
-                    Response.builder()
-                        .timeStamp(now())
-                        .data(of("user", createdUser))
-                        .message("User created")
-                        .status(CREATED)
-                        .statusCode(CREATED.value())
-                        .build()
-                );
-            });
+
+        return userService.getAsOptional(id).map(user -> {
+            user.setFullName(newUser.getFullName());
+            user.setEmail(newUser.getEmail());
+            user.setPassword(newUser.getPassword());
+            user.setRole(newUser.getRole());
+            User userUpdated = userService.update(user);
+            return ResponseEntity.ok(
+                Response.builder()
+                    .timeStamp(now())
+                    .data(of("user", withoutPassword(userUpdated)))
+                    .message("User updated")
+                    .status(OK)
+                    .statusCode(OK.value())
+                    .build()
+            );
+        }).orElseGet(() -> {
+            User createdUser = userService.create(newUser);
+            URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/" + createdUser.getId())
+                .buildAndExpand()
+                .toUri();
+            return ResponseEntity.created(uri).body(
+                Response.builder()
+                    .timeStamp(now())
+                    .data(of("user", withoutPassword(createdUser)))
+                    .message("User created")
+                    .status(CREATED)
+                    .statusCode(CREATED.value())
+                    .build()
+            );
+        });
     }
 
     /**
@@ -151,4 +156,10 @@ public class UserResource {
         userService.delete(id);
         return ResponseEntity.status(NO_CONTENT).build();
     }
+
+    private Object withoutPassword(User u) {
+        return new UserWithoutPassword(u.getId(), u.getFullName(), u.getEmail(), u.getRole());
+    }
+
+    private record UserWithoutPassword(Long id, String fullName, String email, UserRole role) {}
 }
