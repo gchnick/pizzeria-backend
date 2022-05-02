@@ -36,17 +36,29 @@ public class Product extends BaseEntity {
     @Column(nullable = false, length = 100)
     private String name;
     
+    /**
+     * Descripción breve del producto
+     */
     @NotBlank
     @Column(nullable = false)
     private String description;
     
+    /**
+     * Precio del producto
+     */
     @NotNull
     @Column(nullable = false)
     private Float price;
 
+    /**
+     * Dirección URL de la imagen del producto
+     */
     @Column(name = "picture_url")
     private String pictureURL;
 
+    /**
+     * Cada producto debe estar clasificado en una categoría
+     */
     @ManyToOne(fetch = EAGER)
     @JoinColumn(name = "category_id", nullable = false)
     @NotNull

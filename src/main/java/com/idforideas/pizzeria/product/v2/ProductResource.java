@@ -35,10 +35,17 @@ public class ProductResource {
     @Value("${config.uploads.path}")
     private String path;
 
+    /**
+     * Añadir un nuevo <b>producto</b> junto con información de su imagen
+     * @param product Información del producto
+     * @param file Imagen del producto
+     * @return {@link Response}
+     * @throws IOException Error al procesar la imagen
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(consumes = MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Response> saveProductWithPicture(@Valid Product product,
-        @RequestPart(required = true) MultipartFile file) throws IllegalStateException, IOException {
+        @RequestPart(required = true) MultipartFile file) throws  IOException {
             product.setPictureURL( parsePathPicture(file.getOriginalFilename()) );
             file.transferTo(new File(path.concat(product.getPictureURL())));
             return ResponseEntity.status(CREATED)

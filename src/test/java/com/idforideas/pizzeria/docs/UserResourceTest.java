@@ -16,8 +16,8 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.hamcrest.Matchers.containsString;
-import static com.idforideas.pizzeria.user.UserObjectMother.getNewUserAsJson;
-import static com.idforideas.pizzeria.user.UserObjectMother.getUpdateUserAsJson;
+import static com.idforideas.pizzeria.user.UserObjectMother.getNewUser002AsJson;
+import static com.idforideas.pizzeria.user.UserObjectMother.getNewUser003AsJson;
 
 import com.idforideas.pizzeria.docs.support.MockBase;
 
@@ -31,7 +31,7 @@ public class UserResourceTest extends MockBase {
     @Test
     void add() throws Exception {
         // Given
-        final String mockedContentJson = getNewUserAsJson();
+        final String mockedContentJson = getNewUser003AsJson();
 
         // When
         final ResultActions result = mockMvc.perform(post(URL_TEMPLATE)
@@ -102,7 +102,7 @@ public class UserResourceTest extends MockBase {
         // Given
         final Long mockedId = 2L;
         final String mockedPathVariable = "/{id}";
-        final String mockedContentJson = getUpdateUserAsJson();
+        final String mockedContentJson = getNewUser002AsJson();
 
         // When
         final ResultActions result = mockMvc.perform(put(URL_TEMPLATE.concat(mockedPathVariable), mockedId)

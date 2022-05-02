@@ -1,10 +1,6 @@
 package com.idforideas.pizzeria.product;
 
-import static com.idforideas.pizzeria.product.ProductByCategoryObjectMother.PIZZAS;
-import static com.idforideas.pizzeria.product.ProductByCategoryObjectMother.getProducts;
 import static org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -26,12 +22,8 @@ public class ProductServiceShould {
 
     @Test
     @Disabled
-    void return_list_products_by_cateogy() {
-    
+    void throw_exception_when_product_by_id_not_exist() {
 
-        when(productRepo.findByCategory(PIZZAS)).thenReturn(getProducts());
-
-        assertSame(getProducts(), productSerice.findByCategory(PIZZAS));
     }
     
 }

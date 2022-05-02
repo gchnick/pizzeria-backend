@@ -8,9 +8,19 @@ public abstract class CategoryObjectMother {
         return new Category("Helados");
     }
 
+    public static Category getNewCategory001 () {
+        return new Category("Pizzas");
+    }
+
     public static Category getCategory001() {
         Category category = new Category("Pizzas");
         category.setId(1L);
+        return category;
+    }
+
+    public static Category getCategory002() {
+        Category category = new Category("Empanadas");
+        category.setId(2L);
         return category;
     }
 

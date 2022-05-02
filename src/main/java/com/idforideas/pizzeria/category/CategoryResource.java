@@ -43,7 +43,7 @@ public class CategoryResource {
     private final SortUtil sort;
 
     /**
-     * Añadir nueva <b>categoría</b>
+     * Añadir una nueva <b>categoría</b>
      * @param category Información de la categoría
      * @return {@link Response}
      */
@@ -106,6 +106,9 @@ public class CategoryResource {
 
     /**
      * Devuelve una lista paginada de categorías
+     * @param page Número de la página a recuperar comenzado por 0
+     * @param size Tamaño de la página. Cantidad máxima de productos por página
+     * @param sort Propiedad usada para ordenar la lista. Dirección de ordenamiento.
      * @return {@link Response}
      */
     @GetMapping
@@ -127,21 +130,19 @@ public class CategoryResource {
     }
 
     /**
-     * Actualiza todos los campos de la categoría a la que pertenece el ID con la nueva información. En caso de no existir una categoría con el ID suministrado se procederá a crear una nueva categoría
+     * Actualiza todos los campos de la categoría a la que pertenece el ID, con la nueva información. En caso de no existir una categoría con el ID suministrado se procederá a crear una nueva categoría
      * @param id ID de la categoría a actualizar
-     * @param newCategory Nueva información de categoría para aplicar en actualización
+     * @param newCategory Nueva información de categoría para aplicar en la actualización
      * @return {@link Response}
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Response> update(@PathVariable Long id, @RequestBody @Valid Category newCategory) {
         return categoryService.getAsOptional(id).map(category -> {
-            categoryService.valid(newCategory);
-            category.setName(newCategory.getName());
             return ResponseEntity.ok(
                 Response.builder()
                 .timeStamp(now())
-                .data(of("category", categoryService.update(category)))
+                .data(of("category", categoryService.update(category, newCategory)))
                 .message("Category updated")
                 .status(OK)
                 .statusCode(OK.value())
@@ -169,7 +170,7 @@ public class CategoryResource {
     /**
      * Elimina la categoría a la que corresponde el ID suministrado. Tenga cuidado al usar este endpoint pues se eliminaran todos los productos asociados con esta categoría 
      * @param id ID de la categoría a eliminar
-     * @return void
+     * @return Sin contenido
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")

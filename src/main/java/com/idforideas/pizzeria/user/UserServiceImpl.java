@@ -55,9 +55,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(User user) {
+    public User update(User user, User editedUser) {
         log.info("Updating this app user {}",user.getFullName());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        valid(editedUser);
+        user.setFullName(editedUser.getFullName());
+        user.setEmail(editedUser.getEmail());
+        user.setPassword(passwordEncoder.encode(editedUser.getPassword()));
+        user.setRole(editedUser.getRole());
         return userRepo.save(user);
     }
 
@@ -69,13 +73,11 @@ public class UserServiceImpl implements UserService {
         }        
     }
 
-	@Override
-	public void valid(User user) {
+	private void valid(User user) {
 		boolean isPresent = userRepo.findByEmailIgnoreCase(user.getEmail()).isPresent();
         if(isPresent) { 
             log.error("{} user email is already registered", user.getEmail());
             throw new BadRequestException("The user email is already registered");
-        }
-		
+        }	
 	} 
 }

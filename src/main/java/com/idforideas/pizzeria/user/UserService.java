@@ -18,9 +18,7 @@ public interface UserService {
 
     Collection<User> list();
 
-    User update(User user);
+    User update(User user, User editedUser);
 
     void delete(Long id);
-
-    void valid(User user);
 }

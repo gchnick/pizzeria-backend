@@ -40,6 +40,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * @author Nick Galán
+ */
 @RestController()
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
@@ -52,6 +55,11 @@ public class ProductResource {
     @Value("${config.uploads.path}")
     private String path;
 
+    /**
+     * Añadir un nuevo <b>producto</b> sin imagen. Si desea añadir un nuevo producto junto con su imagen vaya a la version 2 del <code>endpoint</code> 
+     * @param product Información del producto
+     * @return {@link Response}
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<Response> saveProduct(@RequestBody @Valid Product product) {
@@ -67,6 +75,11 @@ public class ProductResource {
                         );
     }
 
+    /**
+     * Devuelve un producto por ID
+     * @param id ID del producto a recuperar
+     * @return {@link Response}
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Response> getProduct(@PathVariable Long id) {
         return ResponseEntity.ok(
@@ -80,6 +93,13 @@ public class ProductResource {
         );
     }
 
+    /**
+     * Devuelve una lista paginada de productos
+     * @param page Número de la página a recuperar comenzado por 0
+     * @param size Tamaño de la página. Cantidad máxima de productos por página
+     * @param sort Propiedad usada para ordenar la lista. Dirección de ordenamiento.
+     * @return {@link Response}
+     */
     @GetMapping
     public ResponseEntity<Response> getProducts(
         @RequestParam(defaultValue = "0") int page,
@@ -98,6 +118,14 @@ public class ProductResource {
         );
     }
 
+    /**
+     * Devuelve una lista paginada de productos de una categoría
+     * @param page Número de la página a recuperar comenzado por 0
+     * @param size Tamaño de la página. Cantidad máxima de productos por página
+     * @param sort Propiedad usada para ordenar la lista. Dirección de ordenamiento.
+     * @param categoryName Nombre de la categoría que clasifica los productos a recuperar 
+     * @return {@link Response}
+     */
     @GetMapping("/category/{name}")
     public ResponseEntity<Response> getProductsByCategory(
         @RequestParam(defaultValue = "0") int page,
@@ -118,6 +146,12 @@ public class ProductResource {
         );
     }
 
+    /**
+     * Actualiza todos los campos del producto al que pertenece el ID, con la nueva información. En caso de no existir un producto con el ID suministrado se procederá a crear un nuevo producto
+     * @param newProduct Nueva información del producto para aplicar en la actualización
+     * @param id ID del producto a actualizar
+     * @return {@link Response}
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Response> updateProduct(@RequestBody @Valid Product newProduct, @PathVariable Long id) {
@@ -149,6 +183,13 @@ public class ProductResource {
         });
     }
 
+    /**
+     * Actualiza los campos específicos del producto al que pertenece el ID
+     * @param id ID del producto a parchar
+     * @param patch JsonPath con la información y las acciones a aplicar
+     * @see <a>enlace</a>
+     * @return {@link Response}
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PatchMapping(path = "/{id}", consumes = "application/json-patch+json")
     public ResponseEntity<Response> updateParcial(@PathVariable Long id, @RequestBody JsonPatch patch) {
@@ -165,6 +206,11 @@ public class ProductResource {
         );
     }
 
+    /**
+     * Elimina el producto al que corresponde el ID suministrado.
+     * @param id ID del producto a eliminar
+     * @return Sin contenido
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {

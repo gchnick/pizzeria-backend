@@ -6,6 +6,9 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 
+/**
+ * @author Nick Galán
+ */
 public interface CategoryService {
 
     Category create(Category category);
@@ -20,9 +23,7 @@ public interface CategoryService {
 
     Page<Category> list(Pageable pageable);
 
-    Category update(Category category);
+    Category update(Category category, Category editedCategory);
 
-    void delete(Long id);
-    
-    void valid(Category category);
+    void delete(Long id);   
 }

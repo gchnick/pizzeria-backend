@@ -62,8 +62,10 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category update(Category category) {
-        log.info("Updating this category {}",  category.getName());
+    public Category update(Category category, Category editedCategory) {
+        log.info("Updating this category {}", category.getName());
+        valid(editedCategory);
+        category.setName(editedCategory.getName());
         return categoryRepo.save(category);
     }
 
@@ -77,13 +79,11 @@ public class CategoryServiceImpl implements CategoryService {
         }
     }
 
-    @Override
-    public void valid(Category category) {
+    private void valid(Category category) {
         boolean isPresent = categoryRepo.findByNameIgnoreCase(category.getName()).isPresent();
         if(isPresent) { 
             log.error("{} category is already registered", category.getName());
             throw new BadRequestException("The name of category is already registered");
         }
     }
-    
 }

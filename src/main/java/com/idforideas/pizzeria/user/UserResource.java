@@ -111,13 +111,8 @@ public class UserResource {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Response> update(@PathVariable Long id, @RequestBody @Valid User newUser) {
-
-        return userService.getAsOptional(id).map(user -> {
-            user.setFullName(newUser.getFullName());
-            user.setEmail(newUser.getEmail());
-            user.setPassword(newUser.getPassword());
-            user.setRole(newUser.getRole());
-            User userUpdated = userService.update(user);
+        return userService.getAsOptional(id).map(user -> {  
+            User userUpdated = userService.update(user, newUser);
             return ResponseEntity.ok(
                 Response.builder()
                     .timeStamp(now())

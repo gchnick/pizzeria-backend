@@ -29,12 +29,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 
+/**
+ * @author Nick Galán
+ */
 @RequestMapping("/api/v1/auth/token")
 public class AuthResource {
 
     @Autowired
     private UserService userService;
 
+    /**
+     * 
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     @PostMapping("/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
