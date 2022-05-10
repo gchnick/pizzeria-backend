@@ -1,0 +1,177 @@
+[[resources-product]]
+== Productos
+
+Usted puede administrar varios productos en su pizzería usando el recurso que describiremos a continuación.
+
+[[resources-product-add]]
+=== Añadir un nuevo producto
+
+include::{snippets}/product-resource-test/add/auto-method-path.adoc[]
+
+include::{snippets}/product-resource-test/add/auto-description.adoc[]
+
+==== Autorización
+
+include::{snippets}/product-resource-test/add/auto-authorization.adoc[]
+
+==== Campos de solicitud (request fields)
+
+include::{snippets}/product-resource-test/add/auto-request-fields.adoc[]
+
+==== Campos de respuesta (response fields)
+
+include::{snippets}/product-resource-test/add/response-fields.adoc[]
+
+==== Ejemplo de request
+
+include::{snippets}/product-resource-test/add/curl-request.adoc[]
+
+==== Ejemplo de response
+
+include::{snippets}/product-resource-test/add/http-response.adoc[]
+
+[[resources-product-get]]
+=== Obtener un producto por ID
+
+include::{snippets}/product-resource-test/get-one/auto-method-path.adoc[]
+
+include::{snippets}/product-resource-test/get-one/auto-description.adoc[]
+
+==== Autorización
+
+include::{snippets}/product-resource-test/get-one/auto-authorization.adoc[]
+
+==== Parámetros de ruta
+
+include::{snippets}/product-resource-test/get-one/auto-path-parameters.adoc[]
+
+==== Campos de respuesta (response fields)
+
+include::{snippets}/product-resource-test/get-one/response-fields.adoc[]
+
+==== Ejemplo de request
+
+include::{snippets}/product-resource-test/get-one/curl-request.adoc[]
+
+==== Ejemplo de response
+
+include::{snippets}/product-resource-test/get-one/http-response.adoc[]
+
+[[resources-product-get-all-by-category]]
+=== Obtener una lista de productos por categoría
+
+include::{snippets}/product-resource-test/get-all-by-category/auto-method-path.adoc[]
+
+include::{snippets}/product-resource-test/get-all-by-category/auto-description.adoc[]
+
+==== Autorización
+
+include::{snippets}/product-resource-test/get-all-by-category/auto-authorization.adoc[]
+
+==== Parámetros de ruta
+
+include::{snippets}/product-resource-test/get-all-by-category/auto-path-parameters.adoc[]
+
+==== Campos de respuesta (response fields)
+
+include::{snippets}/product-resource-test/get-all-by-category/response-fields.adoc[]
+
+==== Ejemplo de request
+
+include::{snippets}/product-resource-test/get-all-by-category/curl-request.adoc[]
+
+==== Ejemplo de response
+
+include::{snippets}/product-resource-test/get-all-by-category/http-response.adoc[]
+
+[[resources-product-all]]
+=== Obtener una lista paginada con productos
+
+include::{snippets}/product-resource-test/get-all/auto-method-path.adoc[]
+
+include::{snippets}/product-resource-test/get-all/auto-description.adoc[]
+
+==== Autorización
+
+include::{snippets}/product-resource-test/get-all/auto-authorization.adoc[]
+
+==== Ejemplo de request
+
+include::{snippets}/product-resource-test/get-all/curl-request.adoc[]
+
+==== Ejemplo de response
+
+include::{snippets}/product-resource-test/get-all/http-response.adoc[]
+
+[[resources-product-update]]
+=== Actualizar información del producto
+
+include::{snippets}/product-resource-test/update/auto-method-path.adoc[]
+
+include::{snippets}/product-resource-test/update/auto-description.adoc[]
+
+==== Autorización
+
+include::{snippets}/product-resource-test/update/auto-authorization.adoc[]
+
+==== Parámetros de ruta
+
+include::{snippets}/product-resource-test/update/auto-path-parameters.adoc[]
+
+==== Campos de solicitud (request fields)
+
+include::{snippets}/product-resource-test/update/auto-request-fields.adoc[]
+
+==== Ejemplo de request
+
+include::{snippets}/product-resource-test/update/curl-request.adoc[]
+
+==== Ejemplo de response
+
+include::{snippets}/product-resource-test/update/http-response.adoc[]
+
+[[resources-product-patch]]
+=== Actualizar información parcial del producto
+
+include::{snippets}/product-resource-test/patch-one/auto-method-path.adoc[]
+
+include::{snippets}/product-resource-test/patch-one/auto-description.adoc[]
+
+==== Autorización
+
+include::{snippets}/product-resource-test/patch-one/auto-authorization.adoc[]
+
+==== Parámetros de ruta
+
+include::{snippets}/product-resource-test/patch-one/auto-path-parameters.adoc[]
+
+==== Campos de solicitud (request fields)
+
+include::{snippets}/product-resource-test/patch-one/auto-request-fields.adoc[]
+
+==== Ejemplo de request
+
+include::{snippets}/product-resource-test/patch-one/curl-request.adoc[]
+
+==== Ejemplo de response
+
+include::{snippets}/product-resource-test/patch-one/http-response.adoc[]
+
+[[resources-product-delete]]
+=== Eliminar un producto
+
+include::{snippets}/product-resource-test/delete-one/auto-method-path.adoc[]
+
+include::{snippets}/product-resource-test/delete-one/auto-description.adoc[]
+
+==== Autorización
+
+include::{snippets}/product-resource-test/delete-one/auto-authorization.adoc[]
+
+==== Ejemplo de request
+
+include::{snippets}/product-resource-test/delete-one/curl-request.adoc[]
+
+==== Ejemplo de response
+
+include::{snippets}/product-resource-test/delete-one/http-response.adoc[]

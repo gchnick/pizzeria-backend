@@ -103,7 +103,7 @@ public class UserResource {
     }
 
     /**
-     * Actualiza todos los campos de usuario a la que pertenece el ID con la nueva información. En caso de no existir un usuario con el ID suministrado se procederá a crear un nuevo usuario
+     * Reemplaza todos los campos de usuario a la que pertenece el ID con la nueva información. En caso de no existir un usuario con el ID suministrado se procederá a crear un nuevo usuario
      * @param id ID del usuario a actualizar
      * @param newUser Nueva información del usuario para aplicar en actualización
      * @return {@link Response}

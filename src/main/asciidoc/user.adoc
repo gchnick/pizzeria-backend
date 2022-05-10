@@ -1,0 +1,132 @@
+[[resources-user]]
+== Administrador
+
+El usuario con permisos de administrador mantener el actualizada la información de los productos ofrecidos en la pizzería. A demás podrá ver los pedidos que no ha sido despachados.
+
+Usted puede controlar a todos los usuarios registrados como administradores. Podrá ver la lista actual de administradores. Agregar o eliminar un administrador.
+
+[[resources-user-add]]
+=== Añadir un nuevo administrador
+
+include::{snippets}/user-resource-test/add/auto-method-path.adoc[]
+
+include::{snippets}/user-resource-test/add/auto-description.adoc[]
+
+==== Autorización
+
+include::{snippets}/user-resource-test/add/auto-authorization.adoc[]
+
+==== Campos de solicitud (request fields)
+
+include::{snippets}/user-resource-test/add/auto-request-fields.adoc[]
+
+==== Campos de respuesta (response fields)
+
+include::{snippets}/user-resource-test/add/response-fields.adoc[]
+
+==== Ejemplo de request
+
+include::{snippets}/user-resource-test/add/curl-request.adoc[]
+
+==== Ejemplo de response
+
+include::{snippets}/user-resource-test/add/http-response.adoc[]
+
+[[resources-user-get]]
+=== Obtener un administrador por ID
+
+include::{snippets}/user-resource-test/get-one/auto-method-path.adoc[]
+
+include::{snippets}/user-resource-test/get-one/auto-description.adoc[]
+
+==== Autorización
+
+include::{snippets}/user-resource-test/get-one/auto-authorization.adoc[]
+
+==== Parámetros de ruta
+
+include::{snippets}/user-resource-test/get-one/auto-path-parameters.adoc[]
+
+==== Campos de respuesta (response fields)
+
+include::{snippets}/user-resource-test/get-one/response-fields.adoc[]
+
+==== Ejemplo de request
+
+include::{snippets}/user-resource-test/get-one/curl-request.adoc[]
+
+==== Ejemplo de response
+
+include::{snippets}/user-resource-test/get-one/http-response.adoc[]
+
+[[resources-user-all]]
+=== Obtener una lista con todos los administradores
+
+include::{snippets}/user-resource-test/get-all/auto-method-path.adoc[]
+
+include::{snippets}/user-resource-test/get-all/auto-description.adoc[]
+
+==== Autorización
+
+include::{snippets}/user-resource-test/get-all/auto-authorization.adoc[]
+
+
+==== Campos de respuesta (response fields)
+
+include::{snippets}/user-resource-test/get-all/response-fields.adoc[]
+
+==== Ejemplo de request
+
+include::{snippets}/user-resource-test/get-all/curl-request.adoc[]
+
+==== Ejemplo de response
+
+include::{snippets}/user-resource-test/get-all/http-response.adoc[]
+
+[[resources-user-update]]
+=== Actualizar información de administrador
+
+include::{snippets}/user-resource-test/update/auto-method-path.adoc[]
+
+include::{snippets}/user-resource-test/update/auto-description.adoc[]
+
+==== Autorización
+
+include::{snippets}/user-resource-test/update/auto-authorization.adoc[]
+
+==== Parámetros de ruta
+
+include::{snippets}/user-resource-test/update/auto-path-parameters.adoc[]
+
+==== Campos de solicitud (request fields)
+
+include::{snippets}/user-resource-test/update/auto-request-fields.adoc[]
+
+==== Ejemplo de request
+
+include::{snippets}/user-resource-test/update/curl-request.adoc[]
+
+==== Ejemplo de response
+
+include::{snippets}/user-resource-test/update/http-response.adoc[]
+
+[[resources-user-get]]
+
+[[resources-user-delete]]
+=== Eliminar un administrador
+
+include::{snippets}/user-resource-test/delete-one/auto-method-path.adoc[]
+
+include::{snippets}/user-resource-test/delete-one/auto-description.adoc[]
+
+==== Autorización
+
+include::{snippets}/user-resource-test/delete-one/auto-authorization.adoc[]
+
+==== Ejemplo de request
+
+include::{snippets}/user-resource-test/delete-one/curl-request.adoc[]
+
+==== Ejemplo de response
+
+include::{snippets}/user-resource-test/delete-one/http-response.adoc[]

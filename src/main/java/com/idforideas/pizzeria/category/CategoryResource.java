@@ -130,7 +130,7 @@ public class CategoryResource {
     }
 
     /**
-     * Actualiza todos los campos de la categoría a la que pertenece el ID, con la nueva información. En caso de no existir una categoría con el ID suministrado se procederá a crear una nueva categoría
+     * Reemplaza todos los campos de la categoría a la que pertenece el ID, con la nueva información. En caso de no existir una categoría con el ID suministrado se procederá a crear una nueva categoría
      * @param id ID de la categoría a actualizar
      * @param newCategory Nueva información de categoría para aplicar en la actualización
      * @return {@link Response}

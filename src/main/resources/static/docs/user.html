@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<title>Productos</title>
+<title>Administrador</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -435,18 +435,21 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="resources-product">Productos</h2>
+<h2 id="resources-user">Administrador</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Usted puede administrar varios productos en su pizzería usando el recurso que describiremos a continuación.</p>
+<p>El usuario con permisos de administrador mantener el actualizada la información de los productos ofrecidos en la pizzería. A demás podrá ver los pedidos que no ha sido despachados.</p>
+</div>
+<div class="paragraph">
+<p>Usted puede controlar a todos los usuarios registrados como administradores. Podrá ver la lista actual de administradores. Agregar o eliminar un administrador.</p>
 </div>
 <div class="sect2">
-<h3 id="resources-product-add">Añadir un nuevo producto</h3>
+<h3 id="resources-user-add">Añadir un nuevo administrador</h3>
 <div class="paragraph">
-<p><code>POST /api/v1/products</code></p>
+<p><code>POST /api/v1/users</code></p>
 </div>
 <div class="paragraph">
-<p>Añadir un nuevo <strong>producto</strong> sin imagen. Si desea añadir un nuevo producto junto con su imagen vaya a la version 2 del <code>endpoint</code>.</p>
+<p>Añadir un nuevo <strong>usuario</strong> administrador del sistema.</p>
 </div>
 <div class="sect3">
 <h4 id="_autorización">Autorización</h4>
@@ -479,48 +482,32 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-left valign-top"><p class="tableblock">Identificación única.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">fullName</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Nombre del producto.</p>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Nombre completo del usuario.</p>
 <p class="tableblock">Size must be between 3 and 100 inclusive.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">email</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Descripción breve del producto.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Correo electrónico del usuario. Este se usara como <code>username</code> para poder solicitar un token de acceso.</p>
+<p class="tableblock">Must be a well-formed email address.<br>
+Size must be between 3 and 100 inclusive.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">price</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Precio del producto.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">pictureURL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">password</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Dirección URL de la imagen del producto.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">La contraseña debe tener al menos: un dígito, una letra en mayúscula y minúscula, un signo especial [@<mark>@</mark>$%^&amp;+=]. Tener 8 caracteres de tamaño y no tener ningún espacios.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">category</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cada producto debe estar clasificado en una categoría.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">category.id</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Identificación única.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">category.name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">role</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Nombre único de la categoría.</p>
-<p class="tableblock">El nombre debe tener entre 3 y 100 caracteres.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">El valor siempre debe ser <code>ROLE_ADMIN</code>.</p>
+<p class="tableblock">Must be one of [ROLE_ADMIN].</p></td>
 </tr>
 </tbody>
 </table>
@@ -542,9 +529,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.product</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.user</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Información del producto creado</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Información de usuario creado</p></td>
 </tr>
 </tbody>
 </table>
@@ -553,19 +540,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h4 id="_ejemplo_de_request">Ejemplo de request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/products' -i -X POST \
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/users' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MDZ9.RT9r_kuw9J7xAm1kJJJmD18pKJ6ruO3q8MbmSFcVgYU' \
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MTN9.9sDYqX8CybZbIAt9OwW755BlxkNR2VnePssP9RSRASw' \
     -d '{
   "id" : null,
-  "name" : "Pizza hawayana",
-  "description" : "Espectacular pizza con piña",
-  "price" : 13.85,
-  "pictureURL" : null,
-  "category" : {
-    "id" : 1,
-    "name" : "Pizzas"
-  }
+  "fullName" : "Doe John",
+  "email" : "doejohn@mail.com",
+  "password" : "uS3rp@ss",
+  "role" : "ROLE_ADMIN"
 }'</code></pre>
 </div>
 </div>
@@ -575,7 +558,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: https://donremolo-backend.herokuapp.com/api/v1/products/11
+Location: https://donremolo-backend.herokuapp.com/api/v1/users/3
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -584,24 +567,19 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 396
+Content-Length: 276
 
 {
-  "timeStamp" : "2022-05-10T18:05:06.477339",
+  "timeStamp" : "2022-05-10T18:05:13.74100741",
   "statusCode" : 201,
   "status" : "CREATED",
-  "message" : "Product created",
+  "message" : "User created",
   "data" : {
-    "product" : {
-      "id" : 11,
-      "name" : "Pizza hawayana",
-      "description" : "Espectacular pizza con piña",
-      "price" : 13.85,
-      "pictureURL" : null,
-      "category" : {
-        "id" : 1,
-        "name" : "Pizzas"
-      }
+    "user" : {
+      "id" : 3,
+      "fullName" : "Doe John",
+      "email" : "doejohn@mail.com",
+      "role" : "ROLE_ADMIN"
     }
   }
 }</code></pre>
@@ -610,17 +588,17 @@ Content-Length: 396
 </div>
 </div>
 <div class="sect2">
-<h3 id="resources-product-get">Obtener un producto por ID</h3>
+<h3 id="resources-user-get">Obtener un administrador por ID</h3>
 <div class="paragraph">
-<p><code>GET /api/v1/products/{id}</code></p>
+<p><code>GET /api/v1/users/{id}</code></p>
 </div>
 <div class="paragraph">
-<p>Devuelve un producto por ID.</p>
+<p>Devuelve un usuario por ID.</p>
 </div>
 <div class="sect3">
 <h4 id="_autorización_2">Autorización</h4>
 <div class="paragraph">
-<p>Recurso público.</p>
+<p>Se requiere token de acceso de usuario.</p>
 </div>
 </div>
 <div class="sect3">
@@ -645,7 +623,7 @@ Content-Length: 396
 <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID del producto a recuperar.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID del usuario a recuperar.</p></td>
 </tr>
 </tbody>
 </table>
@@ -667,9 +645,9 @@ Content-Length: 396
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.product</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.user</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Información del producto recuperado</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Información del usuario recuperado</p></td>
 </tr>
 </tbody>
 </table>
@@ -678,8 +656,9 @@ Content-Length: 396
 <h4 id="_ejemplo_de_request_2">Ejemplo de request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/products/2' -i -X GET \
-    -H 'Content-Type: application/json'</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/users/1' -i -X GET \
+    -H 'Content-Type: application/json' \
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MTB9.sUul3OJaRQt-ffeQoN-Km9ZAnsuwBxHbFddZNmmFzvs'</code></pre>
 </div>
 </div>
 </div>
@@ -696,24 +675,19 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 460
+Content-Length: 272
 
 {
-  "timeStamp" : "2022-05-10T18:05:03.166265657",
+  "timeStamp" : "2022-05-10T18:05:10.312011995",
   "statusCode" : 200,
   "status" : "OK",
-  "message" : "Product retrieved",
+  "message" : "User retrieved",
   "data" : {
-    "product" : {
-      "id" : 2,
-      "name" : "Pizza de pollo",
-      "description" : "No apta para vegetarianos pero deliciosa. La salsa barbacoa acompaña exquisitamente al pollo",
-      "price" : 17.23,
-      "pictureURL" : null,
-      "category" : {
-        "id" : 1,
-        "name" : "Pizzas"
-      }
+    "user" : {
+      "id" : 1,
+      "fullName" : "Docs Test",
+      "email" : "test@mail.com",
+      "role" : "ROLE_ADMIN"
     }
   }
 }</code></pre>
@@ -722,17 +696,103 @@ Content-Length: 460
 </div>
 </div>
 <div class="sect2">
-<h3 id="resources-product-get-all-by-category">Obtener una lista de productos por categoría</h3>
+<h3 id="resources-user-all">Obtener una lista con todos los administradores</h3>
 <div class="paragraph">
-<p><code>GET /api/v1/products/category/{name}</code></p>
+<p><code>GET /api/v1/users</code></p>
 </div>
 <div class="paragraph">
-<p>Devuelve una lista paginada de productos de una categoría.</p>
+<p>Devuelve una lista sin paginación de usuarios.</p>
 </div>
 <div class="sect3">
 <h4 id="_autorización_3">Autorización</h4>
 <div class="paragraph">
-<p>Recurso público.</p>
+<p>Se requiere token de acceso de usuario.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_campos_de_respuesta_response_fields_3">Campos de respuesta (response fields)</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.users</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Información de los usuario registrados</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_ejemplo_de_request_3">Ejemplo de request</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/users' -i -X GET \
+    -H 'Content-Type: application/json' \
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MDl9._b5lbUKq6G-Wm7ucUwhvAgv9BA_09HTsoOGatuSeaG0'</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ejemplo_de_response_3">Ejemplo de response</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 394
+
+{
+  "timeStamp" : "2022-05-10T18:05:09.223625105",
+  "statusCode" : 200,
+  "status" : "OK",
+  "message" : "Users retrieved",
+  "data" : {
+    "users" : [ {
+      "id" : 1,
+      "fullName" : "Docs Test",
+      "email" : "test@mail.com",
+      "role" : "ROLE_ADMIN"
+    }, {
+      "id" : 2,
+      "fullName" : "John Lee",
+      "email" : "lee@mail.com",
+      "role" : "ROLE_ADMIN"
+    } ]
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="resources-user-update">Actualizar información de administrador</h3>
+<div class="paragraph">
+<p><code>PUT /api/v1/users/{id}</code></p>
+</div>
+<div class="paragraph">
+<p>Reemplaza todos los campos de usuario a la que pertenece el ID con la nueva información. En caso de no existir un usuario con el ID suministrado se procederá a crear un nuevo usuario.</p>
+</div>
+<div class="sect3">
+<h4 id="_autorización_4">Autorización</h4>
+<div class="paragraph">
+<p>Se requiere token de acceso de usuario.</p>
 </div>
 </div>
 <div class="sect3">
@@ -754,322 +814,10 @@ Content-Length: 460
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Nombre de la categoría que clasifica los productos a recuperar. No se hace distinción entre mayúsculas o minúsculas.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_campos_de_respuesta_response_fields_3">Campos de respuesta (response fields)</h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.products</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Contiene toda la información de paginación</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.products.content</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Información de productos por la categoría solicitada de la pagina actual</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_ejemplo_de_request_3">Ejemplo de request</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/products/category/pizzas' -i -X GET \
-    -H 'Content-Type: application/json'</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_ejemplo_de_response_3">Ejemplo de response</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-Strict-Transport-Security: max-age=31536000 ; includeSubDomains
-X-Frame-Options: SAMEORIGIN
-Content-Length: 2178
-
-{
-  "timeStamp" : "2022-05-10T18:05:07.370878955",
-  "statusCode" : 200,
-  "status" : "OK",
-  "message" : "Products by category retrieved",
-  "data" : {
-    "products" : {
-      "content" : [ {
-        "id" : 2,
-        "name" : "Hawayana Big",
-        "description" : "Espectacular pizza grande con piña",
-        "price" : 13.85,
-        "pictureURL" : null,
-        "category" : {
-          "id" : 1,
-          "name" : "Pizzas"
-        }
-      }, {
-        "id" : 5,
-        "name" : "Margarita",
-        "description" : "Pizza italiana, lleva los colores de su bandera representados por el tomate, la albahaca y la muzzarella",
-        "price" : 14.45,
-        "pictureURL" : null,
-        "category" : {
-          "id" : 1,
-          "name" : "Pizzas"
-        }
-      }, {
-        "id" : 1,
-        "name" : "Napolitana",
-        "description" : "Sabrosa pizza con salsa napolitana",
-        "price" : 15.65,
-        "pictureURL" : null,
-        "category" : {
-          "id" : 1,
-          "name" : "Pizzas"
-        }
-      }, {
-        "id" : 4,
-        "name" : "Pizza de huevo y panceta",
-        "description" : "Aunque suena a desayuno americano es una de las pizzas más consumidas a nivel mundial",
-        "price" : 16.0,
-        "pictureURL" : null,
-        "category" : {
-          "id" : 1,
-          "name" : "Pizzas"
-        }
-      }, {
-        "id" : 11,
-        "name" : "Pizza hawayana",
-        "description" : "Espectacular pizza con piña",
-        "price" : 13.85,
-        "pictureURL" : null,
-        "category" : {
-          "id" : 1,
-          "name" : "Pizzas"
-        }
-      } ],
-      "pageable" : {
-        "sort" : {
-          "empty" : false,
-          "sorted" : true,
-          "unsorted" : false
-        },
-        "offset" : 0,
-        "pageNumber" : 0,
-        "pageSize" : 5,
-        "paged" : true,
-        "unpaged" : false
-      },
-      "totalPages" : 1,
-      "totalElements" : 5,
-      "last" : true,
-      "size" : 5,
-      "number" : 0,
-      "sort" : {
-        "empty" : false,
-        "sorted" : true,
-        "unsorted" : false
-      },
-      "numberOfElements" : 5,
-      "first" : true,
-      "empty" : false
-    }
-  }
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="resources-product-all">Obtener una lista paginada con productos</h3>
-<div class="paragraph">
-<p><code>GET /api/v1/products</code></p>
-</div>
-<div class="paragraph">
-<p>Devuelve una lista paginada de productos de una categoría.</p>
-</div>
-<div class="sect3">
-<h4 id="_autorización_4">Autorización</h4>
-<div class="paragraph">
-<p>Recurso público.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_ejemplo_de_request_4">Ejemplo de request</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/products' -i -X GET \
-    -H 'Content-Type: application/json'</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_ejemplo_de_response_4">Ejemplo de response</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-Strict-Transport-Security: max-age=31536000 ; includeSubDomains
-X-Frame-Options: SAMEORIGIN
-Content-Length: 2348
-
-{
-  "timeStamp" : "2022-05-10T18:05:02.541883267",
-  "statusCode" : 200,
-  "status" : "OK",
-  "message" : "Products retrieved",
-  "data" : {
-    "products" : {
-      "content" : [ {
-        "id" : 1,
-        "name" : "Napolitana",
-        "description" : "Sabrosa pizza con salsa napolitana",
-        "price" : 15.65,
-        "pictureURL" : null,
-        "category" : {
-          "id" : 1,
-          "name" : "Pizzas"
-        }
-      }, {
-        "id" : 2,
-        "name" : "Pizza de pollo",
-        "description" : "No apta para vegetarianos pero deliciosa. La salsa barbacoa acompaña exquisitamente al pollo",
-        "price" : 17.23,
-        "pictureURL" : null,
-        "category" : {
-          "id" : 1,
-          "name" : "Pizzas"
-        }
-      }, {
-        "id" : 3,
-        "name" : "Pizza 4 quesos",
-        "description" : "Si eres amante del queso no podrás resistirte a una combinación equilibrada de cuatro de sus variedades: mozzarella, queso azul, parmesano, provolone",
-        "price" : 18.0,
-        "pictureURL" : null,
-        "category" : {
-          "id" : 1,
-          "name" : "Pizzas"
-        }
-      }, {
-        "id" : 4,
-        "name" : "Pizza de huevo y panceta",
-        "description" : "Aunque suena a desayuno americano es una de las pizzas más consumidas a nivel mundial",
-        "price" : 16.0,
-        "pictureURL" : null,
-        "category" : {
-          "id" : 1,
-          "name" : "Pizzas"
-        }
-      }, {
-        "id" : 5,
-        "name" : "Margarita",
-        "description" : "Pizza italiana, lleva los colores de su bandera representados por el tomate, la albahaca y la muzzarella",
-        "price" : 14.45,
-        "pictureURL" : null,
-        "category" : {
-          "id" : 1,
-          "name" : "Pizzas"
-        }
-      } ],
-      "pageable" : {
-        "sort" : {
-          "empty" : false,
-          "sorted" : true,
-          "unsorted" : false
-        },
-        "offset" : 0,
-        "pageNumber" : 0,
-        "pageSize" : 5,
-        "paged" : true,
-        "unpaged" : false
-      },
-      "totalPages" : 2,
-      "totalElements" : 9,
-      "last" : false,
-      "size" : 5,
-      "number" : 0,
-      "sort" : {
-        "empty" : false,
-        "sorted" : true,
-        "unsorted" : false
-      },
-      "numberOfElements" : 5,
-      "first" : true,
-      "empty" : false
-    }
-  }
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="resources-product-update">Actualizar información del producto</h3>
-<div class="paragraph">
-<p><code>PUT /api/v1/products/{id}</code></p>
-</div>
-<div class="paragraph">
-<p>Reemplaza todos los campos del producto al que pertenece el ID, con la nueva información. En caso de no existir un producto con el ID suministrado se procederá a crear un nuevo producto.</p>
-</div>
-<div class="sect3">
-<h4 id="_autorización_5">Autorización</h4>
-<div class="paragraph">
-<p>Se requiere token de acceso de usuario.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_parámetros_de_ruta_3">Parámetros de ruta</h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Optional</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID del producto a actualizar.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID del usuario a actualizar.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1099,75 +847,55 @@ Content-Length: 2348
 <td class="tableblock halign-left valign-top"><p class="tableblock">Identificación única.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">fullName</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Nombre del producto.</p>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Nombre completo del usuario.</p>
 <p class="tableblock">Size must be between 3 and 100 inclusive.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">email</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Descripción breve del producto.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Correo electrónico del usuario. Este se usara como <code>username</code> para poder solicitar un token de acceso.</p>
+<p class="tableblock">Must be a well-formed email address.<br>
+Size must be between 3 and 100 inclusive.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">price</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Decimal</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Precio del producto.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">pictureURL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">password</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Dirección URL de la imagen del producto.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">La contraseña debe tener al menos: un dígito, una letra en mayúscula y minúscula, un signo especial [@<mark>@</mark>$%^&amp;+=]. Tener 8 caracteres de tamaño y no tener ningún espacios.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">category</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cada producto debe estar clasificado en una categoría.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">category.id</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Identificación única.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">category.name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">role</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Nombre único de la categoría.</p>
-<p class="tableblock">El nombre debe tener entre 3 y 100 caracteres.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">El valor siempre debe ser <code>ROLE_ADMIN</code>.</p>
+<p class="tableblock">Must be one of [ROLE_ADMIN].</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_request_5">Ejemplo de request</h4>
+<h4 id="_ejemplo_de_request_4">Ejemplo de request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/products/2' -i -X PUT \
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/users/2' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MDN9.-hSTOtIhx4M9HoyJ9GTjv1__hoHw44sqIynYUCKmJeo' \
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MTF9.bOpNvoilX-Lq6AtoWvRo3B2rdJMlf2TcmFvUAZJQ4mo' \
     -d '{
   "id" : null,
-  "name" : "Hawayana Big",
-  "description" : "Espectacular pizza grande con piña",
-  "price" : 13.85,
-  "pictureURL" : null,
-  "category" : {
-    "id" : 1,
-    "name" : "Pizzas"
-  }
+  "fullName" : "Don Remolo",
+  "email" : "donremolo@pizzeria.com",
+  "password" : "uS3rp@ss",
+  "role" : "ROLE_ADMIN"
 }'</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_response_5">Ejemplo de response</h4>
+<h4 id="_ejemplo_de_response_4">Ejemplo de response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -1179,24 +907,19 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 398
+Content-Length: 280
 
 {
-  "timeStamp" : "2022-05-10T18:05:04.159103312",
+  "timeStamp" : "2022-05-10T18:05:12.166838086",
   "statusCode" : 200,
   "status" : "OK",
-  "message" : "Product updated",
+  "message" : "User updated",
   "data" : {
-    "product" : {
+    "user" : {
       "id" : 2,
-      "name" : "Hawayana Big",
-      "description" : "Espectacular pizza grande con piña",
-      "price" : 13.85,
-      "pictureURL" : null,
-      "category" : {
-        "id" : 1,
-        "name" : "Pizzas"
-      }
+      "fullName" : "Don Remolo",
+      "email" : "donremolo@pizzeria.com",
+      "role" : "ROLE_ADMIN"
     }
   }
 }</code></pre>
@@ -1205,135 +928,31 @@ Content-Length: 398
 </div>
 </div>
 <div class="sect2">
-<h3 id="resources-product-patch">Actualizar información parcial del producto</h3>
+<h3 id="resources-user-delete">Eliminar un administrador</h3>
 <div class="paragraph">
-<p><code>PATCH /api/v1/products/{id}</code></p>
-</div>
-<div class="paragraph">
-<p>Actualiza los campos específicos del producto al que pertenece el ID.</p>
-</div>
-<div class="sect3">
-<h4 id="_autorización_6">Autorización</h4>
-<div class="paragraph">
-<p>Se requiere token de acceso de usuario.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_parámetros_de_ruta_4">Parámetros de ruta</h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Optional</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID del producto a parchar.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_campos_de_solicitud_request_fields_3">Campos de solicitud (request fields)</h4>
-<div class="paragraph">
-<p>No request body.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_ejemplo_de_request_6">Ejemplo de request</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/products/1' -i -X PATCH \
-    -H 'Content-Type: application/json-patch+json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MDd9.OJHYCXePGLSVlD8lyouOX7KWCKDK8fBQ_xp6iKcOBg8' \
-    -d '[ {
-  "op" : "replace",
-  "path" : "/name",
-  "value" : "Pizza napolitana"
-}, {
-  "op" : "replace",
-  "path" : "/price",
-  "value" : 14.25
-} ]'</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_ejemplo_de_response_6">Ejemplo de response</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-Strict-Transport-Security: max-age=31536000 ; includeSubDomains
-X-Frame-Options: SAMEORIGIN
-Content-Length: 401
-
-{
-  "timeStamp" : "2022-05-10T18:05:08.561582465",
-  "statusCode" : 200,
-  "status" : "OK",
-  "message" : "Product patched",
-  "data" : {
-    "product" : {
-      "id" : 1,
-      "name" : "Pizza napolitana",
-      "description" : "Sabrosa pizza con salsa napolitana",
-      "price" : 14.25,
-      "pictureURL" : null,
-      "category" : {
-        "id" : 1,
-        "name" : "Pizzas"
-      }
-    }
-  }
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="resources-product-delete">Eliminar un producto</h3>
-<div class="paragraph">
-<p><code>DELETE /api/v1/products/{id}</code></p>
+<p><code>DELETE /api/v1/users/{id}</code></p>
 </div>
 <div class="paragraph">
-<p>Elimina el producto al que corresponde el ID suministrado.</p>
+<p>Elimina el usuario al que corresponde el ID suministrado.</p>
 </div>
 <div class="sect3">
-<h4 id="_autorización_7">Autorización</h4>
+<h4 id="_autorización_5">Autorización</h4>
 <div class="paragraph">
 <p>Se requiere token de acceso de usuario.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_request_7">Ejemplo de request</h4>
+<h4 id="_ejemplo_de_request_5">Ejemplo de request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/products/3' -i -X DELETE \
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/users/2' -i -X DELETE \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MDV9.Ac5AWKr52S5EEq5QQJAl_K95A61DCgQyyOHrR9Mv6Qw'</code></pre>
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MTJ9.FaGRHpD2RDJ1l2-OoiDy2QLD8s-Mee7YyVaN8dw5Eq0'</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_response_7">Ejemplo de response</h4>
+<h4 id="_ejemplo_de_response_5">Ejemplo de response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 204 No Content
@@ -1353,7 +972,7 @@ X-Frame-Options: SAMEORIGIN</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-05-10 17:16:57 -0430
+Last updated 2022-05-10 17:09:27 -0430
 </div>
 </div>
 </body>

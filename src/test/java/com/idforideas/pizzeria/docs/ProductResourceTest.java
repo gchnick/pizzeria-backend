@@ -32,7 +32,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.web.multipart.MultipartFile;
 
 public class ProductResourceTest extends MockBase {
 
@@ -95,12 +94,11 @@ public class ProductResourceTest extends MockBase {
         final String mockedPrice = "13.85";
         final String mockedCategoryId = "1";
         final String mockedCategoryName = "Pizzas";
-        final MultipartFile picture = null; // FIXME fix error
         final MockMultipartFile file = new MockMultipartFile(
             "file",
             "pictureTest.jpg",
             IMAGE_JPEG_VALUE,
-            picture.getBytes());
+            "".getBytes());
 
            
         // When

@@ -3,6 +3,33 @@
 
 Usted puede administrar una lista de categorías de los productos en su pizzería.
 
+[[resources-category-add]]
+=== Añadir nueva categoría
+
+include::{snippets}/category-resource-test/add/auto-method-path.adoc[]
+
+include::{snippets}/category-resource-test/add/auto-description.adoc[]
+
+==== Autorización
+
+include::{snippets}/category-resource-test/add/auto-authorization.adoc[]
+
+==== Campos de solicitud (request fields)
+
+include::{snippets}/category-resource-test/add/auto-request-fields.adoc[]
+
+==== Campos de respuesta (response fields)
+
+include::{snippets}/category-resource-test/add/response-fields.adoc[]
+
+==== Ejemplo de request
+
+include::{snippets}/category-resource-test/add/curl-request.adoc[]
+
+==== Ejemplo de response
+
+include::{snippets}/category-resource-test/add/http-response.adoc[]
+
 [[resources-category-get]]
 === Obtener una categoría por nombre
 
@@ -32,7 +59,7 @@ include::{snippets}/category-resource-test/get-one/http-response.adoc[]
 
 
 [[resources-category-all]]
-=== Obtener todas las categorías
+=== Obtener una lista con todas las categorías
 
 include::{snippets}/category-resource-test/get-all/auto-method-path.adoc[]
 
@@ -55,35 +82,9 @@ include::{snippets}/category-resource-test/get-all/curl-request.adoc[]
 
 include::{snippets}/category-resource-test/get-all/http-response.adoc[]
 
-[[resources-category-add]]
-=== Añadir nueva categoría
-
-include::{snippets}/category-resource-test/add/auto-method-path.adoc[]
-
-include::{snippets}/category-resource-test/add/auto-description.adoc[]
-
-==== Autorización
-
-include::{snippets}/category-resource-test/add/auto-authorization.adoc[]
-
-==== Campos de solicitud (request fields)
-
-include::{snippets}/category-resource-test/add/auto-request-fields.adoc[]
-
-==== Campos de respuesta (response fields)
-
-include::{snippets}/category-resource-test/add/response-fields.adoc[]
-
-==== Ejemplo de request
-
-include::{snippets}/category-resource-test/add/curl-request.adoc[]
-
-==== Ejemplo de response
-
-include::{snippets}/category-resource-test/add/http-response.adoc[]
 
 [[resources-category-delete]]
-=== Eliminar categoría
+=== Eliminar una categoría
 
 include::{snippets}/category-resource-test/delete-one/auto-method-path.adoc[]
 

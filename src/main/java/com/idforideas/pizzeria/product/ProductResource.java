@@ -128,7 +128,7 @@ public class ProductResource {
      * @param page Número de la página a recuperar comenzado por 0
      * @param size Tamaño de la página. Cantidad máxima de productos por página
      * @param sort Propiedad usada para ordenar la lista. Dirección de ordenamiento.
-     * @param categoryName Nombre de la categoría que clasifica los productos a recuperar 
+     * @param categoryName Nombre de la categoría que clasifica los productos a recuperar. No se hace distinción entre mayúsculas o minúsculas. 
      * @return {@link Response}
      */
     @GetMapping("/category/{name}")
@@ -152,7 +152,7 @@ public class ProductResource {
     }
 
     /**
-     * Actualiza todos los campos del producto al que pertenece el ID, con la nueva información. En caso de no existir un producto con el ID suministrado se procederá a crear un nuevo producto
+     * Reemplaza todos los campos del producto al que pertenece el ID, con la nueva información. En caso de no existir un producto con el ID suministrado se procederá a crear un nuevo producto
      * @param newProduct Nueva información del producto para aplicar en la actualización
      * @param id ID del producto a actualizar
      * @return {@link Response}
@@ -198,7 +198,7 @@ public class ProductResource {
      * Actualiza los campos específicos del producto al que pertenece el ID
      * @param id ID del producto a parchar
      * @param patch JsonPath con la información y las acciones a aplicar
-     * @see <a>https://datatracker.ietf.org/doc/html/rfc6902</a>
+     * @see https://datatracker.ietf.org/doc/html/rfc6902
      * @return {@link Response}
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
