@@ -72,8 +72,7 @@ public class CategoryResourceTest extends MockBase {
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint()),
             relaxedResponseFields(
-                subsectionWithPath("data.category").description("Información de la categoría recuperada"),
-                subsectionWithPath("data.category.name").description("Nombre de la categoría"))
+                subsectionWithPath("data.category").description("Información de la categoría recuperada"))
         ));   
     }
     
