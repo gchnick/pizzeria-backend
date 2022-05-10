@@ -7,6 +7,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -16,13 +17,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
+
 import com.idforideas.pizzeria.category.Category;
 import com.idforideas.pizzeria.category.CategoryService;
 import com.idforideas.pizzeria.exception.ConflictException;
 import com.idforideas.pizzeria.util.Response;
 import com.idforideas.pizzeria.util.SortUtil;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import lombok.RequiredArgsConstructor;
 
@@ -52,9 +54,6 @@ public class ProductResource {
 
     private final SortUtil sort;
 
-    @Value("${config.uploads.path}")
-    private String path;
-
     /**
      * Añadir un nuevo <b>producto</b> sin imagen. Si desea añadir un nuevo producto junto con su imagen vaya a la version 2 del <code>endpoint</code> 
      * @param product Información del producto
@@ -62,17 +61,23 @@ public class ProductResource {
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public ResponseEntity<Response> saveProduct(@RequestBody @Valid Product product) {
-            return ResponseEntity.status(CREATED)
-                        .body(
-                            Response.builder()
-                            .timeStamp(now())
-                            .data(of("product", productService.create(product)))
-                            .message("Product created")
-                            .status(CREATED)
-                            .statusCode(CREATED.value())
-                            .build()
-                        );
+    public ResponseEntity<Response> save(@RequestBody @Valid Product product) {
+        Product createdProduct = productService.create(product);
+        URI uri = ServletUriComponentsBuilder
+        .fromCurrentRequest()
+        .path("/{id}")
+        .buildAndExpand(createdProduct.getId())
+        .toUri();
+        return ResponseEntity.created(uri)
+                    .body(
+                        Response.builder()
+                        .timeStamp(now())
+                        .data(of("product", createdProduct))
+                        .message("Product created")
+                        .status(CREATED)
+                        .statusCode(CREATED.value())
+                        .build()
+                    );
     }
 
     /**
@@ -81,7 +86,7 @@ public class ProductResource {
      * @return {@link Response}
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Response> getProduct(@PathVariable Long id) {
+    public ResponseEntity<Response> get(@PathVariable Long id) {
         return ResponseEntity.ok(
             Response.builder()
             .timeStamp(now())
@@ -101,7 +106,7 @@ public class ProductResource {
      * @return {@link Response}
      */
     @GetMapping
-    public ResponseEntity<Response> getProducts(
+    public ResponseEntity<Response> listAsPage(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "5") int size,
         @RequestParam(defaultValue = "category") String[] sort
@@ -127,7 +132,7 @@ public class ProductResource {
      * @return {@link Response}
      */
     @GetMapping("/category/{name}")
-    public ResponseEntity<Response> getProductsByCategory(
+    public ResponseEntity<Response> listAsPage(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "5") int size,
         @RequestParam(defaultValue = "name") String[] sort,
@@ -154,7 +159,7 @@ public class ProductResource {
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<Response> updateProduct(@RequestBody @Valid Product newProduct, @PathVariable Long id) {
+    public ResponseEntity<Response> update(@RequestBody @Valid Product newProduct, @PathVariable Long id) {
         return productService.getAsOptional(id).map(product -> {
             product.setName(newProduct.getName());
             product.setDescription(newProduct.getDescription());
@@ -171,10 +176,16 @@ public class ProductResource {
                     .build()
             );
         }).orElseGet(() -> {
-            return ResponseEntity.status(CREATED).body(
+            Product createdProduct = productService.create(newProduct);
+            URI uri = ServletUriComponentsBuilder
+            .fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(createdProduct.getId())
+            .toUri();
+            return ResponseEntity.created(uri).body(
                 Response.builder()
                     .timeStamp(now())
-                    .data(of("product", productService.create(newProduct)))
+                    .data(of("product", createdProduct))
                     .message("Product created")
                     .status(CREATED)
                     .statusCode(CREATED.value())
@@ -187,7 +198,7 @@ public class ProductResource {
      * Actualiza los campos específicos del producto al que pertenece el ID
      * @param id ID del producto a parchar
      * @param patch JsonPath con la información y las acciones a aplicar
-     * @see <a>enlace</a>
+     * @see <a>https://datatracker.ietf.org/doc/html/rfc6902</a>
      * @return {@link Response}
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")

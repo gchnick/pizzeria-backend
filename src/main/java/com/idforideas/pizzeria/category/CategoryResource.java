@@ -53,8 +53,8 @@ public class CategoryResource {
         Category createdCategory = categoryService.create(category);
         URI uri = ServletUriComponentsBuilder
             .fromCurrentRequest()
-            .path("/" + createdCategory.getId())
-            .buildAndExpand()
+            .path("/{id}")
+            .buildAndExpand(createdCategory.getId())
             .toUri();
         return ResponseEntity.created(uri)
                     .body(
@@ -152,8 +152,8 @@ public class CategoryResource {
             Category createdCategory = categoryService.create(newCategory);
             URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
-                .path("/" + createdCategory.getId())
-                .buildAndExpand()
+                .path("/{id}")
+                .buildAndExpand(createdCategory.getId())
                 .toUri();
             return ResponseEntity.created(uri).body(
                 Response.builder()

@@ -50,8 +50,8 @@ public class UserResource {
 
         URI uri = ServletUriComponentsBuilder
             .fromCurrentRequest()
-            .path("/" + createdUser.getId())
-            .buildAndExpand()
+            .path("/{id}")
+            .buildAndExpand(createdUser.getId())
             .toUri();                
         return ResponseEntity.created(uri).body(
             Response.builder()
@@ -126,8 +126,8 @@ public class UserResource {
             User createdUser = userService.create(newUser);
             URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
-                .path("/" + createdUser.getId())
-                .buildAndExpand()
+                .path("/{id}")
+                .buildAndExpand(createdUser.getId())
                 .toUri();
             return ResponseEntity.created(uri).body(
                 Response.builder()

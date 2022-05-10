@@ -33,7 +33,7 @@ public class CategoryResourceTest extends MockBase {
     @Test
     void add() throws Exception {
         // Given
-        String mockedContentJson = getNewCategoryAsJson();
+        final String mockedContentJson = getNewCategoryAsJson();
 
         // When
         final ResultActions result = mockMvc.perform(post(URL_TEMPLATE)
@@ -42,8 +42,9 @@ public class CategoryResourceTest extends MockBase {
         .content(mockedContentJson));
 
         // Then
+        final String expectedLocationId = "/5";
         result.andExpect(status().isCreated())
-        .andExpect(header().string("Location", containsString(URL_TEMPLATE.concat("/5"))))
+        .andExpect(header().string("Location", containsString(URL_TEMPLATE.concat(expectedLocationId))))
         .andExpect(content().contentType(APPLICATION_JSON))
         .andDo(document("{class-name}/{method-name}", 
             preprocessRequest(prettyPrint()),
