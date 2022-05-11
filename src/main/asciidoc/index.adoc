@@ -169,16 +169,12 @@ Una respuesta con paginación tiene la siguiente estructura:
 | Número de página.
 |===
 
-[[overview-autentication]]
-=== Autenticación
-
-include::auth.adoc[]
-
 [[resources]]
 = Recursos
 
 Esta pagina documenta todos los recursos implementados en la API hasta el momento.
 
+include::auth.adoc[]
 include::user.adoc[]
 include::category.adoc[]
 include::product.adoc[]

@@ -1,1 +1,50 @@
+[[resource-auth]]
+== Autenticación
+
 Preparando información.
+
+[[resource-auth-login]]
+=== Iniciar session o crear tokens de acceso
+
+include::{snippets}/auth-resource-test/add/auto-method-path.adoc[]
+
+include::{snippets}/auth-resource-test/add/auto-description.adoc[]
+
+==== Campos de solicitud (request fields)
+
+include::{snippets}/auth-resource-test/add/auto-request-fields.adoc[]
+
+==== Campos de respuesta (response fields)
+
+include::{snippets}/auth-resource-test/add/response-fields.adoc[]
+
+==== Ejemplo de request
+
+include::{snippets}/auth-resource-test/add/curl-request.adoc[]
+
+==== Ejemplo de response
+
+include::{snippets}/auth-resource-test/add/http-response.adoc[]
+
+[[resource-auth-refresh-token]]
+=== Refrescar token de acceso
+
+include::{snippets}/auth-resource-test/add/auto-method-path.adoc[]
+
+include::{snippets}/auth-resource-test/add/auto-description.adoc[]
+
+==== Campos de solicitud (request fields)
+
+include::{snippets}/auth-resource-test/add/auto-request-fields.adoc[]
+
+==== Campos de respuesta (response fields)
+
+include::{snippets}/auth-resource-test/add/response-fields.adoc[]
+
+==== Ejemplo de request
+
+include::{snippets}/auth-resource-test/add/curl-request.adoc[]
+
+==== Ejemplo de response
+
+include::{snippets}/auth-resource-test/add/http-response.adoc[]
