@@ -1,4 +1,4 @@
-package com.idforideas.pizzeria.docs;
+package com.idforideas.pizzeria.user;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

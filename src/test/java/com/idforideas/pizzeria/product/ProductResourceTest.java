@@ -1,4 +1,4 @@
-package com.idforideas.pizzeria.docs;
+package com.idforideas.pizzeria.product;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;

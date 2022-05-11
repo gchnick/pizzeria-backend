@@ -1,4 +1,4 @@
-package com.idforideas.pizzeria.docs;
+package com.idforideas.pizzeria.auth;
 
 import static com.idforideas.pizzeria.util.EnvVariable.PWD_TEST;
 import static com.idforideas.pizzeria.util.EnvVariable.USER_TEST;
