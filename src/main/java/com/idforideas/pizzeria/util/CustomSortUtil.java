@@ -1,7 +1,4 @@
-package com.idforideas.pizzeria.config;
-
-import com.idforideas.pizzeria.util.SortArrays;
-import com.idforideas.pizzeria.util.SortUtil;
+package com.idforideas.pizzeria.util;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

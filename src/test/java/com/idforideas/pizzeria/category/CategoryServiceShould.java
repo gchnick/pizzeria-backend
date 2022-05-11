@@ -28,7 +28,7 @@ public class CategoryServiceShould {
     CategoryRepo categoryRepo;
 
     @InjectMocks
-    CategoryServiceImpl categoryService;
+    CategoryServiceJpa categoryService;
 
     @Test
     void throw_exception_when_category_by_id_not_exist() {

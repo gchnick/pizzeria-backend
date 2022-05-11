@@ -9,9 +9,8 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static com.idforideas.pizzeria.config.security.EnvVariable.USER_TEST;
-import static com.idforideas.pizzeria.config.security.EnvVariable.PWD_TEST;
-
+import static com.idforideas.pizzeria.util.EnvVariable.PWD_TEST;
+import static com.idforideas.pizzeria.util.EnvVariable.USER_TEST;
 import static java.lang.System.getenv;
 
 import javax.servlet.Filter;
@@ -102,13 +101,13 @@ public class MockBase {
                             throw new RuntimeException(e);
                     }
 
-                    request.addHeader("Authorization", "Bearer " + accessToken);
+                    request.addHeader("Authorization", "Bearer ".concat(accessToken));
                     return AuthorizationSnippet.documentAuthorization(request, "Se requiere token de acceso de usuario.");
             }
         };
     }
 
-    private String getAccessToken(String email, String password) throws Exception {
+    protected String getAccessToken(String email, String password) throws Exception {
 
         String body = mockMvc
             .perform(

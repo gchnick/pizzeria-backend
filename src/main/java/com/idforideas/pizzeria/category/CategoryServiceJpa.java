@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 @RequiredArgsConstructor
 @Slf4j
-public class CategoryServiceImpl implements CategoryService {
+public class CategoryServiceJpa implements CategoryService {
     private final CategoryRepo categoryRepo;
     private final ProductRepo produdctRepo;
 

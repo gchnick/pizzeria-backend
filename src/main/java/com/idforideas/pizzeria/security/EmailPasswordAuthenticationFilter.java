@@ -1,6 +1,6 @@
-package com.idforideas.pizzeria.config.security;
+package com.idforideas.pizzeria.security;
 
-import static com.idforideas.pizzeria.config.security.EnvVariable.SECRET;
+import static com.idforideas.pizzeria.util.EnvVariable.SECRET;
 import static java.util.Map.of;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -29,18 +29,19 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author Nick Galán
  */
+@RequiredArgsConstructor
 @Slf4j
-public class CustomAuthenticaionFilter extends UsernamePasswordAuthenticationFilter {
+public class EmailPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
 
-    public CustomAuthenticaionFilter(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
+    private final int ACCESS_TOKEN_EXPIRES_MINUTES = 10;
+    private final int REFRESH_TOKEN_EXPIRES_MINUTES = 30;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
@@ -83,12 +84,11 @@ public class CustomAuthenticaionFilter extends UsernamePasswordAuthenticationFil
     }
 
     private Tokens getTokens(Access access) {
-        String accessToken = createJWT(access, 10);
-        String refreshToken = createJWT(access, 30);
-       
+        String accessToken = createJWT(access, ACCESS_TOKEN_EXPIRES_MINUTES);
+        String refreshToken = createJWT(access, REFRESH_TOKEN_EXPIRES_MINUTES);
         return new Tokens(accessToken, refreshToken);
     }
 
-    private record Access (Authentication authentication, HttpServletRequest request) {}
+    private record Access(Authentication authentication, HttpServletRequest request) {}
 
 }

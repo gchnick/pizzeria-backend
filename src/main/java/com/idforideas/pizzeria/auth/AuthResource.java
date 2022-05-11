@@ -4,7 +4,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static com.idforideas.pizzeria.config.security.EnvVariable.SECRET;
+import static com.idforideas.pizzeria.util.EnvVariable.SECRET;
 import static java.util.Map.of;
 
 import java.io.IOException;

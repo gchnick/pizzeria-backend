@@ -1,8 +1,6 @@
 [[resources-user]]
 == Administrador
 
-El usuario con permisos de administrador mantener el actualizada la información de los productos ofrecidos en la pizzería. A demás podrá ver los pedidos que no ha sido despachados.
-
 Usted puede controlar a todos los usuarios registrados como administradores. Podrá ver la lista actual de administradores. Agregar o eliminar un administrador.
 
 [[resources-user-add]]

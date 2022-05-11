@@ -1,9 +1,9 @@
-package com.idforideas.pizzeria.config.security;
+package com.idforideas.pizzeria.security;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static com.idforideas.pizzeria.config.security.EnvVariable.SECRET;
+import static com.idforideas.pizzeria.util.EnvVariable.SECRET;
 import static java.util.Arrays.stream;
 
 import java.io.IOException;
@@ -34,18 +34,21 @@ import lombok.extern.slf4j.Slf4j;
  * @author Nick Galán
  */
 @Slf4j
-public class CustomAuthorizationFilter extends OncePerRequestFilter {
+public class OncePerRequestAuthorizationFilter extends OncePerRequestFilter {
+    private final String AUTH_TOKEN_PATH = "/api/v1/auth/token";
+    private final String AUTH_TOKEN_REFRESH_PATH = "/api/v1/auth/token/refresh";
+    private final String PREFIX_AUTH = "Bearer ";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        if(request.getServletPath().equals("/api/v1/auth/token") || request.getServletPath().equals("/api/v1/auth/token/refresh")) {
+        if(request.getServletPath().equals(AUTH_TOKEN_PATH) || request.getServletPath().equals(AUTH_TOKEN_REFRESH_PATH)) {
             filterChain.doFilter(request, response);
         } else {
             String authorizationHeader = request.getHeader(AUTHORIZATION);
-            if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            if(authorizationHeader != null && authorizationHeader.startsWith(PREFIX_AUTH)) {
                 try {
-                    String token  = authorizationHeader.substring("Bearer ".length());
+                    String token  = authorizationHeader.substring(PREFIX_AUTH.length());
                     Algorithm algorithm = Algorithm.HMAC256(System.getenv(SECRET.name()).getBytes());
                     JWTVerifier verifier = JWT.require(algorithm).build();
                     DecodedJWT decodedJWT = verifier.verify(token);

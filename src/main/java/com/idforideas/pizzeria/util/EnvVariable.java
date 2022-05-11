@@ -1,4 +1,4 @@
-package com.idforideas.pizzeria.config.security;
+package com.idforideas.pizzeria.util;
 
 public enum EnvVariable {
     SECRET,

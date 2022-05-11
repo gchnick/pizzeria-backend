@@ -1,10 +1,10 @@
-package com.idforideas.pizzeria.config;
+package com.idforideas.pizzeria.security.config;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 import com.idforideas.pizzeria.auth.UserDetailsService;
-import com.idforideas.pizzeria.config.security.CustomAuthenticaionFilter;
-import com.idforideas.pizzeria.config.security.CustomAuthorizationFilter;
+import com.idforideas.pizzeria.security.EmailPasswordAuthenticationFilter;
+import com.idforideas.pizzeria.security.OncePerRequestAuthorizationFilter;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,24 +26,26 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityEmailPassword extends WebSecurityConfigurerAdapter {
+    
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private static final String FILTER_PROCESSES_URL = "/api/v1/auth/token";
 
-    @Override
+   @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        CustomAuthenticaionFilter customAuthenticaionFilter = new CustomAuthenticaionFilter(authenticationManagerBean());
-        customAuthenticaionFilter.setFilterProcessesUrl("/api/v1/auth/token");
+        EmailPasswordAuthenticationFilter authenticationFilter = new EmailPasswordAuthenticationFilter(authenticationManagerBean());
+        authenticationFilter.setFilterProcessesUrl(FILTER_PROCESSES_URL);
         http.csrf().disable();
         http.headers().frameOptions().sameOrigin();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.addFilter(customAuthenticaionFilter);
-        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilter(authenticationFilter);
+        http.addFilterBefore(new OncePerRequestAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
@@ -51,5 +53,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-    
 }
