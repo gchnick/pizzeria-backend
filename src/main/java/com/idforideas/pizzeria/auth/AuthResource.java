@@ -26,17 +26,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.core.GrantedAuthority;
 
 /**
  * @author Nick Galán
  */
+@RestController
 @RequestMapping("/api/v1/auth/token")
+@RequiredArgsConstructor
 public class AuthResource {
-
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     /**
      * 
