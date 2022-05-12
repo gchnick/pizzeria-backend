@@ -10,40 +10,67 @@ import java.util.stream.Stream;
 import com.idforideas.pizzeria.exception.BadRequestException;
 
 import org.springframework.data.domain.Sort.Order;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 
-public class SortArraysTest {
+@DisplayName("Sort arrays should")
+public class SortArraysShould {
 
-    private final SortUtil sort = new SortArrays();
+    private SortUtil sort;
+
+    @BeforeEach
+    void setUp() {
+        // Arrange
+        this.sort = new SortArrays();
+    }
    
     @ParameterizedTest
     @MethodSource("sortArguments")
-    void whenGetOrdersThenNotNull(String[] sort) {
-        assertNotNull(this.sort.getOrders(sort));
+    @DisplayName("is not null when get orders")
+    void notNull(String[] sort) {
+
+        // Act
+        List<Order> actual = this.sort.getOrders(sort);
+
+        // Assert
+        assertNotNull(actual);
     }
 
     @ParameterizedTest
     @MethodSource("sortArguments")
-    void whenGetOrdersThenNotContains_ASC_Or_DESC_Properties(String[] sort) {
-        List<Order> orders = this.sort.getOrders(sort);
-        assertFalse(orders.contains(Order.by("asc")));
-        assertFalse(orders.contains(Order.desc("asc")));
-        assertFalse(orders.contains(Order.by("desc")));
-        assertFalse(orders.contains(Order.desc("desc")));
+    @DisplayName("is not contains asc or desc with properties order")
+    void notContains_ASC_or_DESC(String[] sort) {
+
+        // Act
+        List<Order> actual = this.sort.getOrders(sort);
+
+        // Assert
+        assertFalse(actual.contains(Order.by("asc")));
+        assertFalse(actual.contains(Order.desc("asc")));
+        assertFalse(actual.contains(Order.by("desc")));
+        assertFalse(actual.contains(Order.desc("desc")));
     }
 
     @ParameterizedTest
     @MethodSource("sortInvalidArguments")
-    void whenInvalidParametersThenThrowBadRequestException(String[] sort) {
-        assertThrows(BadRequestException.class, () -> this.sort.getOrders(sort));
+    @DisplayName("throw exception when has invalid parameters")
+    void invalidParameters(String[] sort) {
+        
+        // Assert
+        assertThrows(BadRequestException.class, () -> {
+            // Act
+            this.sort.getOrders(sort);
+        });
     }
 
-    
-    static Stream<Arguments> sortArguments() {
+    // ------------------------ METHODS SOURCE ------------------------ //
+    // --------------------------- ARRANGE --------------------------- //
+
+    private static Stream<Arguments> sortArguments() {
         return Stream.of(
             Arguments.of((Object) new String[]{"price", "desc"}),
             Arguments.of((Object) new String[]{"price", "asc", "name", "category","desc"}),
@@ -53,7 +80,7 @@ public class SortArraysTest {
             );
     }
 
-    static Stream<Arguments> sortInvalidArguments() {
+    private static Stream<Arguments> sortInvalidArguments() {
         return Stream.of(
             Arguments.of((Object) new String[]{"asc", "name"}),
             Arguments.of((Object) new String[]{"price", "asc", "desc","name", "category","desc"}),
