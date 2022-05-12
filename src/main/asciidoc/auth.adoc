@@ -6,45 +6,45 @@ Preparando información.
 [[resource-auth-login]]
 === Iniciar session o crear tokens de acceso
 
-include::{snippets}/auth-resource-test/add/auto-method-path.adoc[]
+include::{snippets}/auth-resource-test/login/auto-method-path.adoc[]
 
-include::{snippets}/auth-resource-test/add/auto-description.adoc[]
+include::{snippets}/auth-resource-test/login/auto-description.adoc[]
 
 ==== Campos de solicitud (request fields)
 
-include::{snippets}/auth-resource-test/add/auto-request-fields.adoc[]
+include::{snippets}/auth-resource-test/login/auto-request-fields.adoc[]
 
 ==== Campos de respuesta (response fields)
 
-include::{snippets}/auth-resource-test/add/response-fields.adoc[]
+include::{snippets}/auth-resource-test/login/response-fields.adoc[]
 
 ==== Ejemplo de request
 
-include::{snippets}/auth-resource-test/add/curl-request.adoc[]
+include::{snippets}/auth-resource-test/login/curl-request.adoc[]
 
 ==== Ejemplo de response
 
-include::{snippets}/auth-resource-test/add/http-response.adoc[]
+include::{snippets}/auth-resource-test/login/http-response.adoc[]
 
 [[resource-auth-refresh-token]]
 === Refrescar token de acceso
 
-include::{snippets}/auth-resource-test/add/auto-method-path.adoc[]
+include::{snippets}/auth-resource-test/refresh/auto-method-path.adoc[]
 
-include::{snippets}/auth-resource-test/add/auto-description.adoc[]
+include::{snippets}/auth-resource-test/refresh/auto-description.adoc[]
 
 ==== Campos de solicitud (request fields)
 
-include::{snippets}/auth-resource-test/add/auto-request-fields.adoc[]
+include::{snippets}/auth-resource-test/refresh/auto-request-fields.adoc[]
 
 ==== Campos de respuesta (response fields)
 
-include::{snippets}/auth-resource-test/add/response-fields.adoc[]
+include::{snippets}/auth-resource-test/refresh/response-fields.adoc[]
 
 ==== Ejemplo de request
 
-include::{snippets}/auth-resource-test/add/curl-request.adoc[]
+include::{snippets}/auth-resource-test/refresh/curl-request.adoc[]
 
 ==== Ejemplo de response
 
-include::{snippets}/auth-resource-test/add/http-response.adoc[]
+include::{snippets}/auth-resource-test/refresh/http-response.adoc[]
