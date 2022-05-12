@@ -6,7 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
-
+// TODO pasar la logica de nogocio a ProductObjectMother
+@Deprecated
 public abstract class ProductByCategoryObjectMother {
 
     static final Category PIZZAS = new Category("Pizzas");

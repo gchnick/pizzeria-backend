@@ -28,7 +28,7 @@ public class UserServiceShould {
     UserRepo userRepo;
 
     @InjectMocks
-    UserServiceImpl userService;
+    UserServiceJpa userService;
 
     @Test
     void throw_exception_when_user_by_id_not_exist() {

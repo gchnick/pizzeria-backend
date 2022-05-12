@@ -9,6 +9,7 @@ import java.util.List;
 import com.idforideas.pizzeria.category.Category;
 import com.idforideas.pizzeria.category.CategoryRepo;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,9 @@ public class ProductRepoIT {
     @Autowired
     CategoryRepo categoryRepo;
 
+    // TODO implementar las pruebas de integracion para ProductRepo
     @Test
+    @Disabled
     void return_list_of_product_by_category_ignore_case() {
 
         Category pizzasIgnoreCase = categoryRepo.findByNameIgnoreCase("pIzZas").get();

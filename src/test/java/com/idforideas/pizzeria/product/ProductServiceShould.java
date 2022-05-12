@@ -18,8 +18,9 @@ public class ProductServiceShould {
     ProductRepo productRepo;
 
     @InjectMocks
-    ProductServiceImpl productSerice;
+    ProductServiceJpa productSerice;
 
+    // TODO Implementar las pruebas de ProductServiceJpa
     @Test
     @Disabled
     void throw_exception_when_product_by_id_not_exist() {

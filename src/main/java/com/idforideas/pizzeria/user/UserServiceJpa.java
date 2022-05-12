@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Nick Galán
  */
 @Service @RequiredArgsConstructor @Transactional @Slf4j
-public class UserServiceImpl implements UserService {
+public class UserServiceJpa implements UserService {
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
 

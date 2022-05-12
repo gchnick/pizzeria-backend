@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 @RequiredArgsConstructor
 @Slf4j
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceJpa implements ProductService {
     private final ProductRepo productRepo;
 
     @Override
