@@ -1,8 +1,7 @@
 package com.idforideas.pizzeria.product;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;
-import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -11,20 +10,18 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.io.FileInputStream;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.hamcrest.Matchers.containsString;
 
-import static com.idforideas.pizzeria.product.ProductObjectMother.getNewProduct011AsJson;
-import static com.idforideas.pizzeria.product.ProductObjectMother.getUpdateProduct011AsJson;
+import static com.idforideas.pizzeria.product.ProductMother.getNewProduct011AsJson;
+import static com.idforideas.pizzeria.product.ProductMother.getNewProductPizzaMuzzarellaAsJson;
+import static com.idforideas.pizzeria.product.ProductMother.getUpdateProduct011AsJson;
 
 import com.idforideas.pizzeria.docs.support.MockBase;
 
@@ -54,12 +51,10 @@ public class ProductResourceTest extends MockBase {
         result.andExpect(status().isCreated())
         .andExpect(header().string("Location", containsString(URL_TEMPLATE.concat(expectedLocationId))))
         .andExpect(content().contentType(APPLICATION_JSON))
-        .andDo(document("{class-name}/{method-name}", 
-            preprocessRequest(prettyPrint()),
-            preprocessResponse(prettyPrint()),
+        .andDo(commonDocumentation().document(
             relaxedResponseFields(
-                subsectionWithPath("data.product").description("Información del producto creado"))
-            ));
+                subsectionWithPath("data.product").description("Información del producto creado")
+        )));
     }
 
 
@@ -76,12 +71,10 @@ public class ProductResourceTest extends MockBase {
         // Then
         result.andExpect(status().isOk())
         .andExpect(content().contentType(APPLICATION_JSON))
-        .andDo(document("{class-name}/{method-name}", 
-            preprocessRequest(prettyPrint()),
-            preprocessResponse(prettyPrint()),
+        .andDo(commonDocumentation().document(
             relaxedResponseFields(
-                subsectionWithPath("data.product").description("Información del producto recuperado"))
-        ));   
+                subsectionWithPath("data.product").description("Información del producto recuperado")
+        )));   
     }
 
     // TODO add test for create with picture
@@ -89,27 +82,18 @@ public class ProductResourceTest extends MockBase {
     @Disabled
     void addWithPicture() throws Exception {
         // Given
-        final String mockedName = "Pizza hawayana";
-        final String mockedDescription = "Espectacular pizza con piña";
-        final String mockedPrice = "13.85";
-        final String mockedCategoryId = "1";
-        final String mockedCategoryName = "Pizzas";
-        final MockMultipartFile file = new MockMultipartFile(
-            "file",
-            "pictureTest.jpg",
-            IMAGE_JPEG_VALUE,
-            "".getBytes());
+        final String mockPizzaMuzzarella = getNewProductPizzaMuzzarellaAsJson();
+        final MockMultipartFile mockProduct = new MockMultipartFile("product", null, APPLICATION_JSON_VALUE, mockPizzaMuzzarella.getBytes());
+        final FileInputStream file = new FileInputStream("/home/nickgalan/workspace/idforideas/projects/idea3/imagenes/muzzarella.jpg");
+        //final MockMultipartFile mockFile = new MockMultipartFile("file", "muzzarella.jpg", null, "".getBytes());
+        final MockMultipartFile mockFile = new MockMultipartFile("file", file);
 
            
         // When
-        final ResultActions result = mockMvc.perform(multipart(URL_TEMPLATE_V2, file)
-        .with(userToken())
-        .contentType(MULTIPART_FORM_DATA)
-        .param("name", mockedName)
-        .param("description", mockedDescription)
-        .param("price", mockedPrice)
-        .param("category.id", mockedCategoryId)
-        .param("category.name", mockedCategoryName)
+        final ResultActions result = mockMvc.perform(
+            multipart(URL_TEMPLATE_V2)
+            .file(mockFile)
+            .with(userToken())
         );
 
         // Then
@@ -118,13 +102,12 @@ public class ProductResourceTest extends MockBase {
         .andExpect(header().string("Location", containsString(URL_TEMPLATE.concat(expectedLocationId))))
         .andExpect(content().contentType(APPLICATION_JSON))
         .andExpect(jsonPath("$.data.product.pictureURL").isNotEmpty())
-        .andDo(document("{class-name}/{method-name}", 
-            preprocessRequest(prettyPrint()),
-            preprocessResponse(prettyPrint()),
+        .andDo(commonDocumentation().document(
             relaxedResponseFields(
-                subsectionWithPath("data.product").description("Información del producto creado"))
-            ));
+                subsectionWithPath("data.product").description("Información del producto creado")
+        )));
     }
+            
     
     @Test
     void getAll() throws Exception {
@@ -137,13 +120,11 @@ public class ProductResourceTest extends MockBase {
         // Then
         result.andExpect(status().isOk())
             .andExpect(content().contentType(APPLICATION_JSON))
-            .andDo(document("{class-name}/{method-name}", 
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint()),
+            .andDo(commonDocumentation().document(
                 relaxedResponseFields(
                     subsectionWithPath("data.products").description("Contiene toda la información de paginación"),
-                    subsectionWithPath("data.products.content").description("Información de productos de la pagina actual"))
-            ));
+                    subsectionWithPath("data.products.content").description("Información de productos de la pagina actual")
+        )));
     }
 
     @Test
@@ -161,13 +142,11 @@ public class ProductResourceTest extends MockBase {
         result.andExpect(status().isOk())
             .andExpect(content().contentType(APPLICATION_JSON))
             .andExpect(jsonPath("$.data.products.content[0].category.name").value(expectedCategoryName))
-            .andDo(document("{class-name}/{method-name}", 
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint()),
+            .andDo(commonDocumentation().document(
                 relaxedResponseFields(
                     subsectionWithPath("data.products").description("Contiene toda la información de paginación"),
-                    subsectionWithPath("data.products.content").description("Información de productos por la categoría solicitada de la pagina actual"))
-            ));
+                    subsectionWithPath("data.products.content").description("Información de productos por la categoría solicitada de la pagina actual")
+        )));
     }
 
     @Test

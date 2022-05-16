@@ -42,10 +42,7 @@ public class AuthResource {
     private final UserService userService;
 
     /**
-     * 
-     * @param request
-     * @param response
-     * @throws IOException
+     * Renueva el token de acceso sin necesidad de iniciar session de nuevo. Necesitas enviar el <code>refresh token</code> en la cabecera de la solicitud.
      */
     @PostMapping("/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {

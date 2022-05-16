@@ -9,15 +9,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.hamcrest.Matchers.containsString;
-import static com.idforideas.pizzeria.user.UserObjectMother.getNewUser002AsJson;
-import static com.idforideas.pizzeria.user.UserObjectMother.getNewUser003AsJson;
+import static com.idforideas.pizzeria.user.UserMother.getNewUser002AsJson;
+import static com.idforideas.pizzeria.user.UserMother.getNewUser003AsJson;
 
 import com.idforideas.pizzeria.docs.support.MockBase;
 
@@ -44,12 +40,10 @@ public class UserResourceTest extends MockBase {
         .andExpect(header().string("Location", containsString(URL_TEMPLATE + "/3")))
         .andExpect(content().contentType(APPLICATION_JSON))
         .andExpect(jsonPath("$.data.user.password").doesNotExist())
-        .andDo(document("{class-name}/{method-name}", 
-            preprocessRequest(prettyPrint()),
-            preprocessResponse(prettyPrint()),
+        .andDo(commonDocumentation().document(
             relaxedResponseFields(
                 subsectionWithPath("data.user").description("Información de usuario creado"))
-            ));
+        ));    
     }
 
     @Test
@@ -67,12 +61,10 @@ public class UserResourceTest extends MockBase {
         result.andExpect(status().isOk())
         .andExpect(content().contentType(APPLICATION_JSON))
         .andExpect(jsonPath("$.data.user.password").doesNotExist())
-        .andDo(document("{class-name}/{method-name}", 
-            preprocessRequest(prettyPrint()),
-            preprocessResponse(prettyPrint()),
+        .andDo(commonDocumentation().document(
             relaxedResponseFields(
-                subsectionWithPath("data.user").description("Información del usuario recuperado"))
-        ));
+                subsectionWithPath("data.user").description("Información del usuario recuperado")
+        )));
         
     }
 
@@ -89,12 +81,10 @@ public class UserResourceTest extends MockBase {
        result.andExpect(status().isOk())
         .andExpect(content().contentType(APPLICATION_JSON))
         .andExpect(jsonPath("$.data.users[0].password").doesNotExist())
-        .andDo(document("{class-name}/{method-name}", 
-            preprocessRequest(prettyPrint()),
-            preprocessResponse(prettyPrint()),
+        .andDo(commonDocumentation().document(
             relaxedResponseFields(
-                subsectionWithPath("data.users").description("Información de los usuario registrados"))
-        ));
+                subsectionWithPath("data.users").description("Información de los usuario registrados")
+        )));
     }
 
     @Test

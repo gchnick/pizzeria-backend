@@ -1,8 +1,8 @@
 package com.idforideas.pizzeria.user;
 
-import static com.idforideas.pizzeria.user.UserObjectMother.getNewUser001;
-import static com.idforideas.pizzeria.user.UserObjectMother.getNewUser002;
-import static com.idforideas.pizzeria.user.UserObjectMother.getUser001;
+import static com.idforideas.pizzeria.user.UserMother.getNewUser001;
+import static com.idforideas.pizzeria.user.UserMother.getNewUser002;
+import static com.idforideas.pizzeria.user.UserMother.getUser001;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -73,7 +73,7 @@ public class UserServiceShould {
         User mockedUsery001 = getUser001();
 
         // When
-        when(userRepo.findByEmailIgnoreCase("test@mail.com")).thenReturn(Optional.of(mockedUsery001));
+        when(userRepo.findByEmailIgnoreCase(anyString())).thenReturn(Optional.of(mockedUsery001));
         
         // Then
         assertThrows(BadRequestException.class, ()-> userService.update(mockedUsery001, mockedEditUser));    

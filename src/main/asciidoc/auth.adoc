@@ -6,17 +6,13 @@ Preparando información.
 [[resource-auth-login]]
 === Iniciar session o crear tokens de acceso
 
-include::{snippets}/auth-resource-test/login/auto-method-path.adoc[]
+`+POST /api/v1/auth/token+`
 
 include::{snippets}/auth-resource-test/login/auto-description.adoc[]
 
 ==== Campos de solicitud (request fields)
 
 include::{snippets}/auth-resource-test/login/auto-request-fields.adoc[]
-
-==== Campos de respuesta (response fields)
-
-include::{snippets}/auth-resource-test/login/response-fields.adoc[]
 
 ==== Ejemplo de request
 
@@ -36,10 +32,6 @@ include::{snippets}/auth-resource-test/refresh/auto-description.adoc[]
 ==== Campos de solicitud (request fields)
 
 include::{snippets}/auth-resource-test/refresh/auto-request-fields.adoc[]
-
-==== Campos de respuesta (response fields)
-
-include::{snippets}/auth-resource-test/refresh/response-fields.adoc[]
 
 ==== Ejemplo de request
 

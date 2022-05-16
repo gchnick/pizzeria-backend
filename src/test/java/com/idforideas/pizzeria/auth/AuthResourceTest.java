@@ -2,6 +2,7 @@ package com.idforideas.pizzeria.auth;
 
 import static com.idforideas.pizzeria.util.EnvVariable.PWD_TEST;
 import static com.idforideas.pizzeria.util.EnvVariable.USER_TEST;
+
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -9,7 +10,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
+import static capital.scalable.restdocs.AutoDocumentation.requestFields;
+
 import com.idforideas.pizzeria.docs.support.MockBase;
+import com.idforideas.pizzeria.user.User;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,9 +21,9 @@ import org.springframework.test.web.servlet.ResultActions;
 
 public class AuthResourceTest extends MockBase {
 
+    private final String URL_TEMPLATE = "/api/v1/auth/token";
     private String mockEmail;
     private String mockPassword;
-    private final String URL_TEMPLATE = "/api/v1/auth/token";
 
     @BeforeEach
     void setUp() {
@@ -43,7 +47,10 @@ public class AuthResourceTest extends MockBase {
         result.andExpect(status().isOk())
             .andExpect(content().contentType(APPLICATION_JSON))
             .andExpect(jsonPath("$.data.tokens.accessToken").isNotEmpty())
-            .andExpect(jsonPath("$.data.tokens.refreshToken").isNotEmpty());
+            .andExpect(jsonPath("$.data.tokens.refreshToken").isNotEmpty())
+            .andDo(commonDocumentation().document(
+                requestFields().requestBodyAsType(User.class)
+            ));    
     }
 
     @Test

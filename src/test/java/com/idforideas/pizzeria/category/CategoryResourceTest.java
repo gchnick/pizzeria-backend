@@ -9,17 +9,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 
 import static org.hamcrest.Matchers.containsString;
 
-import static com.idforideas.pizzeria.category.CategoryObjectMother.getNewCategoryAsJson;
-import static com.idforideas.pizzeria.category.CategoryObjectMother.getUpdateCategoryAsJson;
+import static com.idforideas.pizzeria.category.CategoryMother.getNewCategoryAsJson;
+import static com.idforideas.pizzeria.category.CategoryMother.getUpdateCategoryAsJson;
 
 import com.idforideas.pizzeria.docs.support.MockBase;
 
@@ -46,13 +42,11 @@ public class CategoryResourceTest extends MockBase {
         result.andExpect(status().isCreated())
         .andExpect(header().string("Location", containsString(URL_TEMPLATE.concat(expectedLocationId))))
         .andExpect(content().contentType(APPLICATION_JSON))
-        .andDo(document("{class-name}/{method-name}", 
-            preprocessRequest(prettyPrint()),
-            preprocessResponse(prettyPrint()),
+        .andDo(commonDocumentation().document(
             relaxedResponseFields(
                 subsectionWithPath("data.category").description("Información de categoría creada"),
-                subsectionWithPath("data.category.name").description("Nombre de la categoría"))
-            ));
+                subsectionWithPath("data.category.name").description("Nombre de la categoría")
+        )));
     }
 
     @Test
@@ -68,12 +62,10 @@ public class CategoryResourceTest extends MockBase {
         // Then
         result.andExpect(status().isOk())
         .andExpect(content().contentType(APPLICATION_JSON))
-        .andDo(document("{class-name}/{method-name}", 
-            preprocessRequest(prettyPrint()),
-            preprocessResponse(prettyPrint()),
+        .andDo(commonDocumentation().document(
             relaxedResponseFields(
-                subsectionWithPath("data.category").description("Información de la categoría recuperada"))
-        ));   
+                subsectionWithPath("data.category").description("Información de la categoría recuperada")
+        )));   
     }
     
     @Test
@@ -87,13 +79,11 @@ public class CategoryResourceTest extends MockBase {
         // Then
         result.andExpect(status().isOk())
             .andExpect(content().contentType(APPLICATION_JSON))
-            .andDo(document("{class-name}/{method-name}", 
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint()),
+            .andDo(commonDocumentation().document(
                 relaxedResponseFields(
                     subsectionWithPath("data.categories").description("Contiene toda la información de paginación"),
-                    subsectionWithPath("data.categories.content").description("Información de categorías de la pagina actual"))
-            ));
+                    subsectionWithPath("data.categories.content").description("Información de categorías de la pagina actual")
+        )));
     }
 
     @Test

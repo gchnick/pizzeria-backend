@@ -15,7 +15,7 @@ Nick Galán - Powered by team #221 of idforideas.com
 [[overview]]
 = Descripción
 
-Esta es una interfaz de programación de aplicaciones (API o API web) que se ajusta a los límites de la arquitectura REST *(API de RESTful)*. Esta diseñada para entender la solicitud de la *Pizzería Don Remolo*, y asi proveer un sistema de solicitud de pedidos y envíos a la carta. A la vez que sus administradores puedan mantener al dia los productos ofrecidos.
+Esta es una interfaz de programación de aplicaciones (API o API web) que se ajusta a los límites de la arquitectura REST *(API de RESTful)*. Esta diseñada para atender la solicitud de la *Pizzería Don Remolo*, y asi proveer un sistema de solicitud de pedidos y envíos a la carta. A la vez que sus administradores puedan mantener al dia los productos ofrecidos.
 
 Este documento describe como se puede usar este backend API REST. El equipo de frontend puede usar esta información para poder comunicarse con una base de datos.
 
@@ -35,7 +35,7 @@ HTTP define un conjunto de *métodos de petición* para indicar la acción que s
 | Se utiliza para recuperar un recurso (idempotente)
 
 | `POST`
-| Se utiliza para crear un nuevo recurso
+| Se utiliza para crear un nuevo recurso. Cuando el `enpoint` contienen un verbo se utiliza para ejecutar la acción del verbo.
 
 | `PUT`
 | Se utilizada para actualizar un recurso existente. Este reemplaza todas las representaciones actuales del recurso existente con la carga útil de la petición (idempotente)

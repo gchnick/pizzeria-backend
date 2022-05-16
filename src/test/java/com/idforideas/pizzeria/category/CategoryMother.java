@@ -2,7 +2,7 @@ package com.idforideas.pizzeria.category;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public abstract class CategoryObjectMother {
+public abstract class CategoryMother {
     
     public static Category getNewCategory () {
         return new Category("Helados");

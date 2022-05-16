@@ -44,7 +44,7 @@ public class ProductResource {
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(consumes = MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Response> saveProductWithPicture(@Valid Product product,
+    public ResponseEntity<Response> saveWithPicture(@Valid Product product,
         @RequestPart(required = true) MultipartFile file) throws  IOException {
             product.setPictureURL( parsePathPicture(file.getOriginalFilename()) );
             file.transferTo(new File(path.concat(product.getPictureURL())));

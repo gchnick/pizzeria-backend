@@ -2,7 +2,7 @@ package com.idforideas.pizzeria.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public abstract class UserObjectMother {
+public abstract class UserMother {
 
     public static User getNewUser001 () {
         User user = new User("Docs Test", "test@mail.com", "uS3rp@ss", UserRole.ROLE_ADMIN);

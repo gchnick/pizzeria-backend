@@ -1,8 +1,8 @@
 package com.idforideas.pizzeria.category;
 
-import static com.idforideas.pizzeria.category.CategoryObjectMother.getCategory001;
-import static com.idforideas.pizzeria.category.CategoryObjectMother.getCategory002;
-import static com.idforideas.pizzeria.category.CategoryObjectMother.getNewCategory001;
+import static com.idforideas.pizzeria.category.CategoryMother.getCategory001;
+import static com.idforideas.pizzeria.category.CategoryMother.getCategory002;
+import static com.idforideas.pizzeria.category.CategoryMother.getNewCategory001;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;

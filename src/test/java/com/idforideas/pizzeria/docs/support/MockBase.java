@@ -1,17 +1,21 @@
 package com.idforideas.pizzeria.docs.support;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static com.idforideas.pizzeria.util.EnvVariable.PWD_TEST;
+import static com.idforideas.pizzeria.util.EnvVariable.USER_TEST;
+import static java.lang.System.getenv;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static com.idforideas.pizzeria.util.EnvVariable.PWD_TEST;
-import static com.idforideas.pizzeria.util.EnvVariable.USER_TEST;
-import static java.lang.System.getenv;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static capital.scalable.restdocs.response.ResponseModifyingPreprocessors.replaceBinaryContent;
+import static capital.scalable.restdocs.response.ResponseModifyingPreprocessors.limitJsonArrayLength;
+
 
 import javax.servlet.Filter;
 
@@ -27,6 +31,10 @@ import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.cli.CliDocumentation;
 import org.springframework.restdocs.http.HttpDocumentation;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
+import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
+import org.springframework.restdocs.operation.preprocess.OperationRequestPreprocessor;
+import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;
+import org.springframework.restdocs.snippet.Snippet;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
@@ -36,14 +44,20 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 
 import capital.scalable.restdocs.AutoDocumentation;
 import capital.scalable.restdocs.jackson.JacksonResultHandlers;
-import capital.scalable.restdocs.response.ResponseModifyingPreprocessors;
 import capital.scalable.restdocs.misc.AuthorizationSnippet;
+import capital.scalable.restdocs.response.ResponseModifyingPreprocessors;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest
 public class MockBase {
 
     private static String DEFAULT_AUTHORIZATION = "Recurso público.";
+    private static String STRING_AUTHORIZATION = "Se requiere token de acceso de administrador.";
+    private static String COMMON_IDENTIFIER = "{class-name}/{method-name}";
+    private static String SCHEME = "https";
+    private static String HOST = "donremolo-backend.herokuapp.com";
+    private static int PORT = 443;
+    private static String URL_LOGIN = "/api/v1/auth/token";
     
     @Autowired
     private ObjectMapper objectMapper;
@@ -62,7 +76,7 @@ public class MockBase {
         .webAppContextSetup(context)
         .addFilters(springSecurityFilterChain)
         .alwaysDo(JacksonResultHandlers.prepareJackson(objectMapper))
-        .alwaysDo(MockMvcRestDocumentation.document("{class-name}/{method-name}",
+        .alwaysDo(MockMvcRestDocumentation.document(COMMON_IDENTIFIER,
                 preprocessRequest(
                     prettyPrint()),
                 preprocessResponse(
@@ -71,9 +85,9 @@ public class MockBase {
                     prettyPrint())))
         .apply(MockMvcRestDocumentation.documentationConfiguration(restDocumentation)
                 .uris()
-                .withScheme("https")
-                .withHost("donremolo-backend.herokuapp.com")
-                .withPort(443)
+                .withScheme(SCHEME)
+                .withHost(HOST)
+                .withPort(PORT)
                 .and().snippets()
                 .withDefaults(CliDocumentation.curlRequest(),
                         HttpDocumentation.httpRequest(),
@@ -86,6 +100,18 @@ public class MockBase {
                         AutoDocumentation.authorization(DEFAULT_AUTHORIZATION),
                         AutoDocumentation.modelAttribute(requestMappingHandlerAdapter.getArgumentResolvers())))
         .build();
+    }
+
+    protected RestDocumentationResultHandler commonDocumentation(Snippet... snippets) {
+        return document(COMMON_IDENTIFIER, commonRequestPreprocessor(), commonResponsePreprocessor(), snippets);
+    }
+
+    protected OperationRequestPreprocessor commonRequestPreprocessor() {
+        return preprocessRequest(replaceBinaryContent(), limitJsonArrayLength(objectMapper), prettyPrint());
+    }
+
+    protected OperationResponsePreprocessor commonResponsePreprocessor() {
+        return preprocessResponse(replaceBinaryContent(), limitJsonArrayLength(objectMapper), prettyPrint());
     }
 
     protected RequestPostProcessor userToken() {
@@ -102,7 +128,7 @@ public class MockBase {
                     }
 
                     request.addHeader("Authorization", "Bearer ".concat(accessToken));
-                    return AuthorizationSnippet.documentAuthorization(request, "Se requiere token de acceso de usuario.");
+                    return AuthorizationSnippet.documentAuthorization(request, STRING_AUTHORIZATION);
             }
         };
     }
@@ -111,7 +137,7 @@ public class MockBase {
 
         String body = mockMvc
             .perform(
-                post("/api/v1/auth/token")
+                post(URL_LOGIN)
                     .contentType(APPLICATION_FORM_URLENCODED)
                     .param("email", email)
                     .param("password", password))
