@@ -49,13 +49,13 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
 public class ProductResource {
+
     private final ProductService productService;
     private final CategoryService categoryService;
-
     private final SortUtil sort;
 
     /**
-     * Añadir un nuevo <b>producto</b> sin imagen. Si desea añadir un nuevo producto junto con su imagen vaya a la version 2 del <code>endpoint</code> 
+     * Añadir un nuevo <b>producto</b>.
      * @param product Información del producto
      * @return {@link Response}
      */

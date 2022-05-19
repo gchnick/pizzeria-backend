@@ -1,17 +1,12 @@
 package com.idforideas.pizzeria.product;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.io.FileInputStream;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -20,20 +15,16 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.subsecti
 import static org.hamcrest.Matchers.containsString;
 
 import static com.idforideas.pizzeria.product.ProductMother.getNewProduct011AsJson;
-import static com.idforideas.pizzeria.product.ProductMother.getNewProductPizzaMuzzarellaAsJson;
 import static com.idforideas.pizzeria.product.ProductMother.getUpdateProduct011AsJson;
 
 import com.idforideas.pizzeria.docs.support.MockBase;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.ResultActions;
 
 public class ProductResourceTest extends MockBase {
 
     private static final String URL_TEMPLATE = "/api/v1/products";
-    private static final String URL_TEMPLATE_V2 = "/api/v2/products";
 
     @Test
     void add() throws Exception {
@@ -76,39 +67,7 @@ public class ProductResourceTest extends MockBase {
                 subsectionWithPath("data.product").description("Información del producto recuperado")
         )));   
     }
-
-    // TODO add test for create with picture
-    @Test
-    @Disabled
-    void addWithPicture() throws Exception {
-        // Given
-        final String mockPizzaMuzzarella = getNewProductPizzaMuzzarellaAsJson();
-        final MockMultipartFile mockProduct = new MockMultipartFile("product", null, APPLICATION_JSON_VALUE, mockPizzaMuzzarella.getBytes());
-        final FileInputStream file = new FileInputStream("/home/nickgalan/workspace/idforideas/projects/idea3/imagenes/muzzarella.jpg");
-        //final MockMultipartFile mockFile = new MockMultipartFile("file", "muzzarella.jpg", null, "".getBytes());
-        final MockMultipartFile mockFile = new MockMultipartFile("file", file);
-
-           
-        // When
-        final ResultActions result = mockMvc.perform(
-            multipart(URL_TEMPLATE_V2)
-            .file(mockFile)
-            .with(userToken())
-        );
-
-        // Then
-        final String expectedLocationId = "/11";
-        result.andExpect(status().isCreated())
-        .andExpect(header().string("Location", containsString(URL_TEMPLATE.concat(expectedLocationId))))
-        .andExpect(content().contentType(APPLICATION_JSON))
-        .andExpect(jsonPath("$.data.product.pictureURL").isNotEmpty())
-        .andDo(commonDocumentation().document(
-            relaxedResponseFields(
-                subsectionWithPath("data.product").description("Información del producto creado")
-        )));
-    }
             
-    
     @Test
     void getAll() throws Exception {
         // Given
