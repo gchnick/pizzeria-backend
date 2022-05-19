@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<title>Untitled</title>
+<title>Autenticación</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -434,17 +434,122 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 </div>
 <div id="content">
-<div id="preamble">
+<div class="sect1">
+<h2 id="resource-auth">Autenticación</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Preparando información.</p>
+</div>
+<div class="sect2">
+<h3 id="resource-auth-login">Iniciar session o crear tokens de acceso</h3>
+<div class="paragraph">
+<p><code>POST /api/v1/auth/token</code></p>
+</div>
+<div class="sect3">
+<h4 id="_campos_de_solicitud_request_fields">Campos de solicitud (request fields)</h4>
+<div class="paragraph">
+<p>No request body.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ejemplo_de_request">Ejemplo de request</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/auth/token' -i -X POST \
+    -H 'Content-Type: application/x-www-form-urlencoded' \
+    -d 'email=test%40mail.com&amp;password=userpass'</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ejemplo_de_response">Ejemplo de response</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 674
+
+{
+  "statusCode" : 200,
+  "status" : "OK",
+  "message" : "Tokens created",
+  "data" : {
+    "tokens" : {
+      "accessToken" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzMzl9.TG4fyhNykAbD_t7xdmyyxzrkHSyDLAnoj7knlYgnjc0",
+      "refreshToken" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTk1NDJ9.7DAkzdnPFrTiTX1IhJfevdS9c7KbL85F5G4SdoscbBw"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="resource-auth-refresh-token">Refrescar token de acceso</h3>
+<div class="paragraph">
+<p><code>POST /api/v1/auth/token/refresh</code></p>
+</div>
+<div class="paragraph">
+<p>Renueva el token de acceso sin necesidad de iniciar session de nuevo. Necesitas enviar el <code>refresh token</code> en la cabecera de la solicitud.</p>
+</div>
+<div class="sect3">
+<h4 id="_campos_de_solicitud_request_fields_2">Campos de solicitud (request fields)</h4>
+<div class="paragraph">
+<p>No request body.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ejemplo_de_request_2">Ejemplo de request</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/auth/token/refresh' -i -X POST \
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzNTB9.Ui5fM_8zZ298DPqf4rhPN1A7hZCZix5YsIe3ufrpa8g'</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ejemplo_de_response_2">Ejemplo de response</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 684
+
+{
+  "statusCode" : 200,
+  "status" : "OK",
+  "message" : "Token created",
+  "data" : {
+    "tokens" : {
+      "accessToken" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4vcmVmcmVzaCIsImV4cCI6MTY1Mjk5ODM1MX0.TqwLCBFI8b6DnZaelkC-YtmPZpYFC0hGz-oFsPScPqg",
+      "refreshToken" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzNTB9.Ui5fM_8zZ298DPqf4rhPN1A7hZCZix5YsIe3ufrpa8g"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-05-10 17:30:47 -0430
+Last updated 2022-05-12 14:40:22 -0430
 </div>
 </div>
 </body>

@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect3">
 <h4 id="_autorización">Autorización</h4>
 <div class="paragraph">
-<p>Se requiere token de acceso de usuario.</p>
+<p>Se requiere token de acceso de administrador.</p>
 </div>
 </div>
 <div class="sect3">
@@ -523,7 +523,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/categories' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MDF9.Fv8T9UTdgVfN7MyESoronKWVwW5UDz7B37eMzxfidh0' \
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzNjN9.KXEy8fzBltoLWJDsNT6GzPkx0YrwBYtFy7miwZRyPlU' \
     -d '{
   "id" : null,
   "name" : "Helados"
@@ -548,7 +548,7 @@ X-Frame-Options: SAMEORIGIN
 Content-Length: 215
 
 {
-  "timeStamp" : "2022-05-10T18:05:01.274509664",
+  "timeStamp" : "2022-05-19T18:02:43.813991206",
   "statusCode" : 201,
   "status" : "CREATED",
   "message" : "Category created",
@@ -653,7 +653,7 @@ X-Frame-Options: SAMEORIGIN
 Content-Length: 211
 
 {
-  "timeStamp" : "2022-05-10T18:04:55.021025766",
+  "timeStamp" : "2022-05-19T18:02:36.913875439",
   "statusCode" : 200,
   "status" : "OK",
   "message" : "Category retrieved",
@@ -733,10 +733,10 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 974
+Content-Length: 918
 
 {
-  "timeStamp" : "2022-05-10T18:04:52.639237523",
+  "timeStamp" : "2022-05-19T18:02:34.903003452",
   "statusCode" : 200,
   "status" : "OK",
   "message" : "Categories retrieved",
@@ -751,9 +751,6 @@ Content-Length: 974
       }, {
         "id" : 1,
         "name" : "Pizzas"
-      }, {
-        "id" : 4,
-        "name" : "Postres"
       } ],
       "pageable" : {
         "sort" : {
@@ -767,9 +764,9 @@ Content-Length: 974
         "paged" : true,
         "unpaged" : false
       },
+      "last" : true,
       "totalPages" : 1,
       "totalElements" : 4,
-      "last" : true,
       "size" : 5,
       "number" : 0,
       "sort" : {
@@ -777,8 +774,8 @@ Content-Length: 974
         "sorted" : true,
         "unsorted" : false
       },
-      "numberOfElements" : 4,
       "first" : true,
+      "numberOfElements" : 4,
       "empty" : false
     }
   }
@@ -798,7 +795,7 @@ Content-Length: 974
 <div class="sect3">
 <h4 id="_autorización_4">Autorización</h4>
 <div class="paragraph">
-<p>Se requiere token de acceso de usuario.</p>
+<p>Se requiere token de acceso de administrador.</p>
 </div>
 </div>
 <div class="sect3">
@@ -807,7 +804,7 @@ Content-Length: 974
 <div class="content">
 <pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/categories/2' -i -X DELETE \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA4OTl9.-G3eQFN8g7uCjvrcHTahs98r4pG51EX4OVTi3g0eu4c'</code></pre>
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzNjF9.4Dsbhry0SKOsD0bCVF-jQi9GjaBrfZxyIfydVl8Av80'</code></pre>
 </div>
 </div>
 </div>
@@ -832,7 +829,7 @@ X-Frame-Options: SAMEORIGIN</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-05-10 15:34:19 -0430
+Last updated 2022-05-10 17:38:24 -0430
 </div>
 </div>
 </body>

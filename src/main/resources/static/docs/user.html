@@ -438,9 +438,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="resources-user">Administrador</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>El usuario con permisos de administrador mantener el actualizada la información de los productos ofrecidos en la pizzería. A demás podrá ver los pedidos que no ha sido despachados.</p>
-</div>
-<div class="paragraph">
 <p>Usted puede controlar a todos los usuarios registrados como administradores. Podrá ver la lista actual de administradores. Agregar o eliminar un administrador.</p>
 </div>
 <div class="sect2">
@@ -454,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect3">
 <h4 id="_autorización">Autorización</h4>
 <div class="paragraph">
-<p>Se requiere token de acceso de usuario.</p>
+<p>Se requiere token de acceso de administrador.</p>
 </div>
 </div>
 <div class="sect3">
@@ -542,7 +539,7 @@ Size must be between 3 and 100 inclusive.</p></td>
 <div class="content">
 <pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/users' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MTN9.9sDYqX8CybZbIAt9OwW755BlxkNR2VnePssP9RSRASw' \
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzODh9.tc-26jfTyh7J5vx8GjJdlY0BMJRshARluKNlpaHVP80' \
     -d '{
   "id" : null,
   "fullName" : "Doe John",
@@ -567,10 +564,10 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 276
+Content-Length: 277
 
 {
-  "timeStamp" : "2022-05-10T18:05:13.74100741",
+  "timeStamp" : "2022-05-19T18:03:08.839255551",
   "statusCode" : 201,
   "status" : "CREATED",
   "message" : "User created",
@@ -598,7 +595,7 @@ Content-Length: 276
 <div class="sect3">
 <h4 id="_autorización_2">Autorización</h4>
 <div class="paragraph">
-<p>Se requiere token de acceso de usuario.</p>
+<p>Se requiere token de acceso de administrador.</p>
 </div>
 </div>
 <div class="sect3">
@@ -658,7 +655,7 @@ Content-Length: 276
 <div class="content">
 <pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/users/1' -i -X GET \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MTB9.sUul3OJaRQt-ffeQoN-Km9ZAnsuwBxHbFddZNmmFzvs'</code></pre>
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzODN9.LBa1K9TcQyLObWE7Td3qcJL7527j2QLaAszJdmCJT5Q'</code></pre>
 </div>
 </div>
 </div>
@@ -678,7 +675,7 @@ X-Frame-Options: SAMEORIGIN
 Content-Length: 272
 
 {
-  "timeStamp" : "2022-05-10T18:05:10.312011995",
+  "timeStamp" : "2022-05-19T18:03:03.439413636",
   "statusCode" : 200,
   "status" : "OK",
   "message" : "User retrieved",
@@ -706,7 +703,7 @@ Content-Length: 272
 <div class="sect3">
 <h4 id="_autorización_3">Autorización</h4>
 <div class="paragraph">
-<p>Se requiere token de acceso de usuario.</p>
+<p>Se requiere token de acceso de administrador.</p>
 </div>
 </div>
 <div class="sect3">
@@ -739,7 +736,7 @@ Content-Length: 272
 <div class="content">
 <pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/users' -i -X GET \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MDl9._b5lbUKq6G-Wm7ucUwhvAgv9BA_09HTsoOGatuSeaG0'</code></pre>
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzODF9.SkCVmmvBTMClGaQtP6g2d7P3Y-ug5-dJnfrxDmIiV-s'</code></pre>
 </div>
 </div>
 </div>
@@ -759,7 +756,7 @@ X-Frame-Options: SAMEORIGIN
 Content-Length: 394
 
 {
-  "timeStamp" : "2022-05-10T18:05:09.223625105",
+  "timeStamp" : "2022-05-19T18:03:02.281544013",
   "statusCode" : 200,
   "status" : "OK",
   "message" : "Users retrieved",
@@ -792,7 +789,7 @@ Content-Length: 394
 <div class="sect3">
 <h4 id="_autorización_4">Autorización</h4>
 <div class="paragraph">
-<p>Se requiere token de acceso de usuario.</p>
+<p>Se requiere token de acceso de administrador.</p>
 </div>
 </div>
 <div class="sect3">
@@ -883,7 +880,7 @@ Size must be between 3 and 100 inclusive.</p></td>
 <div class="content">
 <pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/users/2' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MTF9.bOpNvoilX-Lq6AtoWvRo3B2rdJMlf2TcmFvUAZJQ4mo' \
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzODR9.HZ0N0PcvUfVfkFG6eFMzqjBVgaQ6lmxSecP6dImoOWY' \
     -d '{
   "id" : null,
   "fullName" : "Don Remolo",
@@ -910,7 +907,7 @@ X-Frame-Options: SAMEORIGIN
 Content-Length: 280
 
 {
-  "timeStamp" : "2022-05-10T18:05:12.166838086",
+  "timeStamp" : "2022-05-19T18:03:06.355701026",
   "statusCode" : 200,
   "status" : "OK",
   "message" : "User updated",
@@ -938,7 +935,7 @@ Content-Length: 280
 <div class="sect3">
 <h4 id="_autorización_5">Autorización</h4>
 <div class="paragraph">
-<p>Se requiere token de acceso de usuario.</p>
+<p>Se requiere token de acceso de administrador.</p>
 </div>
 </div>
 <div class="sect3">
@@ -947,7 +944,7 @@ Content-Length: 280
 <div class="content">
 <pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/users/2' -i -X DELETE \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MTJ9.FaGRHpD2RDJ1l2-OoiDy2QLD8s-Mee7YyVaN8dw5Eq0'</code></pre>
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzODd9.Rph58HP58u1IM5FHgC0zd4P5ZsQIOMjKRNdG3QYodyU'</code></pre>
 </div>
 </div>
 </div>
@@ -972,7 +969,7 @@ X-Frame-Options: SAMEORIGIN</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-05-10 17:09:27 -0430
+Last updated 2022-05-10 17:47:41 -0430
 </div>
 </div>
 </body>

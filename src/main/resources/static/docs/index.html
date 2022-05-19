@@ -448,39 +448,44 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#overview-http-verbs">1.1. Verbos HTTP</a></li>
 <li><a href="#overview-response">1.2. Common response fields</a></li>
 <li><a href="#overview-pagination">1.3. Paginación</a></li>
-<li><a href="#overview-autentication">1.4. Autenticación</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li><a href="#resources">Recursos</a>
 <ul class="sectlevel1">
-<li><a href="#resources-user">2. Administrador</a>
+<li><a href="#resource-auth">2. Autenticación</a>
 <ul class="sectlevel2">
-<li><a href="#resources-user-add">2.1. Añadir un nuevo administrador</a></li>
-<li><a href="#resources-user-get">2.2. Obtener un administrador por ID</a></li>
-<li><a href="#resources-user-all">2.3. Obtener una lista con todos los administradores</a></li>
-<li><a href="#resources-user-update">2.4. Actualizar información de administrador</a></li>
-<li><a href="#resources-user-delete">2.5. Eliminar un administrador</a></li>
+<li><a href="#resource-auth-login">2.1. Iniciar session o crear tokens de acceso</a></li>
+<li><a href="#resource-auth-refresh-token">2.2. Refrescar token de acceso</a></li>
 </ul>
 </li>
-<li><a href="#resources-category">3. Categorías</a>
+<li><a href="#resources-user">3. Administrador</a>
 <ul class="sectlevel2">
-<li><a href="#resources-category-add">3.1. Añadir nueva categoría</a></li>
-<li><a href="#resources-category-get">3.2. Obtener una categoría por nombre</a></li>
-<li><a href="#resources-category-all">3.3. Obtener una lista con todas las categorías</a></li>
-<li><a href="#resources-category-delete">3.4. Eliminar una categoría</a></li>
+<li><a href="#resources-user-add">3.1. Añadir un nuevo administrador</a></li>
+<li><a href="#resources-user-get">3.2. Obtener un administrador por ID</a></li>
+<li><a href="#resources-user-all">3.3. Obtener una lista con todos los administradores</a></li>
+<li><a href="#resources-user-update">3.4. Actualizar información de administrador</a></li>
+<li><a href="#resources-user-delete">3.5. Eliminar un administrador</a></li>
 </ul>
 </li>
-<li><a href="#resources-product">4. Productos</a>
+<li><a href="#resources-category">4. Categorías</a>
 <ul class="sectlevel2">
-<li><a href="#resources-product-add">4.1. Añadir un nuevo producto</a></li>
-<li><a href="#resources-product-get">4.2. Obtener un producto por ID</a></li>
-<li><a href="#resources-product-get-all-by-category">4.3. Obtener una lista de productos por categoría</a></li>
-<li><a href="#resources-product-all">4.4. Obtener una lista paginada con productos</a></li>
-<li><a href="#resources-product-update">4.5. Actualizar información del producto</a></li>
-<li><a href="#resources-product-patch">4.6. Actualizar información parcial del producto</a></li>
-<li><a href="#resources-product-delete">4.7. Eliminar un producto</a></li>
+<li><a href="#resources-category-add">4.1. Añadir nueva categoría</a></li>
+<li><a href="#resources-category-get">4.2. Obtener una categoría por nombre</a></li>
+<li><a href="#resources-category-all">4.3. Obtener una lista con todas las categorías</a></li>
+<li><a href="#resources-category-delete">4.4. Eliminar una categoría</a></li>
+</ul>
+</li>
+<li><a href="#resources-product">5. Productos</a>
+<ul class="sectlevel2">
+<li><a href="#resources-product-add">5.1. Añadir un nuevo producto</a></li>
+<li><a href="#resources-product-get">5.2. Obtener un producto por ID</a></li>
+<li><a href="#resources-product-get-all-by-category">5.3. Obtener una lista de productos por categoría</a></li>
+<li><a href="#resources-product-all">5.4. Obtener una lista paginada con productos</a></li>
+<li><a href="#resources-product-update">5.5. Actualizar información del producto</a></li>
+<li><a href="#resources-product-patch">5.6. Actualizar información parcial del producto</a></li>
+<li><a href="#resources-product-delete">5.7. Eliminar un producto</a></li>
 </ul>
 </li>
 </ul>
@@ -493,7 +498,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="openblock partintro">
 <div class="content">
 <div class="paragraph">
-<p>Esta es una interfaz de programación de aplicaciones (API o API web) que se ajusta a los límites de la arquitectura REST <strong>(API de RESTful)</strong>. Esta diseñada para entender la solicitud de la <strong>Pizzería Don Remolo</strong>, y asi proveer un sistema de solicitud de pedidos y envíos a la carta. A la vez que sus administradores puedan mantener al dia los productos ofrecidos.</p>
+<p>Esta es una interfaz de programación de aplicaciones (API o API web) que se ajusta a los límites de la arquitectura REST <strong>(API de RESTful)</strong>. Esta diseñada para atender la solicitud de la <strong>Pizzería Don Remolo</strong>, y asi proveer un sistema de solicitud de pedidos y envíos a la carta. A la vez que sus administradores puedan mantener al dia los productos ofrecidos.</p>
 </div>
 <div class="paragraph">
 <p>Este documento describe como se puede usar este backend API REST. El equipo de frontend puede usar esta información para poder comunicarse con una base de datos.</p>
@@ -527,7 +532,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>POST</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Se utiliza para crear un nuevo recurso</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Se utiliza para crear un nuevo recurso. Cuando el <code>enpoint</code> contienen un verbo se utiliza para ejecutar la acción del verbo.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>PUT</code></p></td>
@@ -730,12 +735,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tbody>
 </table>
 </div>
-<div class="sect2">
-<h3 id="overview-autentication"><a class="anchor" href="#overview-autentication"></a><a class="link" href="#overview-autentication">1.4. Autenticación</a></h3>
-<div class="paragraph">
-<p>Preparando información.</p>
-</div>
-</div>
 </div>
 </div>
 <h1 id="resources" class="sect0"><a class="anchor" href="#resources"></a><a class="link" href="#resources">Recursos</a></h1>
@@ -745,16 +744,125 @@ Esta pagina documenta todos los recursos implementados en la API hasta el moment
 </div>
 </div>
 <div class="sect1">
-<h2 id="resources-user"><a class="anchor" href="#resources-user"></a><a class="link" href="#resources-user">2. Administrador</a></h2>
+<h2 id="resource-auth"><a class="anchor" href="#resource-auth"></a><a class="link" href="#resource-auth">2. Autenticación</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>El usuario con permisos de administrador mantener el actualizada la información de los productos ofrecidos en la pizzería. A demás podrá ver los pedidos que no ha sido despachados.</p>
+<p>Preparando información.</p>
 </div>
+<div class="sect2">
+<h3 id="resource-auth-login"><a class="anchor" href="#resource-auth-login"></a><a class="link" href="#resource-auth-login">2.1. Iniciar session o crear tokens de acceso</a></h3>
+<div class="paragraph">
+<p><code>POST /api/v1/auth/token</code></p>
+</div>
+<div class="sect3">
+<h4 id="_campos_de_solicitud_request_fields"><a class="anchor" href="#_campos_de_solicitud_request_fields"></a><a class="link" href="#_campos_de_solicitud_request_fields">2.1.1. Campos de solicitud (request fields)</a></h4>
+<div class="paragraph">
+<p>No request body.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ejemplo_de_request"><a class="anchor" href="#_ejemplo_de_request"></a><a class="link" href="#_ejemplo_de_request">2.1.2. Ejemplo de request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/auth/token' -i -X POST \
+    -H 'Content-Type: application/x-www-form-urlencoded' \
+    -d 'email=test%40mail.com&amp;password=userpass'</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ejemplo_de_response"><a class="anchor" href="#_ejemplo_de_response"></a><a class="link" href="#_ejemplo_de_response">2.1.3. Ejemplo de response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 674
+
+{
+  "statusCode" : 200,
+  "status" : "OK",
+  "message" : "Tokens created",
+  "data" : {
+    "tokens" : {
+      "accessToken" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzMzl9.TG4fyhNykAbD_t7xdmyyxzrkHSyDLAnoj7knlYgnjc0",
+      "refreshToken" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTk1NDJ9.7DAkzdnPFrTiTX1IhJfevdS9c7KbL85F5G4SdoscbBw"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="resource-auth-refresh-token"><a class="anchor" href="#resource-auth-refresh-token"></a><a class="link" href="#resource-auth-refresh-token">2.2. Refrescar token de acceso</a></h3>
+<div class="paragraph">
+<p><code>POST /api/v1/auth/token/refresh</code></p>
+</div>
+<div class="paragraph">
+<p>Renueva el token de acceso sin necesidad de iniciar session de nuevo. Necesitas enviar el <code>refresh token</code> en la cabecera de la solicitud.</p>
+</div>
+<div class="sect3">
+<h4 id="_campos_de_solicitud_request_fields_2"><a class="anchor" href="#_campos_de_solicitud_request_fields_2"></a><a class="link" href="#_campos_de_solicitud_request_fields_2">2.2.1. Campos de solicitud (request fields)</a></h4>
+<div class="paragraph">
+<p>No request body.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ejemplo_de_request_2"><a class="anchor" href="#_ejemplo_de_request_2"></a><a class="link" href="#_ejemplo_de_request_2">2.2.2. Ejemplo de request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/auth/token/refresh' -i -X POST \
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzNTB9.Ui5fM_8zZ298DPqf4rhPN1A7hZCZix5YsIe3ufrpa8g'</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ejemplo_de_response_2"><a class="anchor" href="#_ejemplo_de_response_2"></a><a class="link" href="#_ejemplo_de_response_2">2.2.3. Ejemplo de response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 684
+
+{
+  "statusCode" : 200,
+  "status" : "OK",
+  "message" : "Token created",
+  "data" : {
+    "tokens" : {
+      "accessToken" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4vcmVmcmVzaCIsImV4cCI6MTY1Mjk5ODM1MX0.TqwLCBFI8b6DnZaelkC-YtmPZpYFC0hGz-oFsPScPqg",
+      "refreshToken" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzNTB9.Ui5fM_8zZ298DPqf4rhPN1A7hZCZix5YsIe3ufrpa8g"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="resources-user"><a class="anchor" href="#resources-user"></a><a class="link" href="#resources-user">3. Administrador</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Usted puede controlar a todos los usuarios registrados como administradores. Podrá ver la lista actual de administradores. Agregar o eliminar un administrador.</p>
 </div>
 <div class="sect2">
-<h3 id="resources-user-add"><a class="anchor" href="#resources-user-add"></a><a class="link" href="#resources-user-add">2.1. Añadir un nuevo administrador</a></h3>
+<h3 id="resources-user-add"><a class="anchor" href="#resources-user-add"></a><a class="link" href="#resources-user-add">3.1. Añadir un nuevo administrador</a></h3>
 <div class="paragraph">
 <p><code>POST /api/v1/users</code></p>
 </div>
@@ -762,13 +870,13 @@ Esta pagina documenta todos los recursos implementados en la API hasta el moment
 <p>Añadir un nuevo <strong>usuario</strong> administrador del sistema.</p>
 </div>
 <div class="sect3">
-<h4 id="_autorización"><a class="anchor" href="#_autorización"></a><a class="link" href="#_autorización">2.1.1. Autorización</a></h4>
+<h4 id="_autorización"><a class="anchor" href="#_autorización"></a><a class="link" href="#_autorización">3.1.1. Autorización</a></h4>
 <div class="paragraph">
-<p>Se requiere token de acceso de usuario.</p>
+<p>Se requiere token de acceso de administrador.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_campos_de_solicitud_request_fields"><a class="anchor" href="#_campos_de_solicitud_request_fields"></a><a class="link" href="#_campos_de_solicitud_request_fields">2.1.2. Campos de solicitud (request fields)</a></h4>
+<h4 id="_campos_de_solicitud_request_fields_3"><a class="anchor" href="#_campos_de_solicitud_request_fields_3"></a><a class="link" href="#_campos_de_solicitud_request_fields_3">3.1.2. Campos de solicitud (request fields)</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -823,7 +931,7 @@ Size must be between 3 and 100 inclusive.</p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_campos_de_respuesta_response_fields"><a class="anchor" href="#_campos_de_respuesta_response_fields"></a><a class="link" href="#_campos_de_respuesta_response_fields">2.1.3. Campos de respuesta (response fields)</a></h4>
+<h4 id="_campos_de_respuesta_response_fields"><a class="anchor" href="#_campos_de_respuesta_response_fields"></a><a class="link" href="#_campos_de_respuesta_response_fields">3.1.3. Campos de respuesta (response fields)</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -847,12 +955,12 @@ Size must be between 3 and 100 inclusive.</p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_request"><a class="anchor" href="#_ejemplo_de_request"></a><a class="link" href="#_ejemplo_de_request">2.1.4. Ejemplo de request</a></h4>
+<h4 id="_ejemplo_de_request_3"><a class="anchor" href="#_ejemplo_de_request_3"></a><a class="link" href="#_ejemplo_de_request_3">3.1.4. Ejemplo de request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/users' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MTN9.9sDYqX8CybZbIAt9OwW755BlxkNR2VnePssP9RSRASw' \
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzODh9.tc-26jfTyh7J5vx8GjJdlY0BMJRshARluKNlpaHVP80' \
     -d '{
   "id" : null,
   "fullName" : "Doe John",
@@ -864,7 +972,7 @@ Size must be between 3 and 100 inclusive.</p></td>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_response"><a class="anchor" href="#_ejemplo_de_response"></a><a class="link" href="#_ejemplo_de_response">2.1.5. Ejemplo de response</a></h4>
+<h4 id="_ejemplo_de_response_3"><a class="anchor" href="#_ejemplo_de_response_3"></a><a class="link" href="#_ejemplo_de_response_3">3.1.5. Ejemplo de response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
@@ -877,10 +985,10 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 276
+Content-Length: 277
 
 {
-  "timeStamp" : "2022-05-10T18:05:13.74100741",
+  "timeStamp" : "2022-05-19T18:03:08.839255551",
   "statusCode" : 201,
   "status" : "CREATED",
   "message" : "User created",
@@ -898,7 +1006,7 @@ Content-Length: 276
 </div>
 </div>
 <div class="sect2">
-<h3 id="resources-user-get"><a class="anchor" href="#resources-user-get"></a><a class="link" href="#resources-user-get">2.2. Obtener un administrador por ID</a></h3>
+<h3 id="resources-user-get"><a class="anchor" href="#resources-user-get"></a><a class="link" href="#resources-user-get">3.2. Obtener un administrador por ID</a></h3>
 <div class="paragraph">
 <p><code>GET /api/v1/users/{id}</code></p>
 </div>
@@ -906,13 +1014,13 @@ Content-Length: 276
 <p>Devuelve un usuario por ID.</p>
 </div>
 <div class="sect3">
-<h4 id="_autorización_2"><a class="anchor" href="#_autorización_2"></a><a class="link" href="#_autorización_2">2.2.1. Autorización</a></h4>
+<h4 id="_autorización_2"><a class="anchor" href="#_autorización_2"></a><a class="link" href="#_autorización_2">3.2.1. Autorización</a></h4>
 <div class="paragraph">
-<p>Se requiere token de acceso de usuario.</p>
+<p>Se requiere token de acceso de administrador.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_parámetros_de_ruta"><a class="anchor" href="#_parámetros_de_ruta"></a><a class="link" href="#_parámetros_de_ruta">2.2.2. Parámetros de ruta</a></h4>
+<h4 id="_parámetros_de_ruta"><a class="anchor" href="#_parámetros_de_ruta"></a><a class="link" href="#_parámetros_de_ruta">3.2.2. Parámetros de ruta</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -939,7 +1047,7 @@ Content-Length: 276
 </table>
 </div>
 <div class="sect3">
-<h4 id="_campos_de_respuesta_response_fields_2"><a class="anchor" href="#_campos_de_respuesta_response_fields_2"></a><a class="link" href="#_campos_de_respuesta_response_fields_2">2.2.3. Campos de respuesta (response fields)</a></h4>
+<h4 id="_campos_de_respuesta_response_fields_2"><a class="anchor" href="#_campos_de_respuesta_response_fields_2"></a><a class="link" href="#_campos_de_respuesta_response_fields_2">3.2.3. Campos de respuesta (response fields)</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -963,17 +1071,17 @@ Content-Length: 276
 </table>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_request_2"><a class="anchor" href="#_ejemplo_de_request_2"></a><a class="link" href="#_ejemplo_de_request_2">2.2.4. Ejemplo de request</a></h4>
+<h4 id="_ejemplo_de_request_4"><a class="anchor" href="#_ejemplo_de_request_4"></a><a class="link" href="#_ejemplo_de_request_4">3.2.4. Ejemplo de request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/users/1' -i -X GET \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MTB9.sUul3OJaRQt-ffeQoN-Km9ZAnsuwBxHbFddZNmmFzvs'</code></pre>
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzODN9.LBa1K9TcQyLObWE7Td3qcJL7527j2QLaAszJdmCJT5Q'</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_response_2"><a class="anchor" href="#_ejemplo_de_response_2"></a><a class="link" href="#_ejemplo_de_response_2">2.2.5. Ejemplo de response</a></h4>
+<h4 id="_ejemplo_de_response_4"><a class="anchor" href="#_ejemplo_de_response_4"></a><a class="link" href="#_ejemplo_de_response_4">3.2.5. Ejemplo de response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -988,7 +1096,7 @@ X-Frame-Options: SAMEORIGIN
 Content-Length: 272
 
 {
-  "timeStamp" : "2022-05-10T18:05:10.312011995",
+  "timeStamp" : "2022-05-19T18:03:03.439413636",
   "statusCode" : 200,
   "status" : "OK",
   "message" : "User retrieved",
@@ -1006,7 +1114,7 @@ Content-Length: 272
 </div>
 </div>
 <div class="sect2">
-<h3 id="resources-user-all"><a class="anchor" href="#resources-user-all"></a><a class="link" href="#resources-user-all">2.3. Obtener una lista con todos los administradores</a></h3>
+<h3 id="resources-user-all"><a class="anchor" href="#resources-user-all"></a><a class="link" href="#resources-user-all">3.3. Obtener una lista con todos los administradores</a></h3>
 <div class="paragraph">
 <p><code>GET /api/v1/users</code></p>
 </div>
@@ -1014,13 +1122,13 @@ Content-Length: 272
 <p>Devuelve una lista sin paginación de usuarios.</p>
 </div>
 <div class="sect3">
-<h4 id="_autorización_3"><a class="anchor" href="#_autorización_3"></a><a class="link" href="#_autorización_3">2.3.1. Autorización</a></h4>
+<h4 id="_autorización_3"><a class="anchor" href="#_autorización_3"></a><a class="link" href="#_autorización_3">3.3.1. Autorización</a></h4>
 <div class="paragraph">
-<p>Se requiere token de acceso de usuario.</p>
+<p>Se requiere token de acceso de administrador.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_campos_de_respuesta_response_fields_3"><a class="anchor" href="#_campos_de_respuesta_response_fields_3"></a><a class="link" href="#_campos_de_respuesta_response_fields_3">2.3.2. Campos de respuesta (response fields)</a></h4>
+<h4 id="_campos_de_respuesta_response_fields_3"><a class="anchor" href="#_campos_de_respuesta_response_fields_3"></a><a class="link" href="#_campos_de_respuesta_response_fields_3">3.3.2. Campos de respuesta (response fields)</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1044,17 +1152,17 @@ Content-Length: 272
 </table>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_request_3"><a class="anchor" href="#_ejemplo_de_request_3"></a><a class="link" href="#_ejemplo_de_request_3">2.3.3. Ejemplo de request</a></h4>
+<h4 id="_ejemplo_de_request_5"><a class="anchor" href="#_ejemplo_de_request_5"></a><a class="link" href="#_ejemplo_de_request_5">3.3.3. Ejemplo de request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/users' -i -X GET \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MDl9._b5lbUKq6G-Wm7ucUwhvAgv9BA_09HTsoOGatuSeaG0'</code></pre>
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzODF9.SkCVmmvBTMClGaQtP6g2d7P3Y-ug5-dJnfrxDmIiV-s'</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_response_3"><a class="anchor" href="#_ejemplo_de_response_3"></a><a class="link" href="#_ejemplo_de_response_3">2.3.4. Ejemplo de response</a></h4>
+<h4 id="_ejemplo_de_response_5"><a class="anchor" href="#_ejemplo_de_response_5"></a><a class="link" href="#_ejemplo_de_response_5">3.3.4. Ejemplo de response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1069,7 +1177,7 @@ X-Frame-Options: SAMEORIGIN
 Content-Length: 394
 
 {
-  "timeStamp" : "2022-05-10T18:05:09.223625105",
+  "timeStamp" : "2022-05-19T18:03:02.281544013",
   "statusCode" : 200,
   "status" : "OK",
   "message" : "Users retrieved",
@@ -1092,7 +1200,7 @@ Content-Length: 394
 </div>
 </div>
 <div class="sect2">
-<h3 id="resources-user-update"><a class="anchor" href="#resources-user-update"></a><a class="link" href="#resources-user-update">2.4. Actualizar información de administrador</a></h3>
+<h3 id="resources-user-update"><a class="anchor" href="#resources-user-update"></a><a class="link" href="#resources-user-update">3.4. Actualizar información de administrador</a></h3>
 <div class="paragraph">
 <p><code>PUT /api/v1/users/{id}</code></p>
 </div>
@@ -1100,13 +1208,13 @@ Content-Length: 394
 <p>Reemplaza todos los campos de usuario a la que pertenece el ID con la nueva información. En caso de no existir un usuario con el ID suministrado se procederá a crear un nuevo usuario.</p>
 </div>
 <div class="sect3">
-<h4 id="_autorización_4"><a class="anchor" href="#_autorización_4"></a><a class="link" href="#_autorización_4">2.4.1. Autorización</a></h4>
+<h4 id="_autorización_4"><a class="anchor" href="#_autorización_4"></a><a class="link" href="#_autorización_4">3.4.1. Autorización</a></h4>
 <div class="paragraph">
-<p>Se requiere token de acceso de usuario.</p>
+<p>Se requiere token de acceso de administrador.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_parámetros_de_ruta_2"><a class="anchor" href="#_parámetros_de_ruta_2"></a><a class="link" href="#_parámetros_de_ruta_2">2.4.2. Parámetros de ruta</a></h4>
+<h4 id="_parámetros_de_ruta_2"><a class="anchor" href="#_parámetros_de_ruta_2"></a><a class="link" href="#_parámetros_de_ruta_2">3.4.2. Parámetros de ruta</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1133,7 +1241,7 @@ Content-Length: 394
 </table>
 </div>
 <div class="sect3">
-<h4 id="_campos_de_solicitud_request_fields_2"><a class="anchor" href="#_campos_de_solicitud_request_fields_2"></a><a class="link" href="#_campos_de_solicitud_request_fields_2">2.4.3. Campos de solicitud (request fields)</a></h4>
+<h4 id="_campos_de_solicitud_request_fields_4"><a class="anchor" href="#_campos_de_solicitud_request_fields_4"></a><a class="link" href="#_campos_de_solicitud_request_fields_4">3.4.3. Campos de solicitud (request fields)</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1188,12 +1296,12 @@ Size must be between 3 and 100 inclusive.</p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_request_4"><a class="anchor" href="#_ejemplo_de_request_4"></a><a class="link" href="#_ejemplo_de_request_4">2.4.4. Ejemplo de request</a></h4>
+<h4 id="_ejemplo_de_request_6"><a class="anchor" href="#_ejemplo_de_request_6"></a><a class="link" href="#_ejemplo_de_request_6">3.4.4. Ejemplo de request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/users/2' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MTF9.bOpNvoilX-Lq6AtoWvRo3B2rdJMlf2TcmFvUAZJQ4mo' \
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzODR9.HZ0N0PcvUfVfkFG6eFMzqjBVgaQ6lmxSecP6dImoOWY' \
     -d '{
   "id" : null,
   "fullName" : "Don Remolo",
@@ -1205,7 +1313,7 @@ Size must be between 3 and 100 inclusive.</p></td>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_response_4"><a class="anchor" href="#_ejemplo_de_response_4"></a><a class="link" href="#_ejemplo_de_response_4">2.4.5. Ejemplo de response</a></h4>
+<h4 id="_ejemplo_de_response_6"><a class="anchor" href="#_ejemplo_de_response_6"></a><a class="link" href="#_ejemplo_de_response_6">3.4.5. Ejemplo de response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1220,7 +1328,7 @@ X-Frame-Options: SAMEORIGIN
 Content-Length: 280
 
 {
-  "timeStamp" : "2022-05-10T18:05:12.166838086",
+  "timeStamp" : "2022-05-19T18:03:06.355701026",
   "statusCode" : 200,
   "status" : "OK",
   "message" : "User updated",
@@ -1238,7 +1346,7 @@ Content-Length: 280
 </div>
 </div>
 <div class="sect2">
-<h3 id="resources-user-delete"><a class="anchor" href="#resources-user-delete"></a><a class="link" href="#resources-user-delete">2.5. Eliminar un administrador</a></h3>
+<h3 id="resources-user-delete"><a class="anchor" href="#resources-user-delete"></a><a class="link" href="#resources-user-delete">3.5. Eliminar un administrador</a></h3>
 <div class="paragraph">
 <p><code>DELETE /api/v1/users/{id}</code></p>
 </div>
@@ -1246,23 +1354,23 @@ Content-Length: 280
 <p>Elimina el usuario al que corresponde el ID suministrado.</p>
 </div>
 <div class="sect3">
-<h4 id="_autorización_5"><a class="anchor" href="#_autorización_5"></a><a class="link" href="#_autorización_5">2.5.1. Autorización</a></h4>
+<h4 id="_autorización_5"><a class="anchor" href="#_autorización_5"></a><a class="link" href="#_autorización_5">3.5.1. Autorización</a></h4>
 <div class="paragraph">
-<p>Se requiere token de acceso de usuario.</p>
+<p>Se requiere token de acceso de administrador.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_request_5"><a class="anchor" href="#_ejemplo_de_request_5"></a><a class="link" href="#_ejemplo_de_request_5">2.5.2. Ejemplo de request</a></h4>
+<h4 id="_ejemplo_de_request_7"><a class="anchor" href="#_ejemplo_de_request_7"></a><a class="link" href="#_ejemplo_de_request_7">3.5.2. Ejemplo de request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/users/2' -i -X DELETE \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MTJ9.FaGRHpD2RDJ1l2-OoiDy2QLD8s-Mee7YyVaN8dw5Eq0'</code></pre>
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzODd9.Rph58HP58u1IM5FHgC0zd4P5ZsQIOMjKRNdG3QYodyU'</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_response_5"><a class="anchor" href="#_ejemplo_de_response_5"></a><a class="link" href="#_ejemplo_de_response_5">2.5.3. Ejemplo de response</a></h4>
+<h4 id="_ejemplo_de_response_7"><a class="anchor" href="#_ejemplo_de_response_7"></a><a class="link" href="#_ejemplo_de_response_7">3.5.3. Ejemplo de response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
@@ -1280,13 +1388,13 @@ X-Frame-Options: SAMEORIGIN</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="resources-category"><a class="anchor" href="#resources-category"></a><a class="link" href="#resources-category">3. Categorías</a></h2>
+<h2 id="resources-category"><a class="anchor" href="#resources-category"></a><a class="link" href="#resources-category">4. Categorías</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Usted puede administrar una lista de categorías de los productos en su pizzería.</p>
 </div>
 <div class="sect2">
-<h3 id="resources-category-add"><a class="anchor" href="#resources-category-add"></a><a class="link" href="#resources-category-add">3.1. Añadir nueva categoría</a></h3>
+<h3 id="resources-category-add"><a class="anchor" href="#resources-category-add"></a><a class="link" href="#resources-category-add">4.1. Añadir nueva categoría</a></h3>
 <div class="paragraph">
 <p><code>POST /api/v1/categories</code></p>
 </div>
@@ -1294,13 +1402,13 @@ X-Frame-Options: SAMEORIGIN</code></pre>
 <p>Añadir una nueva <strong>categoría</strong>.</p>
 </div>
 <div class="sect3">
-<h4 id="_autorización_6"><a class="anchor" href="#_autorización_6"></a><a class="link" href="#_autorización_6">3.1.1. Autorización</a></h4>
+<h4 id="_autorización_6"><a class="anchor" href="#_autorización_6"></a><a class="link" href="#_autorización_6">4.1.1. Autorización</a></h4>
 <div class="paragraph">
-<p>Se requiere token de acceso de usuario.</p>
+<p>Se requiere token de acceso de administrador.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_campos_de_solicitud_request_fields_3"><a class="anchor" href="#_campos_de_solicitud_request_fields_3"></a><a class="link" href="#_campos_de_solicitud_request_fields_3">3.1.2. Campos de solicitud (request fields)</a></h4>
+<h4 id="_campos_de_solicitud_request_fields_5"><a class="anchor" href="#_campos_de_solicitud_request_fields_5"></a><a class="link" href="#_campos_de_solicitud_request_fields_5">4.1.2. Campos de solicitud (request fields)</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1334,7 +1442,7 @@ X-Frame-Options: SAMEORIGIN</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_campos_de_respuesta_response_fields_4"><a class="anchor" href="#_campos_de_respuesta_response_fields_4"></a><a class="link" href="#_campos_de_respuesta_response_fields_4">3.1.3. Campos de respuesta (response fields)</a></h4>
+<h4 id="_campos_de_respuesta_response_fields_4"><a class="anchor" href="#_campos_de_respuesta_response_fields_4"></a><a class="link" href="#_campos_de_respuesta_response_fields_4">4.1.3. Campos de respuesta (response fields)</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1363,12 +1471,12 @@ X-Frame-Options: SAMEORIGIN</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_request_6"><a class="anchor" href="#_ejemplo_de_request_6"></a><a class="link" href="#_ejemplo_de_request_6">3.1.4. Ejemplo de request</a></h4>
+<h4 id="_ejemplo_de_request_8"><a class="anchor" href="#_ejemplo_de_request_8"></a><a class="link" href="#_ejemplo_de_request_8">4.1.4. Ejemplo de request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/categories' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MDF9.Fv8T9UTdgVfN7MyESoronKWVwW5UDz7B37eMzxfidh0' \
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzNjN9.KXEy8fzBltoLWJDsNT6GzPkx0YrwBYtFy7miwZRyPlU' \
     -d '{
   "id" : null,
   "name" : "Helados"
@@ -1377,7 +1485,7 @@ X-Frame-Options: SAMEORIGIN</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_response_6"><a class="anchor" href="#_ejemplo_de_response_6"></a><a class="link" href="#_ejemplo_de_response_6">3.1.5. Ejemplo de response</a></h4>
+<h4 id="_ejemplo_de_response_8"><a class="anchor" href="#_ejemplo_de_response_8"></a><a class="link" href="#_ejemplo_de_response_8">4.1.5. Ejemplo de response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
@@ -1393,7 +1501,7 @@ X-Frame-Options: SAMEORIGIN
 Content-Length: 215
 
 {
-  "timeStamp" : "2022-05-10T18:05:01.274509664",
+  "timeStamp" : "2022-05-19T18:02:43.813991206",
   "statusCode" : 201,
   "status" : "CREATED",
   "message" : "Category created",
@@ -1409,7 +1517,7 @@ Content-Length: 215
 </div>
 </div>
 <div class="sect2">
-<h3 id="resources-category-get"><a class="anchor" href="#resources-category-get"></a><a class="link" href="#resources-category-get">3.2. Obtener una categoría por nombre</a></h3>
+<h3 id="resources-category-get"><a class="anchor" href="#resources-category-get"></a><a class="link" href="#resources-category-get">4.2. Obtener una categoría por nombre</a></h3>
 <div class="paragraph">
 <p><code>GET /api/v1/categories/category/{name}</code></p>
 </div>
@@ -1417,13 +1525,13 @@ Content-Length: 215
 <p>Devuelve una categoría por nombre.</p>
 </div>
 <div class="sect3">
-<h4 id="_autorización_7"><a class="anchor" href="#_autorización_7"></a><a class="link" href="#_autorización_7">3.2.1. Autorización</a></h4>
+<h4 id="_autorización_7"><a class="anchor" href="#_autorización_7"></a><a class="link" href="#_autorización_7">4.2.1. Autorización</a></h4>
 <div class="paragraph">
 <p>Recurso público.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_parámetros_de_ruta_3"><a class="anchor" href="#_parámetros_de_ruta_3"></a><a class="link" href="#_parámetros_de_ruta_3">3.2.2. Parámetros de ruta</a></h4>
+<h4 id="_parámetros_de_ruta_3"><a class="anchor" href="#_parámetros_de_ruta_3"></a><a class="link" href="#_parámetros_de_ruta_3">4.2.2. Parámetros de ruta</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1450,7 +1558,7 @@ Content-Length: 215
 </table>
 </div>
 <div class="sect3">
-<h4 id="_campos_de_respuesta_response_fields_5"><a class="anchor" href="#_campos_de_respuesta_response_fields_5"></a><a class="link" href="#_campos_de_respuesta_response_fields_5">3.2.3. Campos de respuesta (response fields)</a></h4>
+<h4 id="_campos_de_respuesta_response_fields_5"><a class="anchor" href="#_campos_de_respuesta_response_fields_5"></a><a class="link" href="#_campos_de_respuesta_response_fields_5">4.2.3. Campos de respuesta (response fields)</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1474,7 +1582,7 @@ Content-Length: 215
 </table>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_request_7"><a class="anchor" href="#_ejemplo_de_request_7"></a><a class="link" href="#_ejemplo_de_request_7">3.2.4. Ejemplo de request</a></h4>
+<h4 id="_ejemplo_de_request_9"><a class="anchor" href="#_ejemplo_de_request_9"></a><a class="link" href="#_ejemplo_de_request_9">4.2.4. Ejemplo de request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/categories/category/pizzas' -i -X GET \
@@ -1483,7 +1591,7 @@ Content-Length: 215
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_response_7"><a class="anchor" href="#_ejemplo_de_response_7"></a><a class="link" href="#_ejemplo_de_response_7">3.2.5. Ejemplo de response</a></h4>
+<h4 id="_ejemplo_de_response_9"><a class="anchor" href="#_ejemplo_de_response_9"></a><a class="link" href="#_ejemplo_de_response_9">4.2.5. Ejemplo de response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1498,7 +1606,7 @@ X-Frame-Options: SAMEORIGIN
 Content-Length: 211
 
 {
-  "timeStamp" : "2022-05-10T18:04:55.021025766",
+  "timeStamp" : "2022-05-19T18:02:36.913875439",
   "statusCode" : 200,
   "status" : "OK",
   "message" : "Category retrieved",
@@ -1514,7 +1622,7 @@ Content-Length: 211
 </div>
 </div>
 <div class="sect2">
-<h3 id="resources-category-all"><a class="anchor" href="#resources-category-all"></a><a class="link" href="#resources-category-all">3.3. Obtener una lista con todas las categorías</a></h3>
+<h3 id="resources-category-all"><a class="anchor" href="#resources-category-all"></a><a class="link" href="#resources-category-all">4.3. Obtener una lista con todas las categorías</a></h3>
 <div class="paragraph">
 <p><code>GET /api/v1/categories</code></p>
 </div>
@@ -1522,13 +1630,13 @@ Content-Length: 211
 <p>Devuelve una lista paginada de categorías.</p>
 </div>
 <div class="sect3">
-<h4 id="_autorización_8"><a class="anchor" href="#_autorización_8"></a><a class="link" href="#_autorización_8">3.3.1. Autorización</a></h4>
+<h4 id="_autorización_8"><a class="anchor" href="#_autorización_8"></a><a class="link" href="#_autorización_8">4.3.1. Autorización</a></h4>
 <div class="paragraph">
 <p>Recurso público.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_campos_de_respuesta_response_fields_6"><a class="anchor" href="#_campos_de_respuesta_response_fields_6"></a><a class="link" href="#_campos_de_respuesta_response_fields_6">3.3.2. Campos de respuesta (response fields)</a></h4>
+<h4 id="_campos_de_respuesta_response_fields_6"><a class="anchor" href="#_campos_de_respuesta_response_fields_6"></a><a class="link" href="#_campos_de_respuesta_response_fields_6">4.3.2. Campos de respuesta (response fields)</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1557,7 +1665,7 @@ Content-Length: 211
 </table>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_request_8"><a class="anchor" href="#_ejemplo_de_request_8"></a><a class="link" href="#_ejemplo_de_request_8">3.3.3. Ejemplo de request</a></h4>
+<h4 id="_ejemplo_de_request_10"><a class="anchor" href="#_ejemplo_de_request_10"></a><a class="link" href="#_ejemplo_de_request_10">4.3.3. Ejemplo de request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/categories' -i -X GET \
@@ -1566,7 +1674,7 @@ Content-Length: 211
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_response_8"><a class="anchor" href="#_ejemplo_de_response_8"></a><a class="link" href="#_ejemplo_de_response_8">3.3.4. Ejemplo de response</a></h4>
+<h4 id="_ejemplo_de_response_10"><a class="anchor" href="#_ejemplo_de_response_10"></a><a class="link" href="#_ejemplo_de_response_10">4.3.4. Ejemplo de response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1578,10 +1686,10 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 974
+Content-Length: 918
 
 {
-  "timeStamp" : "2022-05-10T18:04:52.639237523",
+  "timeStamp" : "2022-05-19T18:02:34.903003452",
   "statusCode" : 200,
   "status" : "OK",
   "message" : "Categories retrieved",
@@ -1596,9 +1704,6 @@ Content-Length: 974
       }, {
         "id" : 1,
         "name" : "Pizzas"
-      }, {
-        "id" : 4,
-        "name" : "Postres"
       } ],
       "pageable" : {
         "sort" : {
@@ -1612,9 +1717,9 @@ Content-Length: 974
         "paged" : true,
         "unpaged" : false
       },
+      "last" : true,
       "totalPages" : 1,
       "totalElements" : 4,
-      "last" : true,
       "size" : 5,
       "number" : 0,
       "sort" : {
@@ -1622,8 +1727,8 @@ Content-Length: 974
         "sorted" : true,
         "unsorted" : false
       },
-      "numberOfElements" : 4,
       "first" : true,
+      "numberOfElements" : 4,
       "empty" : false
     }
   }
@@ -1633,7 +1738,7 @@ Content-Length: 974
 </div>
 </div>
 <div class="sect2">
-<h3 id="resources-category-delete"><a class="anchor" href="#resources-category-delete"></a><a class="link" href="#resources-category-delete">3.4. Eliminar una categoría</a></h3>
+<h3 id="resources-category-delete"><a class="anchor" href="#resources-category-delete"></a><a class="link" href="#resources-category-delete">4.4. Eliminar una categoría</a></h3>
 <div class="paragraph">
 <p><code>DELETE /api/v1/categories/{id}</code></p>
 </div>
@@ -1641,23 +1746,23 @@ Content-Length: 974
 <p>Elimina la categoría a la que corresponde el ID suministrado. Tenga cuidado al usar este endpoint pues se eliminaran todos los productos asociados con esta categoría.</p>
 </div>
 <div class="sect3">
-<h4 id="_autorización_9"><a class="anchor" href="#_autorización_9"></a><a class="link" href="#_autorización_9">3.4.1. Autorización</a></h4>
+<h4 id="_autorización_9"><a class="anchor" href="#_autorización_9"></a><a class="link" href="#_autorización_9">4.4.1. Autorización</a></h4>
 <div class="paragraph">
-<p>Se requiere token de acceso de usuario.</p>
+<p>Se requiere token de acceso de administrador.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_request_9"><a class="anchor" href="#_ejemplo_de_request_9"></a><a class="link" href="#_ejemplo_de_request_9">3.4.2. Ejemplo de request</a></h4>
+<h4 id="_ejemplo_de_request_11"><a class="anchor" href="#_ejemplo_de_request_11"></a><a class="link" href="#_ejemplo_de_request_11">4.4.2. Ejemplo de request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/categories/2' -i -X DELETE \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA4OTl9.-G3eQFN8g7uCjvrcHTahs98r4pG51EX4OVTi3g0eu4c'</code></pre>
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzNjF9.4Dsbhry0SKOsD0bCVF-jQi9GjaBrfZxyIfydVl8Av80'</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_response_9"><a class="anchor" href="#_ejemplo_de_response_9"></a><a class="link" href="#_ejemplo_de_response_9">3.4.3. Ejemplo de response</a></h4>
+<h4 id="_ejemplo_de_response_11"><a class="anchor" href="#_ejemplo_de_response_11"></a><a class="link" href="#_ejemplo_de_response_11">4.4.3. Ejemplo de response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
@@ -1675,27 +1780,27 @@ X-Frame-Options: SAMEORIGIN</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="resources-product"><a class="anchor" href="#resources-product"></a><a class="link" href="#resources-product">4. Productos</a></h2>
+<h2 id="resources-product"><a class="anchor" href="#resources-product"></a><a class="link" href="#resources-product">5. Productos</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Usted puede administrar varios productos en su pizzería usando el recurso que describiremos a continuación.</p>
 </div>
 <div class="sect2">
-<h3 id="resources-product-add"><a class="anchor" href="#resources-product-add"></a><a class="link" href="#resources-product-add">4.1. Añadir un nuevo producto</a></h3>
+<h3 id="resources-product-add"><a class="anchor" href="#resources-product-add"></a><a class="link" href="#resources-product-add">5.1. Añadir un nuevo producto</a></h3>
 <div class="paragraph">
 <p><code>POST /api/v1/products</code></p>
 </div>
 <div class="paragraph">
-<p>Añadir un nuevo <strong>producto</strong> sin imagen. Si desea añadir un nuevo producto junto con su imagen vaya a la version 2 del <code>endpoint</code>.</p>
+<p>Añadir un nuevo <strong>producto</strong>.</p>
 </div>
 <div class="sect3">
-<h4 id="_autorización_10"><a class="anchor" href="#_autorización_10"></a><a class="link" href="#_autorización_10">4.1.1. Autorización</a></h4>
+<h4 id="_autorización_10"><a class="anchor" href="#_autorización_10"></a><a class="link" href="#_autorización_10">5.1.1. Autorización</a></h4>
 <div class="paragraph">
-<p>Se requiere token de acceso de usuario.</p>
+<p>Se requiere token de acceso de administrador.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_campos_de_solicitud_request_fields_4"><a class="anchor" href="#_campos_de_solicitud_request_fields_4"></a><a class="link" href="#_campos_de_solicitud_request_fields_4">4.1.2. Campos de solicitud (request fields)</a></h4>
+<h4 id="_campos_de_solicitud_request_fields_6"><a class="anchor" href="#_campos_de_solicitud_request_fields_6"></a><a class="link" href="#_campos_de_solicitud_request_fields_6">5.1.2. Campos de solicitud (request fields)</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1766,7 +1871,7 @@ X-Frame-Options: SAMEORIGIN</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_campos_de_respuesta_response_fields_7"><a class="anchor" href="#_campos_de_respuesta_response_fields_7"></a><a class="link" href="#_campos_de_respuesta_response_fields_7">4.1.3. Campos de respuesta (response fields)</a></h4>
+<h4 id="_campos_de_respuesta_response_fields_7"><a class="anchor" href="#_campos_de_respuesta_response_fields_7"></a><a class="link" href="#_campos_de_respuesta_response_fields_7">5.1.3. Campos de respuesta (response fields)</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1790,12 +1895,12 @@ X-Frame-Options: SAMEORIGIN</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_request_10"><a class="anchor" href="#_ejemplo_de_request_10"></a><a class="link" href="#_ejemplo_de_request_10">4.1.4. Ejemplo de request</a></h4>
+<h4 id="_ejemplo_de_request_12"><a class="anchor" href="#_ejemplo_de_request_12"></a><a class="link" href="#_ejemplo_de_request_12">5.1.4. Ejemplo de request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/products' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MDZ9.RT9r_kuw9J7xAm1kJJJmD18pKJ6ruO3q8MbmSFcVgYU' \
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzNzN9.cCH6tozTSVBeW3lfq66HqL9HzzPNadxvoMVfybmNBO0' \
     -d '{
   "id" : null,
   "name" : "Pizza hawayana",
@@ -1811,7 +1916,7 @@ X-Frame-Options: SAMEORIGIN</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_response_10"><a class="anchor" href="#_ejemplo_de_response_10"></a><a class="link" href="#_ejemplo_de_response_10">4.1.5. Ejemplo de response</a></h4>
+<h4 id="_ejemplo_de_response_12"><a class="anchor" href="#_ejemplo_de_response_12"></a><a class="link" href="#_ejemplo_de_response_12">5.1.5. Ejemplo de response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
@@ -1824,10 +1929,10 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 396
+Content-Length: 399
 
 {
-  "timeStamp" : "2022-05-10T18:05:06.477339",
+  "timeStamp" : "2022-05-19T18:02:53.540211583",
   "statusCode" : 201,
   "status" : "CREATED",
   "message" : "Product created",
@@ -1850,7 +1955,7 @@ Content-Length: 396
 </div>
 </div>
 <div class="sect2">
-<h3 id="resources-product-get"><a class="anchor" href="#resources-product-get"></a><a class="link" href="#resources-product-get">4.2. Obtener un producto por ID</a></h3>
+<h3 id="resources-product-get"><a class="anchor" href="#resources-product-get"></a><a class="link" href="#resources-product-get">5.2. Obtener un producto por ID</a></h3>
 <div class="paragraph">
 <p><code>GET /api/v1/products/{id}</code></p>
 </div>
@@ -1858,13 +1963,13 @@ Content-Length: 396
 <p>Devuelve un producto por ID.</p>
 </div>
 <div class="sect3">
-<h4 id="_autorización_11"><a class="anchor" href="#_autorización_11"></a><a class="link" href="#_autorización_11">4.2.1. Autorización</a></h4>
+<h4 id="_autorización_11"><a class="anchor" href="#_autorización_11"></a><a class="link" href="#_autorización_11">5.2.1. Autorización</a></h4>
 <div class="paragraph">
 <p>Recurso público.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_parámetros_de_ruta_4"><a class="anchor" href="#_parámetros_de_ruta_4"></a><a class="link" href="#_parámetros_de_ruta_4">4.2.2. Parámetros de ruta</a></h4>
+<h4 id="_parámetros_de_ruta_4"><a class="anchor" href="#_parámetros_de_ruta_4"></a><a class="link" href="#_parámetros_de_ruta_4">5.2.2. Parámetros de ruta</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1891,7 +1996,7 @@ Content-Length: 396
 </table>
 </div>
 <div class="sect3">
-<h4 id="_campos_de_respuesta_response_fields_8"><a class="anchor" href="#_campos_de_respuesta_response_fields_8"></a><a class="link" href="#_campos_de_respuesta_response_fields_8">4.2.3. Campos de respuesta (response fields)</a></h4>
+<h4 id="_campos_de_respuesta_response_fields_8"><a class="anchor" href="#_campos_de_respuesta_response_fields_8"></a><a class="link" href="#_campos_de_respuesta_response_fields_8">5.2.3. Campos de respuesta (response fields)</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1915,7 +2020,7 @@ Content-Length: 396
 </table>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_request_11"><a class="anchor" href="#_ejemplo_de_request_11"></a><a class="link" href="#_ejemplo_de_request_11">4.2.4. Ejemplo de request</a></h4>
+<h4 id="_ejemplo_de_request_13"><a class="anchor" href="#_ejemplo_de_request_13"></a><a class="link" href="#_ejemplo_de_request_13">5.2.4. Ejemplo de request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/products/2' -i -X GET \
@@ -1924,7 +2029,7 @@ Content-Length: 396
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_response_11"><a class="anchor" href="#_ejemplo_de_response_11"></a><a class="link" href="#_ejemplo_de_response_11">4.2.5. Ejemplo de response</a></h4>
+<h4 id="_ejemplo_de_response_13"><a class="anchor" href="#_ejemplo_de_response_13"></a><a class="link" href="#_ejemplo_de_response_13">5.2.5. Ejemplo de response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1939,7 +2044,7 @@ X-Frame-Options: SAMEORIGIN
 Content-Length: 460
 
 {
-  "timeStamp" : "2022-05-10T18:05:03.166265657",
+  "timeStamp" : "2022-05-19T18:02:47.292807029",
   "statusCode" : 200,
   "status" : "OK",
   "message" : "Product retrieved",
@@ -1962,7 +2067,7 @@ Content-Length: 460
 </div>
 </div>
 <div class="sect2">
-<h3 id="resources-product-get-all-by-category"><a class="anchor" href="#resources-product-get-all-by-category"></a><a class="link" href="#resources-product-get-all-by-category">4.3. Obtener una lista de productos por categoría</a></h3>
+<h3 id="resources-product-get-all-by-category"><a class="anchor" href="#resources-product-get-all-by-category"></a><a class="link" href="#resources-product-get-all-by-category">5.3. Obtener una lista de productos por categoría</a></h3>
 <div class="paragraph">
 <p><code>GET /api/v1/products/category/{name}</code></p>
 </div>
@@ -1970,13 +2075,13 @@ Content-Length: 460
 <p>Devuelve una lista paginada de productos de una categoría.</p>
 </div>
 <div class="sect3">
-<h4 id="_autorización_12"><a class="anchor" href="#_autorización_12"></a><a class="link" href="#_autorización_12">4.3.1. Autorización</a></h4>
+<h4 id="_autorización_12"><a class="anchor" href="#_autorización_12"></a><a class="link" href="#_autorización_12">5.3.1. Autorización</a></h4>
 <div class="paragraph">
 <p>Recurso público.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_parámetros_de_ruta_5"><a class="anchor" href="#_parámetros_de_ruta_5"></a><a class="link" href="#_parámetros_de_ruta_5">4.3.2. Parámetros de ruta</a></h4>
+<h4 id="_parámetros_de_ruta_5"><a class="anchor" href="#_parámetros_de_ruta_5"></a><a class="link" href="#_parámetros_de_ruta_5">5.3.2. Parámetros de ruta</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2003,7 +2108,7 @@ Content-Length: 460
 </table>
 </div>
 <div class="sect3">
-<h4 id="_campos_de_respuesta_response_fields_9"><a class="anchor" href="#_campos_de_respuesta_response_fields_9"></a><a class="link" href="#_campos_de_respuesta_response_fields_9">4.3.3. Campos de respuesta (response fields)</a></h4>
+<h4 id="_campos_de_respuesta_response_fields_9"><a class="anchor" href="#_campos_de_respuesta_response_fields_9"></a><a class="link" href="#_campos_de_respuesta_response_fields_9">5.3.3. Campos de respuesta (response fields)</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -2032,7 +2137,7 @@ Content-Length: 460
 </table>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_request_12"><a class="anchor" href="#_ejemplo_de_request_12"></a><a class="link" href="#_ejemplo_de_request_12">4.3.4. Ejemplo de request</a></h4>
+<h4 id="_ejemplo_de_request_14"><a class="anchor" href="#_ejemplo_de_request_14"></a><a class="link" href="#_ejemplo_de_request_14">5.3.4. Ejemplo de request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/products/category/pizzas' -i -X GET \
@@ -2041,7 +2146,7 @@ Content-Length: 460
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_response_12"><a class="anchor" href="#_ejemplo_de_response_12"></a><a class="link" href="#_ejemplo_de_response_12">4.3.5. Ejemplo de response</a></h4>
+<h4 id="_ejemplo_de_response_14"><a class="anchor" href="#_ejemplo_de_response_14"></a><a class="link" href="#_ejemplo_de_response_14">5.3.5. Ejemplo de response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -2053,10 +2158,10 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 2178
+Content-Length: 1600
 
 {
-  "timeStamp" : "2022-05-10T18:05:07.370878955",
+  "timeStamp" : "2022-05-19T18:02:54.234946326",
   "statusCode" : 200,
   "status" : "OK",
   "message" : "Products by category retrieved",
@@ -2092,26 +2197,6 @@ Content-Length: 2178
           "id" : 1,
           "name" : "Pizzas"
         }
-      }, {
-        "id" : 4,
-        "name" : "Pizza de huevo y panceta",
-        "description" : "Aunque suena a desayuno americano es una de las pizzas más consumidas a nivel mundial",
-        "price" : 16.0,
-        "pictureURL" : null,
-        "category" : {
-          "id" : 1,
-          "name" : "Pizzas"
-        }
-      }, {
-        "id" : 11,
-        "name" : "Pizza hawayana",
-        "description" : "Espectacular pizza con piña",
-        "price" : 13.85,
-        "pictureURL" : null,
-        "category" : {
-          "id" : 1,
-          "name" : "Pizzas"
-        }
       } ],
       "pageable" : {
         "sort" : {
@@ -2125,9 +2210,9 @@ Content-Length: 2178
         "paged" : true,
         "unpaged" : false
       },
+      "last" : true,
       "totalPages" : 1,
       "totalElements" : 5,
-      "last" : true,
       "size" : 5,
       "number" : 0,
       "sort" : {
@@ -2135,8 +2220,8 @@ Content-Length: 2178
         "sorted" : true,
         "unsorted" : false
       },
-      "numberOfElements" : 5,
       "first" : true,
+      "numberOfElements" : 5,
       "empty" : false
     }
   }
@@ -2146,7 +2231,7 @@ Content-Length: 2178
 </div>
 </div>
 <div class="sect2">
-<h3 id="resources-product-all"><a class="anchor" href="#resources-product-all"></a><a class="link" href="#resources-product-all">4.4. Obtener una lista paginada con productos</a></h3>
+<h3 id="resources-product-all"><a class="anchor" href="#resources-product-all"></a><a class="link" href="#resources-product-all">5.4. Obtener una lista paginada con productos</a></h3>
 <div class="paragraph">
 <p><code>GET /api/v1/products</code></p>
 </div>
@@ -2154,13 +2239,13 @@ Content-Length: 2178
 <p>Devuelve una lista paginada de productos de una categoría.</p>
 </div>
 <div class="sect3">
-<h4 id="_autorización_13"><a class="anchor" href="#_autorización_13"></a><a class="link" href="#_autorización_13">4.4.1. Autorización</a></h4>
+<h4 id="_autorización_13"><a class="anchor" href="#_autorización_13"></a><a class="link" href="#_autorización_13">5.4.1. Autorización</a></h4>
 <div class="paragraph">
 <p>Recurso público.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_request_13"><a class="anchor" href="#_ejemplo_de_request_13"></a><a class="link" href="#_ejemplo_de_request_13">4.4.2. Ejemplo de request</a></h4>
+<h4 id="_ejemplo_de_request_15"><a class="anchor" href="#_ejemplo_de_request_15"></a><a class="link" href="#_ejemplo_de_request_15">5.4.2. Ejemplo de request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/products' -i -X GET \
@@ -2169,7 +2254,7 @@ Content-Length: 2178
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_response_13"><a class="anchor" href="#_ejemplo_de_response_13"></a><a class="link" href="#_ejemplo_de_response_13">4.4.3. Ejemplo de response</a></h4>
+<h4 id="_ejemplo_de_response_15"><a class="anchor" href="#_ejemplo_de_response_15"></a><a class="link" href="#_ejemplo_de_response_15">5.4.3. Ejemplo de response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -2181,10 +2266,10 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 2348
+Content-Length: 1699
 
 {
-  "timeStamp" : "2022-05-10T18:05:02.541883267",
+  "timeStamp" : "2022-05-19T18:02:46.43219717",
   "statusCode" : 200,
   "status" : "OK",
   "message" : "Products retrieved",
@@ -2220,26 +2305,6 @@ Content-Length: 2348
           "id" : 1,
           "name" : "Pizzas"
         }
-      }, {
-        "id" : 4,
-        "name" : "Pizza de huevo y panceta",
-        "description" : "Aunque suena a desayuno americano es una de las pizzas más consumidas a nivel mundial",
-        "price" : 16.0,
-        "pictureURL" : null,
-        "category" : {
-          "id" : 1,
-          "name" : "Pizzas"
-        }
-      }, {
-        "id" : 5,
-        "name" : "Margarita",
-        "description" : "Pizza italiana, lleva los colores de su bandera representados por el tomate, la albahaca y la muzzarella",
-        "price" : 14.45,
-        "pictureURL" : null,
-        "category" : {
-          "id" : 1,
-          "name" : "Pizzas"
-        }
       } ],
       "pageable" : {
         "sort" : {
@@ -2253,9 +2318,9 @@ Content-Length: 2348
         "paged" : true,
         "unpaged" : false
       },
+      "last" : false,
       "totalPages" : 2,
       "totalElements" : 9,
-      "last" : false,
       "size" : 5,
       "number" : 0,
       "sort" : {
@@ -2263,8 +2328,8 @@ Content-Length: 2348
         "sorted" : true,
         "unsorted" : false
       },
-      "numberOfElements" : 5,
       "first" : true,
+      "numberOfElements" : 5,
       "empty" : false
     }
   }
@@ -2274,7 +2339,7 @@ Content-Length: 2348
 </div>
 </div>
 <div class="sect2">
-<h3 id="resources-product-update"><a class="anchor" href="#resources-product-update"></a><a class="link" href="#resources-product-update">4.5. Actualizar información del producto</a></h3>
+<h3 id="resources-product-update"><a class="anchor" href="#resources-product-update"></a><a class="link" href="#resources-product-update">5.5. Actualizar información del producto</a></h3>
 <div class="paragraph">
 <p><code>PUT /api/v1/products/{id}</code></p>
 </div>
@@ -2282,13 +2347,13 @@ Content-Length: 2348
 <p>Reemplaza todos los campos del producto al que pertenece el ID, con la nueva información. En caso de no existir un producto con el ID suministrado se procederá a crear un nuevo producto.</p>
 </div>
 <div class="sect3">
-<h4 id="_autorización_14"><a class="anchor" href="#_autorización_14"></a><a class="link" href="#_autorización_14">4.5.1. Autorización</a></h4>
+<h4 id="_autorización_14"><a class="anchor" href="#_autorización_14"></a><a class="link" href="#_autorización_14">5.5.1. Autorización</a></h4>
 <div class="paragraph">
-<p>Se requiere token de acceso de usuario.</p>
+<p>Se requiere token de acceso de administrador.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_parámetros_de_ruta_6"><a class="anchor" href="#_parámetros_de_ruta_6"></a><a class="link" href="#_parámetros_de_ruta_6">4.5.2. Parámetros de ruta</a></h4>
+<h4 id="_parámetros_de_ruta_6"><a class="anchor" href="#_parámetros_de_ruta_6"></a><a class="link" href="#_parámetros_de_ruta_6">5.5.2. Parámetros de ruta</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2315,7 +2380,7 @@ Content-Length: 2348
 </table>
 </div>
 <div class="sect3">
-<h4 id="_campos_de_solicitud_request_fields_5"><a class="anchor" href="#_campos_de_solicitud_request_fields_5"></a><a class="link" href="#_campos_de_solicitud_request_fields_5">4.5.3. Campos de solicitud (request fields)</a></h4>
+<h4 id="_campos_de_solicitud_request_fields_7"><a class="anchor" href="#_campos_de_solicitud_request_fields_7"></a><a class="link" href="#_campos_de_solicitud_request_fields_7">5.5.3. Campos de solicitud (request fields)</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2386,12 +2451,12 @@ Content-Length: 2348
 </table>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_request_14"><a class="anchor" href="#_ejemplo_de_request_14"></a><a class="link" href="#_ejemplo_de_request_14">4.5.4. Ejemplo de request</a></h4>
+<h4 id="_ejemplo_de_request_16"><a class="anchor" href="#_ejemplo_de_request_16"></a><a class="link" href="#_ejemplo_de_request_16">5.5.4. Ejemplo de request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/products/2' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MDN9.-hSTOtIhx4M9HoyJ9GTjv1__hoHw44sqIynYUCKmJeo' \
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzNjh9.y5lwUiZA4VnJMMoArIFQe5473tC7dkbwcij3hZ3lXT8' \
     -d '{
   "id" : null,
   "name" : "Hawayana Big",
@@ -2407,7 +2472,7 @@ Content-Length: 2348
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_response_14"><a class="anchor" href="#_ejemplo_de_response_14"></a><a class="link" href="#_ejemplo_de_response_14">4.5.5. Ejemplo de response</a></h4>
+<h4 id="_ejemplo_de_response_16"><a class="anchor" href="#_ejemplo_de_response_16"></a><a class="link" href="#_ejemplo_de_response_16">5.5.5. Ejemplo de response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -2422,7 +2487,7 @@ X-Frame-Options: SAMEORIGIN
 Content-Length: 398
 
 {
-  "timeStamp" : "2022-05-10T18:05:04.159103312",
+  "timeStamp" : "2022-05-19T18:02:49.222206708",
   "statusCode" : 200,
   "status" : "OK",
   "message" : "Product updated",
@@ -2445,7 +2510,7 @@ Content-Length: 398
 </div>
 </div>
 <div class="sect2">
-<h3 id="resources-product-patch"><a class="anchor" href="#resources-product-patch"></a><a class="link" href="#resources-product-patch">4.6. Actualizar información parcial del producto</a></h3>
+<h3 id="resources-product-patch"><a class="anchor" href="#resources-product-patch"></a><a class="link" href="#resources-product-patch">5.6. Actualizar información parcial del producto</a></h3>
 <div class="paragraph">
 <p><code>PATCH /api/v1/products/{id}</code></p>
 </div>
@@ -2453,13 +2518,13 @@ Content-Length: 398
 <p>Actualiza los campos específicos del producto al que pertenece el ID.</p>
 </div>
 <div class="sect3">
-<h4 id="_autorización_15"><a class="anchor" href="#_autorización_15"></a><a class="link" href="#_autorización_15">4.6.1. Autorización</a></h4>
+<h4 id="_autorización_15"><a class="anchor" href="#_autorización_15"></a><a class="link" href="#_autorización_15">5.6.1. Autorización</a></h4>
 <div class="paragraph">
-<p>Se requiere token de acceso de usuario.</p>
+<p>Se requiere token de acceso de administrador.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_parámetros_de_ruta_7"><a class="anchor" href="#_parámetros_de_ruta_7"></a><a class="link" href="#_parámetros_de_ruta_7">4.6.2. Parámetros de ruta</a></h4>
+<h4 id="_parámetros_de_ruta_7"><a class="anchor" href="#_parámetros_de_ruta_7"></a><a class="link" href="#_parámetros_de_ruta_7">5.6.2. Parámetros de ruta</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2486,18 +2551,18 @@ Content-Length: 398
 </table>
 </div>
 <div class="sect3">
-<h4 id="_campos_de_solicitud_request_fields_6"><a class="anchor" href="#_campos_de_solicitud_request_fields_6"></a><a class="link" href="#_campos_de_solicitud_request_fields_6">4.6.3. Campos de solicitud (request fields)</a></h4>
+<h4 id="_campos_de_solicitud_request_fields_8"><a class="anchor" href="#_campos_de_solicitud_request_fields_8"></a><a class="link" href="#_campos_de_solicitud_request_fields_8">5.6.3. Campos de solicitud (request fields)</a></h4>
 <div class="paragraph">
 <p>No request body.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_request_15"><a class="anchor" href="#_ejemplo_de_request_15"></a><a class="link" href="#_ejemplo_de_request_15">4.6.4. Ejemplo de request</a></h4>
+<h4 id="_ejemplo_de_request_17"><a class="anchor" href="#_ejemplo_de_request_17"></a><a class="link" href="#_ejemplo_de_request_17">5.6.4. Ejemplo de request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/products/1' -i -X PATCH \
     -H 'Content-Type: application/json-patch+json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MDd9.OJHYCXePGLSVlD8lyouOX7KWCKDK8fBQ_xp6iKcOBg8' \
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzNzd9.1aYY8RAiR-XmgqJqbSmc7k4nPKIBDrIlYMQ7YI4UoWQ' \
     -d '[ {
   "op" : "replace",
   "path" : "/name",
@@ -2511,7 +2576,7 @@ Content-Length: 398
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_response_15"><a class="anchor" href="#_ejemplo_de_response_15"></a><a class="link" href="#_ejemplo_de_response_15">4.6.5. Ejemplo de response</a></h4>
+<h4 id="_ejemplo_de_response_17"><a class="anchor" href="#_ejemplo_de_response_17"></a><a class="link" href="#_ejemplo_de_response_17">5.6.5. Ejemplo de response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -2526,7 +2591,7 @@ X-Frame-Options: SAMEORIGIN
 Content-Length: 401
 
 {
-  "timeStamp" : "2022-05-10T18:05:08.561582465",
+  "timeStamp" : "2022-05-19T18:02:59.098654814",
   "statusCode" : 200,
   "status" : "OK",
   "message" : "Product patched",
@@ -2549,7 +2614,7 @@ Content-Length: 401
 </div>
 </div>
 <div class="sect2">
-<h3 id="resources-product-delete"><a class="anchor" href="#resources-product-delete"></a><a class="link" href="#resources-product-delete">4.7. Eliminar un producto</a></h3>
+<h3 id="resources-product-delete"><a class="anchor" href="#resources-product-delete"></a><a class="link" href="#resources-product-delete">5.7. Eliminar un producto</a></h3>
 <div class="paragraph">
 <p><code>DELETE /api/v1/products/{id}</code></p>
 </div>
@@ -2557,23 +2622,23 @@ Content-Length: 401
 <p>Elimina el producto al que corresponde el ID suministrado.</p>
 </div>
 <div class="sect3">
-<h4 id="_autorización_16"><a class="anchor" href="#_autorización_16"></a><a class="link" href="#_autorización_16">4.7.1. Autorización</a></h4>
+<h4 id="_autorización_16"><a class="anchor" href="#_autorización_16"></a><a class="link" href="#_autorización_16">5.7.1. Autorización</a></h4>
 <div class="paragraph">
-<p>Se requiere token de acceso de usuario.</p>
+<p>Se requiere token de acceso de administrador.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_request_16"><a class="anchor" href="#_ejemplo_de_request_16"></a><a class="link" href="#_ejemplo_de_request_16">4.7.2. Ejemplo de request</a></h4>
+<h4 id="_ejemplo_de_request_18"><a class="anchor" href="#_ejemplo_de_request_18"></a><a class="link" href="#_ejemplo_de_request_18">5.7.2. Ejemplo de request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/products/3' -i -X DELETE \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MDV9.Ac5AWKr52S5EEq5QQJAl_K95A61DCgQyyOHrR9Mv6Qw'</code></pre>
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzNzF9.jGEkZyUEDFMx4dt7LXBQTivQox2a_oijN4xByfdWalA'</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ejemplo_de_response_16"><a class="anchor" href="#_ejemplo_de_response_16"></a><a class="link" href="#_ejemplo_de_response_16">4.7.3. Ejemplo de response</a></h4>
+<h4 id="_ejemplo_de_response_18"><a class="anchor" href="#_ejemplo_de_response_18"></a><a class="link" href="#_ejemplo_de_response_18">5.7.3. Ejemplo de response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
@@ -2593,7 +2658,7 @@ X-Frame-Options: SAMEORIGIN</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-05-10 17:26:51 -0430
+Last updated 2022-05-12 15:07:48 -0430
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/github.min.css">

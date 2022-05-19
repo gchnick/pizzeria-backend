@@ -446,12 +446,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><code>POST /api/v1/products</code></p>
 </div>
 <div class="paragraph">
-<p>Añadir un nuevo <strong>producto</strong> sin imagen. Si desea añadir un nuevo producto junto con su imagen vaya a la version 2 del <code>endpoint</code>.</p>
+<p>Añadir un nuevo <strong>producto</strong>.</p>
 </div>
 <div class="sect3">
 <h4 id="_autorización">Autorización</h4>
 <div class="paragraph">
-<p>Se requiere token de acceso de usuario.</p>
+<p>Se requiere token de acceso de administrador.</p>
 </div>
 </div>
 <div class="sect3">
@@ -555,7 +555,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/products' -i -X POST \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MDZ9.RT9r_kuw9J7xAm1kJJJmD18pKJ6ruO3q8MbmSFcVgYU' \
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzNzN9.cCH6tozTSVBeW3lfq66HqL9HzzPNadxvoMVfybmNBO0' \
     -d '{
   "id" : null,
   "name" : "Pizza hawayana",
@@ -584,10 +584,10 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 396
+Content-Length: 399
 
 {
-  "timeStamp" : "2022-05-10T18:05:06.477339",
+  "timeStamp" : "2022-05-19T18:02:53.540211583",
   "statusCode" : 201,
   "status" : "CREATED",
   "message" : "Product created",
@@ -699,7 +699,7 @@ X-Frame-Options: SAMEORIGIN
 Content-Length: 460
 
 {
-  "timeStamp" : "2022-05-10T18:05:03.166265657",
+  "timeStamp" : "2022-05-19T18:02:47.292807029",
   "statusCode" : 200,
   "status" : "OK",
   "message" : "Product retrieved",
@@ -813,10 +813,10 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 2178
+Content-Length: 1600
 
 {
-  "timeStamp" : "2022-05-10T18:05:07.370878955",
+  "timeStamp" : "2022-05-19T18:02:54.234946326",
   "statusCode" : 200,
   "status" : "OK",
   "message" : "Products by category retrieved",
@@ -852,26 +852,6 @@ Content-Length: 2178
           "id" : 1,
           "name" : "Pizzas"
         }
-      }, {
-        "id" : 4,
-        "name" : "Pizza de huevo y panceta",
-        "description" : "Aunque suena a desayuno americano es una de las pizzas más consumidas a nivel mundial",
-        "price" : 16.0,
-        "pictureURL" : null,
-        "category" : {
-          "id" : 1,
-          "name" : "Pizzas"
-        }
-      }, {
-        "id" : 11,
-        "name" : "Pizza hawayana",
-        "description" : "Espectacular pizza con piña",
-        "price" : 13.85,
-        "pictureURL" : null,
-        "category" : {
-          "id" : 1,
-          "name" : "Pizzas"
-        }
       } ],
       "pageable" : {
         "sort" : {
@@ -885,9 +865,9 @@ Content-Length: 2178
         "paged" : true,
         "unpaged" : false
       },
+      "last" : true,
       "totalPages" : 1,
       "totalElements" : 5,
-      "last" : true,
       "size" : 5,
       "number" : 0,
       "sort" : {
@@ -895,8 +875,8 @@ Content-Length: 2178
         "sorted" : true,
         "unsorted" : false
       },
-      "numberOfElements" : 5,
       "first" : true,
+      "numberOfElements" : 5,
       "empty" : false
     }
   }
@@ -941,10 +921,10 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 2348
+Content-Length: 1699
 
 {
-  "timeStamp" : "2022-05-10T18:05:02.541883267",
+  "timeStamp" : "2022-05-19T18:02:46.43219717",
   "statusCode" : 200,
   "status" : "OK",
   "message" : "Products retrieved",
@@ -980,26 +960,6 @@ Content-Length: 2348
           "id" : 1,
           "name" : "Pizzas"
         }
-      }, {
-        "id" : 4,
-        "name" : "Pizza de huevo y panceta",
-        "description" : "Aunque suena a desayuno americano es una de las pizzas más consumidas a nivel mundial",
-        "price" : 16.0,
-        "pictureURL" : null,
-        "category" : {
-          "id" : 1,
-          "name" : "Pizzas"
-        }
-      }, {
-        "id" : 5,
-        "name" : "Margarita",
-        "description" : "Pizza italiana, lleva los colores de su bandera representados por el tomate, la albahaca y la muzzarella",
-        "price" : 14.45,
-        "pictureURL" : null,
-        "category" : {
-          "id" : 1,
-          "name" : "Pizzas"
-        }
       } ],
       "pageable" : {
         "sort" : {
@@ -1013,9 +973,9 @@ Content-Length: 2348
         "paged" : true,
         "unpaged" : false
       },
+      "last" : false,
       "totalPages" : 2,
       "totalElements" : 9,
-      "last" : false,
       "size" : 5,
       "number" : 0,
       "sort" : {
@@ -1023,8 +983,8 @@ Content-Length: 2348
         "sorted" : true,
         "unsorted" : false
       },
-      "numberOfElements" : 5,
       "first" : true,
+      "numberOfElements" : 5,
       "empty" : false
     }
   }
@@ -1044,7 +1004,7 @@ Content-Length: 2348
 <div class="sect3">
 <h4 id="_autorización_5">Autorización</h4>
 <div class="paragraph">
-<p>Se requiere token de acceso de usuario.</p>
+<p>Se requiere token de acceso de administrador.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1151,7 +1111,7 @@ Content-Length: 2348
 <div class="content">
 <pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/products/2' -i -X PUT \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MDN9.-hSTOtIhx4M9HoyJ9GTjv1__hoHw44sqIynYUCKmJeo' \
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzNjh9.y5lwUiZA4VnJMMoArIFQe5473tC7dkbwcij3hZ3lXT8' \
     -d '{
   "id" : null,
   "name" : "Hawayana Big",
@@ -1182,7 +1142,7 @@ X-Frame-Options: SAMEORIGIN
 Content-Length: 398
 
 {
-  "timeStamp" : "2022-05-10T18:05:04.159103312",
+  "timeStamp" : "2022-05-19T18:02:49.222206708",
   "statusCode" : 200,
   "status" : "OK",
   "message" : "Product updated",
@@ -1215,7 +1175,7 @@ Content-Length: 398
 <div class="sect3">
 <h4 id="_autorización_6">Autorización</h4>
 <div class="paragraph">
-<p>Se requiere token de acceso de usuario.</p>
+<p>Se requiere token de acceso de administrador.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1257,7 +1217,7 @@ Content-Length: 398
 <div class="content">
 <pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/products/1' -i -X PATCH \
     -H 'Content-Type: application/json-patch+json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MDd9.OJHYCXePGLSVlD8lyouOX7KWCKDK8fBQ_xp6iKcOBg8' \
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzNzd9.1aYY8RAiR-XmgqJqbSmc7k4nPKIBDrIlYMQ7YI4UoWQ' \
     -d '[ {
   "op" : "replace",
   "path" : "/name",
@@ -1286,7 +1246,7 @@ X-Frame-Options: SAMEORIGIN
 Content-Length: 401
 
 {
-  "timeStamp" : "2022-05-10T18:05:08.561582465",
+  "timeStamp" : "2022-05-19T18:02:59.098654814",
   "statusCode" : 200,
   "status" : "OK",
   "message" : "Product patched",
@@ -1319,7 +1279,7 @@ Content-Length: 401
 <div class="sect3">
 <h4 id="_autorización_7">Autorización</h4>
 <div class="paragraph">
-<p>Se requiere token de acceso de usuario.</p>
+<p>Se requiere token de acceso de administrador.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1328,7 +1288,7 @@ Content-Length: 401
 <div class="content">
 <pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://donremolo-backend.herokuapp.com/api/v1/products/3' -i -X DELETE \
     -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTIyMjA5MDV9.Ac5AWKr52S5EEq5QQJAl_K95A61DCgQyyOHrR9Mv6Qw'</code></pre>
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJodHRwczovL2RvbnJlbW9sby1iYWNrZW5kLmhlcm9rdWFwcC5jb20vYXBpL3YxL2F1dGgvdG9rZW4iLCJleHAiOjE2NTI5OTgzNzF9.jGEkZyUEDFMx4dt7LXBQTivQox2a_oijN4xByfdWalA'</code></pre>
 </div>
 </div>
 </div>
@@ -1353,7 +1313,7 @@ X-Frame-Options: SAMEORIGIN</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-05-10 17:16:57 -0430
+Last updated 2022-05-10 17:38:24 -0430
 </div>
 </div>
 </body>
