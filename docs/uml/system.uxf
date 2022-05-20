@@ -1,0 +1,24 @@
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>390</x><y>120</y><w>100</w><h>60</h></coordinates><panel_attributes>Category
+--
+-name: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>90</x><y>100</y><w>160</w><h>100</h></coordinates><panel_attributes>Product
+--
+-name: String
+-description: String
+-unitPrice: Float
+-pictureURL: String
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>310</x><y>360</y><w>170</w><h>90</h></coordinates><panel_attributes>Order
+--
+-data: LocalDate
+-products: List&lt;OrderDetail&gt;
+--
++grandTotal(): Float</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>580</x><y>360</y><w>150</w><h>90</h></coordinates><panel_attributes>Custumer
+--
+-name: String
+-phone: String
+-deliveryAddress: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>110</x><y>360</y><w>110</w><h>70</h></coordinates><panel_attributes>OrderDetail
+--
+-quantity: Integer
+--
++total(): Float</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>240</x><y>140</y><w>170</w><h>30</h></coordinates><panel_attributes>lt=&lt;-
+m1=</panel_attributes><additional_attributes>150;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>470</x><y>400</y><w>130</w><h>30</h></coordinates><panel_attributes>lt=&lt;-
+m1=</panel_attributes><additional_attributes>110;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>210</x><y>390</y><w>120</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>100;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>150</x><y>190</y><w>30</w><h>190</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;170</additional_attributes></element></diagram>
