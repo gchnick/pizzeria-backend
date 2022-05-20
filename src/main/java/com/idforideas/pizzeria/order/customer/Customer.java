@@ -1,4 +1,4 @@
-package com.idforideas.pizzeria.customer;
+package com.idforideas.pizzeria.order.customer;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,14 +20,23 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Customer extends BaseEntity {
 
+    /**
+     * Nombre del cliente
+     */
     @NotEmpty
     @Column(nullable = false)
     private String name;
     
+    /**
+     * Numero telefónico para contactar al cliente 
+     */
     @NotEmpty
     @Column(nullable = false)
     private String phone;
 
+    /**
+     * Dirección de destino para la entrega del pedido
+     */
     @NotEmpty
     @Column(name = "delivery_address", nullable = false)
     private String deliveryAddress;

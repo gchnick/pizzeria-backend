@@ -1,4 +1,4 @@
-package com.idforideas.pizzeria.customer;
+package com.idforideas.pizzeria.order.customer;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
