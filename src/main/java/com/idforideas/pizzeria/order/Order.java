@@ -3,6 +3,7 @@ package com.idforideas.pizzeria.order;
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.TemporalType.DATE;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -23,12 +25,14 @@ import com.idforideas.pizzeria.order.detail.OrderDetail;
 import com.idforideas.pizzeria.product.Product;
 import com.idforideas.pizzeria.util.BaseEntity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Entity
-@Table
+@Table(name = "orders")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
@@ -38,6 +42,8 @@ public class Order extends BaseEntity {
      * Fecha en la que se realiza el pedido. El sistema agrega de manera automática esta información
      */
     @Column(nullable = false)
+    @Temporal(DATE)
+    @DateTimeFormat(iso =  DateTimeFormat.ISO.DATE)
     private Date date;
 
     /**
@@ -52,7 +58,7 @@ public class Order extends BaseEntity {
     /**
      * Lista de productos y cantidades del pedido
      */
-    @OneToMany(fetch = LAZY, cascade = ALL)
+    @OneToMany(fetch = LAZY, cascade = ALL, orphanRemoval = true)
     @JoinColumn(name = "order_id")
     private List<OrderDetail> products;
 
