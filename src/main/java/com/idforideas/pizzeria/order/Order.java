@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull;
 
 import com.idforideas.pizzeria.order.customer.Customer;
 import com.idforideas.pizzeria.order.detail.OrderDetail;
+import com.idforideas.pizzeria.product.Product;
 import com.idforideas.pizzeria.util.BaseEntity;
 
 import lombok.AllArgsConstructor;
@@ -62,5 +63,15 @@ public class Order extends BaseEntity {
     @PrePersist
     void prePersist() {
         date = new Date();
+    }
+    
+    public void add(Product product, Integer quantity) {
+        products.add(new OrderDetail(product, quantity));
+    }
+
+    public Float grandTotal() {
+        return products.stream()
+            .map(d -> d.total())
+            .reduce(0.0F, (sum, total) -> sum+total);
     }
 }

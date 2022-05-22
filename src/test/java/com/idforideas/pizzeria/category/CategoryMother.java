@@ -24,6 +24,12 @@ public abstract class CategoryMother {
         return category;
     }
 
+    public static Category getCategory003() {
+        Category category = new Category("Bebidas");
+        category.setId(3L);
+        return category;
+    }
+
     public static Category getUpdateCategory() {
         Category category = new Category("Bebidas alcohólicas");
         return category;

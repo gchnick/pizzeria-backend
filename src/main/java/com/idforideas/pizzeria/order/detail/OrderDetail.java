@@ -41,4 +41,8 @@ public class OrderDetail extends BaseEntity {
     @NotNull
     @Column(nullable = false)
     private Integer quantity;
+
+    public Float total() {
+        return product.getPrice() * quantity;
+    }
 }
