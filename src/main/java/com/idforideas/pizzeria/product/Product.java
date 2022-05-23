@@ -59,7 +59,7 @@ public class Product extends BaseEntity {
     /**
      * Cada producto debe estar clasificado en una categoría
      */
-    @ManyToOne(fetch = EAGER)
+    @ManyToOne(fetch = EAGER, optional = false)
     @JoinColumn(name = "category_id", nullable = false)
     @NotNull
     @Valid

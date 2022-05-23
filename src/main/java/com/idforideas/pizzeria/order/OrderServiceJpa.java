@@ -1,7 +1,8 @@
 package com.idforideas.pizzeria.order;
 
-import java.util.Map;
-
+import com.idforideas.pizzeria.exception.NotFoundException;
+import com.idforideas.pizzeria.order.customer.Customer;
+import com.idforideas.pizzeria.order.customer.CustomerRepo;
 import com.idforideas.pizzeria.product.Product;
 import com.idforideas.pizzeria.product.ProductRepo;
 
@@ -18,16 +19,19 @@ import lombok.extern.slf4j.Slf4j;
 public class OrderServiceJpa implements OrderService {
 
     final OrderRepo orderRepo;
+    final CustomerRepo customerRepo;
     final ProductRepo productRepo;
 
-
     @Override
-    public Order create(Map<Long, Integer> products) {
+    public Order create(OrderDTO newOrder) {
         log.info("Adding product in order");
         Order order = new Order();
+        Customer customer = customerRepo.save(newOrder.customer());
+        order.setCustomer(customer);
 
-        products.forEach((id, q) -> {
-            Product product = productRepo.getById(id);
+        newOrder.products().forEach((id, q) -> {
+            Product product = productRepo.findById(id)
+                .orElseThrow(()-> new NotFoundException("Id product not exists"));
             order.add(product, q);
         });
 

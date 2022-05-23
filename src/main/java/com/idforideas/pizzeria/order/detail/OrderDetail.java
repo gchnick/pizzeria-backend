@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.idforideas.pizzeria.product.Product;
 import com.idforideas.pizzeria.util.BaseEntity;
@@ -39,6 +40,7 @@ public class OrderDetail extends BaseEntity {
      * Cantidad del producto de la linea
      */
     @NotNull
+    @Size(min = 1)
     @Column(nullable = false)
     private Integer quantity;
 

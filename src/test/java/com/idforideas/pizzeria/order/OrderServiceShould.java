@@ -1,6 +1,7 @@
 package com.idforideas.pizzeria.order;
 
 import static com.idforideas.pizzeria.order.OrderMother.getOrder001;
+import static com.idforideas.pizzeria.order.customer.CustomerMother.getCustomerJuan;
 import static com.idforideas.pizzeria.product.ProductMother.getProduct001;
 import static com.idforideas.pizzeria.product.ProductMother.getProduct007;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,9 +13,10 @@ import static org.mockito.Mockito.when;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.idforideas.pizzeria.order.customer.Customer;
+import com.idforideas.pizzeria.order.customer.CustomerRepo;
 import com.idforideas.pizzeria.product.ProductRepo;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -32,17 +34,13 @@ public class OrderServiceShould {
     OrderRepo orderRepo;
 
     @Mock
+    CustomerRepo customerRepo;
+
+    @Mock
     ProductRepo productRepo;
 
     @InjectMocks
     OrderServiceJpa orderService;
-
-    Map<Long , Integer> products;
-
-    @BeforeEach
-    void setUp() {
-        products = new HashMap<>();
-    }
 
     /*
      * En el checkout se crea un texto automático que se envía al whatsapp del local.
@@ -51,17 +49,20 @@ to,%20quisiera%20una%20porción
      */
 
     @Test
-     void add_products() {
+     void add_products_and_customer_data() {
 
         // Arrange
+        Customer customer = getCustomerJuan();
+        Map<Long, Integer> products = new HashMap<>();
         products.put(1L, 2);
         products.put(7L, 2);
+        OrderDTO newOrder = new OrderDTO(products, customer);
         when(productRepo.getById(1L)).thenReturn(getProduct001());
         when(productRepo.getById(7L)).thenReturn(getProduct007());
         when(orderRepo.save(any(Order.class))).thenReturn(getOrder001());
 
         // Act
-        Order order = orderService.create(products);
+        Order order = orderService.create(newOrder);
         int productsSizeExpected = 2;
         int productsSizeActual = order.getProducts().size();
 
@@ -73,6 +74,7 @@ to,%20quisiera%20una%20porción
 
         // Assert
         assertNotNull(order);
+        assertNotNull(order.getCustomer());
         assertEquals(productsSizeExpected, productsSizeActual);
         assertEquals(firstProductQuantityExpected, firstProductQuantityActual);
         assertEquals(secondProductQuantityExpected, secondProductQuantityActual);
